@@ -1,2 +1,3 @@
-# Crosby
-Repository of our first game. 
+# Thor Thunderlord & the frozen thiefs. 
+
+
