@@ -1,4 +1,4 @@
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg)
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.png)
 
 # **CROSBY GAMES** 
 
@@ -12,7 +12,7 @@ Más a la wiki del proyecto, esperamos que os guste. _More at the project's wiki
 
 [Ir al inicio de wiki / _Go to wiki's home_](https://github.com/JonCervellera/Crosby/wiki)
 
-###### Crosby Games. 
+###### Our greetings, Crosby Games. 
 
 ## Contacto / _Contact_
 
