@@ -7,13 +7,9 @@ Hola a todos, nosotros somos Joel Bertran, Victor Castejon y Jon Cervellera y fo
 
 _Hi everybody, we are Joel Bertran, Victor Castejon and Jon Cervellera and we formed a group of students of 2D and 3D animation game design. This is our final project, an adventure that just has started and that we are really motivated to achieve._
 
-Bienvenidos a un juego 3D sobre la mitologia nórdica!
+Bienvenidos a un juego 3D sobre la mitologia nórdica! _Welcome to a 3D game about nordic mithology!_
 
-_Welcome to a 3D game about nordic mithology!_
-
-Más a la wiki del proyecto, esperamos que os guste. 
-
-_More at the project's wiki, hope you like it._ 
+Más a la wiki del proyecto, esperamos que os guste. _More at the project's wiki, hope you like it._ 
 
 ###### Crosby Games. 
 
