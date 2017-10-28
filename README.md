@@ -1,4 +1,4 @@
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.png)
+![](https://https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg)
 
 # **CROSBY GAMES** 
 
