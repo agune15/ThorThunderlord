@@ -1,4 +1,5 @@
-![Portada]()
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Plantilla_presentacion_titulo.png)
+
 
 # **THOR THUNDERLORD AND THE FROZEN THIEFS** 
 
