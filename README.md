@@ -9,7 +9,15 @@ _Hi everybody, we are Joel Bertran, Victor Castejon and Jon Cervellera and we fo
 
 ## Características / _Characteristics_
 
-Bienvenidos a un juego 3D sobre la mitologia nórdica, estilo Hack and Slash y un arte "handpainted" que se fija mucho con el detalle. 
+Bienvenidos a un juego 3D sobre la mitologia nórdica!
+
+_Welcome to a 3D game about nordic mithology!_
+
+Más a la wiki del proyecto, esperamos que os guste. 
+
+_More at the project's wiki, hope you like it._ 
+
+###### Crosby Games. 
 
 ## Contacto / _Contact_
 
