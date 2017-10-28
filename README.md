@@ -1,3 +1,6 @@
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Plantilla_presentacion_titulo.png)
+
+
 # **THOR THUNDERLORD AND THE FROZEN THIEFS** 
 
 
@@ -10,7 +13,19 @@ Bienvenidos a un juego 3D sobre la mitologia nórdica, estilo Hack and Slash y u
 
 ## Contacto
 
-## Licencia
+#### Victor Castejon:
+
+Instagram: [Instagram Victor Castejon](https://www.instagram.com/elcaste98/)
+
+#### Jon Cervellera:
+
+Correo: joon_1012@hotmail.com
+
+Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradominguez/)
+
+#### Joel Bertran:
+
+
 
 
 
