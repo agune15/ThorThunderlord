@@ -1,11 +1,9 @@
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Plantilla_presentacion_titulo.png)
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg)
 
 
-# **THOR THUNDERLORD AND THE FROZEN THIEFS** 
+# **CROSBY GAMES** 
 
-
-
-Sumérgete en la piel de Thor el cual le han robado su valioso martillo y amada armadura. Para recuperarlo, tendrá que ir a los páramos de Jotunheim y luchar contra los gigantes de hielo para recuperar sus pertenencias. 
+Hola a todos, nosotros somos Joel Bertran, Victor Castejon y Jon Cervellera y formamos un groupo de estudiantes de diseño de animación 2D y 3D de videojuegos. Este es nuestro proyecto final, una aventura que sólo acaba de empezar y que estamos realmente motivados a cumplir. 
 
 ## Características
 
