@@ -13,7 +13,19 @@ Bienvenidos a un juego 3D sobre la mitologia nórdica, estilo Hack and Slash y u
 
 ## Contacto
 
-## Licencia
+#### Joel Bertran
+
+### Victor Castejon:
+
+[Instagram Victor Castejon](https://www.instagram.com/elcaste98/)
+
+#### Jon Cervellera:
+
+Correo: joon_1012@hotmail.com
+
+Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradominguez/)
+
+
 
 
 
