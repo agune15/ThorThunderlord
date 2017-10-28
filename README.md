@@ -22,13 +22,13 @@ Instagram: [Instagram Victor Castejon](https://www.instagram.com/elcaste98/)
 
 #### Jon Cervellera:
 
-Correo / e-mail: joon_1012@hotmail.com
+Correo / _e-mail_: joon_1012@hotmail.com
 
 Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradominguez/)
 
 #### Joel Bertran:
 
-Correo / e-mail: joel.bertran@gmail.com
+Correo / _e-mail_: joel.bertran@gmail.com
 
 
 
