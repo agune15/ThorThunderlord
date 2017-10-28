@@ -1,4 +1,4 @@
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg =250 ) 
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg) 
 
 # **CROSBY GAMES** 
 
@@ -28,7 +28,7 @@ Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradom
 
 #### Joel Bertran:
 
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg)
+
 
 
 
