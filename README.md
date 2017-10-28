@@ -1,5 +1,3 @@
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg)
-
 
 # **CROSBY GAMES** 
 
@@ -28,6 +26,8 @@ Correo: joon_1012@hotmail.com
 Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradominguez/)
 
 #### Joel Bertran:
+
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/LogoDraw.jpg)
 
 
 
