@@ -15,9 +15,9 @@ Bienvenidos a un juego 3D sobre la mitologia nórdica, estilo Hack and Slash y u
 
 #### Joel Bertran
 
-### Victor Castejon:
+#### Victor Castejon:
 
-[Instagram Victor Castejon](https://www.instagram.com/elcaste98/)
+Instagram: [Instagram Victor Castejon](https://www.instagram.com/elcaste98/)
 
 #### Jon Cervellera:
 
