@@ -16,6 +16,10 @@ Más a la wiki del proyecto, esperamos que os guste. _More at the project's wiki
 
 ## Contacto / _Contact_
 
+#### Joel Bertran:
+
+Correo / _e-mail_: joel.bertran@gmail.com
+
 #### Victor Castejon:
 
 Correo / _e-mail_: Caste.castejon@gmail.com
@@ -28,9 +32,6 @@ Correo / _e-mail_: joon_1012@hotmail.com
 
 Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradominguez/)
 
-#### Joel Bertran:
-
-Correo / _e-mail_: joel.bertran@gmail.com
 
 
 
