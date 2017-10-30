@@ -20,6 +20,8 @@ Más a la wiki del proyecto, esperamos que os guste. _More at the project's wiki
 
 Correo / _e-mail_: joel.bertran@gmail.com
 
+Instagram: [Instagram Joel Bertran](https://www.instagram.com/joelbertran/) 
+
 #### Victor Castejon:
 
 Correo / _e-mail_: Caste.castejon@gmail.com
