@@ -10,7 +10,7 @@ Bienvenidos a un juego 3D sobre la mitologia nórdica! _Welcome to a 3D game abo
 
 Más a la wiki del proyecto, esperamos que os guste. _More at the project's wiki, hope you like it._ 
 
-[Ir al Game Design Document / _Go to the Game Design Document_](https://github.com/JonCervellera/Crosby/wiki/Game-Design-Document:-Home)
+[Ir al Game Design Document / _Go to the Game Design Document_](https://github.com/JonCervellera/Crosby/wiki)
 
 ###### Our greetings, Crosby Games. 
 
