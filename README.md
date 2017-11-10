@@ -37,6 +37,8 @@ Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradom
 
 ## Licencia / _License_
 
+[Puedes revisar nuestra licencia aqui. / You can check our licence here.](https://github.com/JonCervellera/Crosby/blob/master/LICENSE)
+
 
 
 
