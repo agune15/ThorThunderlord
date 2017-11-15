@@ -1,6 +1,12 @@
-![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/mockup_logo_scrosby.png)
+# **THOR THUNDERLORD AND THE FROZEN THIEVES** 
 
-# **CROSBY GAMES** 
+
+
+###### Our greetings, Crosby Games. 
+
+## Contacto / _Contact_
+
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/mockup_logo_scrosby.png)
 
 Hola a todos, somos Joel Bertran, Victor Castejon y Jon Cervellera, un grupo de estudiantes de diseño de animación 2D y 3D de videojuegos. Este es nuestro proyecto final, una aventura que sólo acaba de empezar y que estamos realmente motivados a cumplir. 
 
@@ -11,10 +17,6 @@ Bienvenidos a un juego 3D sobre la mitología nórdica! _Welcome to a 3D game ab
 Más información en la wiki del proyecto, esperamos que os guste. _More at the project's wiki, hope you like it._ 
 
 [Ir al Game Design Document / _Go to the Game Design Document_](https://github.com/JonCervellera/Crosby/wiki)
-
-###### Our greetings, Crosby Games. 
-
-## Contacto / _Contact_
 
 #### Joel Bertran:
 
