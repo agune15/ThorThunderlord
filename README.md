@@ -1,5 +1,22 @@
+![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Titulo_final.png)
+
 # **THOR THUNDERLORD AND THE FROZEN THIEVES** 
 
+Sumérgete en la piel de Thor al cual le han robado su valioso martillo y su querida armadura. Tendrá que ir a los páramos de Jötunheim y luchar contra los gigantes de hielo para recuperar sus pertenencias. 
+
+_Immerse yourself into Thor's skin! His valuable hammer and beloved armor have been stolen. To recover it, you will have to go to the moors of Jötunheim and fight against the ice giants to recover their belongings._
+
+## Características / _Characteristics_
+
+Bienvenidos a un juego 3D sobre la mitología nórdica, estilo "Hack and Slash" y un arte "handpainted" que se fija mucho en el detalle. 
+
+_Welcome to a 3D game about nordic mythology, with a Hack and Slash style and a "handpainted" art that focus on details._ 
+
+## Características / _Characteristics_
+
+Bienvenidos a un juego 3D sobre la mitología nórdica, estilo "Hack and Slash" y un arte "handpainted" que se fija mucho en el detalle. 
+
+_Welcome to a 3D game about nordic mythology, with a Hack and Slash style and a "handpainted" art that focus on details._ 
 
 
 ## Contacto / _Contact_
