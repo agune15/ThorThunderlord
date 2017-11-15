@@ -2,8 +2,6 @@
 
 
 
-###### Our greetings, Crosby Games. 
-
 ## Contacto / _Contact_
 
 ![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/mockup_logo_scrosby.png)
