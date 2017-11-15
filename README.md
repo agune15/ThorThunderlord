@@ -12,12 +12,6 @@ Bienvenidos a un juego 3D sobre la mitología nórdica, estilo "Hack and Slash" 
 
 _Welcome to a 3D game about nordic mythology, with a Hack and Slash style and a "handpainted" art that focus on details._ 
 
-## Características / _Characteristics_
-
-Bienvenidos a un juego 3D sobre la mitología nórdica, estilo "Hack and Slash" y un arte "handpainted" que se fija mucho en el detalle. 
-
-_Welcome to a 3D game about nordic mythology, with a Hack and Slash style and a "handpainted" art that focus on details._ 
-
 
 ## Contacto / _Contact_
 
