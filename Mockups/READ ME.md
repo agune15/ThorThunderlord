@@ -16,4 +16,4 @@
 
 ### Title Screen Mockup
 
-![](https://github.com/JonCervellera/Crosby/tree/master/Mockups/TitleScreenMockups)
+![](https://github.com/JonCervellera/Crosby/blob/master/Mockups/TitleScreenMockups/mockup_title_screen_01.png)
