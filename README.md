@@ -27,8 +27,6 @@ Más información en la wiki del proyecto, esperamos que os guste. _More at the 
 
 [Ir al Game Design Document / _Go to the Game Design Document_](https://github.com/JonCervellera/Crosby/wiki)
 
-#### Our Greetings, Crosby Games
-
 #### Joel Bertran:
 
 Correo / _e-mail_: joel.bertran@gmail.com
