@@ -52,7 +52,7 @@ Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradom
 
 [Puedes revisar nuestra licencia aquí. / You can check our licence here.](https://github.com/JonCervellera/Crosby/blob/master/LICENSE)
 
-[Puedes revisar nuestra licencia de media aquí. / You can check our licence of media here.](<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional</a>.)
+[Puedes revisar nuestra licencia de media aquí. / You can check our licence of media here.](http://creativecommons.org/licenses/by-nc/4.0/">licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional</a>.)
 
 
 
