@@ -12,6 +12,8 @@ public class PlayerNavigation : MonoBehaviour {
     public bool dead = false;
     public LifeBarUI lifeBar;
 
+    //public GameObject player;
+
     public Camera cam;
     public NavMeshAgent agent;
     Vector3 newposition;
@@ -25,7 +27,7 @@ public class PlayerNavigation : MonoBehaviour {
     {
        cam = Camera.main;
        agent = GetComponent<NavMeshAgent>();
-       lifeBar.Init(life);
+       //lifeBar.Init(life);
     }
 	
 	// Update is called once per frame
@@ -35,7 +37,6 @@ public class PlayerNavigation : MonoBehaviour {
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            Quaternion transRot = Quaternion.LookRotation(newposition - this.transform.position, Vector3.up);
             Physics.Raycast(ray, out hit);
             if(hit.transform)
             {
@@ -45,6 +46,10 @@ public class PlayerNavigation : MonoBehaviour {
                 anim.SetBool("movement", true);
 
             }
+
+            //this.transform.rotation = Quaternion.LookRotation(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.up);
+
+            //transform.LookAt(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
         if (agent.isStopped) anim.SetBool("movement", false);
         
