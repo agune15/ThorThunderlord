@@ -1,0 +1,141 @@
+fileFormatVersion: 2
+guid: b12c96e621033d04c886e6ff52374d38
+timeCreated: 1512149986
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Camino alto
+    100002: Camino bajo001
+    100004: IcePart
+    100006: Inicio
+    100008: Inicio02
+    100010: Inicio03
+    100012: //RootNode
+    100014: Start
+    100016: Tronco puente
+    400000: Camino alto
+    400002: Camino bajo001
+    400004: IcePart
+    400006: Inicio
+    400008: Inicio02
+    400010: Inicio03
+    400012: //RootNode
+    400014: Start
+    400016: Tronco puente
+    2300000: Camino alto
+    2300002: Camino bajo001
+    2300004: IcePart
+    2300006: Inicio
+    2300008: Inicio02
+    2300010: Inicio03
+    2300012: Start
+    2300014: Tronco puente
+    3300000: Camino alto
+    3300002: Camino bajo001
+    3300004: IcePart
+    3300006: Inicio
+    3300008: Inicio02
+    3300010: Inicio03
+    3300012: Start
+    3300014: Tronco puente
+    4300000: Start
+    4300002: Inicio
+    4300004: Tronco puente
+    4300006: Inicio02
+    4300008: Camino bajo001
+    4300010: Camino alto
+    4300012: Inicio03
+    4300014: IcePart
+    6400000: Camino alto
+    6400002: Camino bajo001
+    6400004: IcePart
+    6400006: Inicio
+    6400008: Inicio02
+    6400010: Inicio03
+    6400012: Start
+    6400014: Tronco puente
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: e491b76f082a9624dbabdb2c106bea7e, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 85
+    meshCompression: 0
+    addColliders: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
