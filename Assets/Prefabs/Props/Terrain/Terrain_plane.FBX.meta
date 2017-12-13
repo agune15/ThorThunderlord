@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 8dd8b403db2fff349a7fa0a7a1579f05
-timeCreated: 1512811400
+guid: 683a7c9a088a1cd43b65f4b0c8ef411e
+timeCreated: 1513175402
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,14 +9,14 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Box041
+    4300000: Box251
     9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: e491b76f082a9624dbabdb2c106bea7e, type: 2}
+      name: 'Material #94'
+    second: {fileID: 2100000, guid: 3cd9d7938a26b454b8591066f61d5319, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -46,7 +46,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 4
     meshCompression: 0
     addColliders: 0
     importVisibility: 1

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: fbf05c7e6b65b7b4bb8583a882fc303a
-timeCreated: 1512899699
+guid: 2aecead73e11029498fce6b476f1a876
+timeCreated: 1513173347
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,19 +9,20 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Plane621
+    4300000: Terrain_Brick_path_004
+    7400000: Take 001
     9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: 'Material #25'
-    second: {fileID: 2100000, guid: e44350ebc9860154d98c218f5040f074, type: 2}
+      name: 'Material #94'
+    second: {fileID: 2100000, guid: b1c894addb984ba40a5de3ef993a5b9f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
