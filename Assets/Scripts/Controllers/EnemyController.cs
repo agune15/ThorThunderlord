@@ -6,15 +6,18 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public float lookRadius = 10f;
-   
+
 
     Transform target;
     NavMeshAgent agent;
+    CharacterCombat combat;
+
     // Use this for initialization
     void Start ()
     {
-        target = EnemyManager.instance.player.transform;
+        target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
+        combat = GetComponent<CharacterCombat>();
 	}
 	
 	// Update is called once per frame
@@ -33,10 +36,14 @@ public class EnemyController : MonoBehaviour
 
         if (distance <= agent.stoppingDistance)
         {
-            /*Attack
-            combatManager.Attack(Player.instance.playerStats);*/
+            CharacterStats targetStats = target.GetComponent <CharacterStats>();
+            if (targetStats != null)
+            {
+                combat.Attack(targetStats);
+            }
+
             FaceTarget();
-            
+
         }
                
     }

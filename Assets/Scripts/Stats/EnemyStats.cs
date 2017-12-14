@@ -1,17 +1,20 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*public class EnemyStats : MonoBehaviour
+/* Keeps track of enemy stats, loosing health and dying. */
+
+public class EnemyStats : CharacterStats
 {
 
-	public override void Die()
+    public override void Die()
     {
         base.Die();
 
-        // Add regdoll  effect / death animation
+        // Add ragdoll effect / death animation
 
         Destroy(gameObject);
     }
 
-}*/
+}

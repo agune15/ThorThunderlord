@@ -9,7 +9,7 @@
 public class Interactable : MonoBehaviour
 {
 
-    public float radius = 3f;               // How close do we need to be to interact?
+    public float radius = 15f;               // How close do we need to be to interact?
     public Transform interactionTransform;  // The transform from where we interact in case you want to offset it
 
     bool isFocus = false;   // Is this interactable currently being focused?
