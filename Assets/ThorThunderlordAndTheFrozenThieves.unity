@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -23271,7 +23271,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1974341156
+  randomSeed: -1622297684
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -53970,8 +53970,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2.3
-  m_Height: 14.99
+  m_Radius: 4.1
+  m_Height: 17.49
   m_Direction: 1
   m_Center: {x: 0, y: 7.91, z: 0}
 --- !u!114 &716692907
@@ -114915,8 +114915,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 2.3
-  m_Height: 14.99
+  m_Radius: 4.1
+  m_Height: 17.61
   m_Direction: 1
   m_Center: {x: 0, y: 7.91, z: 0}
 --- !u!114 &2115510250
