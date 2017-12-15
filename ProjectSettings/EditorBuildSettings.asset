@@ -4,4 +4,16 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Menu/GameManager.unity
+    guid: 3abdda5123956fd418a3609515779382
+  - enabled: 1
+    path: Assets/Menu/Menu.unity
+    guid: eb596c57c25e4e94090bc7ae8487ca46
+  - enabled: 1
+    path: Assets/ThorThunderlordAndTheFrozenThieves.unity
+    guid: c8b5ca2d62107e14eb2839e2892734bd
+  - enabled: 1
+    path: Assets/Menu/Choose Chapter.unity
+    guid: 071dc1e873b570b40b6c89e8cd2338a7
