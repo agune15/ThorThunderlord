@@ -3,6 +3,8 @@
 public class PickUpItem : Interactable
     
 {
+    public GameObject text;
+
     public override void Interact()
     {
         base.Interact();
@@ -13,6 +15,8 @@ public class PickUpItem : Interactable
     void PickUp()
     {
         Debug.Log("Picking up Item");
+
+        text.SetActive(true);
 
         //Add our item to the colectionable menu. 
 

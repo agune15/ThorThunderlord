@@ -16,6 +16,8 @@ public class CharacterCombat : MonoBehaviour
 
     CharacterStats myStats;
 
+    public Material enemyMat;
+
     void Start()
     {
         myStats = GetComponent<CharacterStats>();
@@ -36,6 +38,8 @@ public class CharacterCombat : MonoBehaviour
                 OnAttack();
 
             attackCooldown = 1f / attackSpeed;
+            //enemyMat.color = Color.white;
+            //Debug.Log("Change color");
         }
 
     }

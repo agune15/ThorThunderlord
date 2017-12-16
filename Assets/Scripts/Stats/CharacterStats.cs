@@ -4,9 +4,10 @@
 
 public class CharacterStats : MonoBehaviour
 {
-
+    public HealthThorBar lifeBar;
     public Stat maxHealth;          // Maximum amount of health
-    public int currentHealth { get; protected set; }    // Current amount of health
+    public float currentHealth { get; protected set; }    // Current amount of health
+    //public float lifeHealth;
 
     public Stat damage;
     public Stat armor;
@@ -16,12 +17,13 @@ public class CharacterStats : MonoBehaviour
     public virtual void Awake()
     {
         currentHealth = maxHealth.GetValue();
+        //lifeHealth = 100.f;//maxHealth.GetValue();
+        lifeBar.UpdateEnergyUI();
     }
 
     // Start with max HP.
     public virtual void Start()
     {
-
     }
 
     void Update()
@@ -33,15 +35,18 @@ public class CharacterStats : MonoBehaviour
     }
 
     // Damage the character
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         // Subtract the armor value - Make sure damage doesn't go below 0.
         damage -= armor.GetValue();
-        damage = Mathf.Clamp(damage, 0, int.MaxValue);
+        damage = Mathf.Clamp(damage, 0, float.MaxValue);
 
         // Subtract damage from health
         currentHealth -= damage;
+        //lifeHealth -= damage;
         Debug.Log(transform.name + " takes " + damage + " damage.");
+
+        lifeBar.UpdateEnergyUI();
 
         // If we hit 0. Die.
         if (currentHealth <= 0)

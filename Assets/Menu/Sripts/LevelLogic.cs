@@ -46,8 +46,10 @@ public class LevelLogic : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.B)) StartLoad(backScene);
             if(Input.GetKeyDown(KeyCode.R)) StartLoad(currentScene);
         }
-        //--------------------------------------------------------------//        
+        //--------------------------------------------------------------//  
     }
+
+    public void LoadEnding() { StartLoad(4); }
 
     void UpdateSceneState()
     {
