@@ -9,7 +9,6 @@ public class CharacterStats : MonoBehaviour
     public HealthThorBar lifeBar;
     public Stat maxHealth;          // Maximum amount of health
     public float currentHealth { get; protected set; }    // Current amount of health
-    //public float lifeHealth;
 
     public Stat damage;
     public Stat armor;
@@ -21,8 +20,8 @@ public class CharacterStats : MonoBehaviour
         sceneLevelManager = GameObject.FindWithTag("GameManager");
         managerScenes = sceneLevelManager.GetComponent<LevelLogic>();
 
+        PlayerPrefs.SetInt("ThorDie", 0);
         currentHealth = maxHealth.GetValue();
-        //lifeHealth = 100.f;//maxHealth.GetValue();
         lifeBar.UpdateEnergyUI();
     }
 
@@ -48,7 +47,6 @@ public class CharacterStats : MonoBehaviour
 
         // Subtract damage from health
         currentHealth -= damage;
-        //lifeHealth -= damage;
         Debug.Log(transform.name + " takes " + damage + " damage.");
 
         lifeBar.UpdateEnergyUI();
@@ -65,6 +63,7 @@ public class CharacterStats : MonoBehaviour
         // Die in some way
         // This method is meant to be overwritten
         managerScenes.LoadEndScene();
+        PlayerPrefs.SetInt("ThorDie", 1);
         Debug.Log(transform.name + " died.");
     }
 

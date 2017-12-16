@@ -581,7 +581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1142,8 +1142,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1373237952}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 464, y: 261, z: 0}
-  m_LocalScale: {x: 0.48333332, y: 0.48333332, z: 0.48333332}
+  m_LocalPosition: {x: 432.5, y: 243.5, z: 0}
+  m_LocalScale: {x: 0.45052084, y: 0.45052084, z: 0.45052084}
   m_Children:
   - {fileID: 355585059}
   - {fileID: 901183745}
@@ -1204,7 +1204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1539,6 +1539,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1710833112}
+  - component: {fileID: 1710833113}
   m_Layer: 5
   m_Name: Conditions
   m_TagString: Untagged
@@ -1566,6 +1567,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1710833113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1710833111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a11ed07f78d9e14f9f3dc0db4419606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOver: {fileID: 1511365741}
+  victory: {fileID: 459863293}
+  thorDie: 0
 --- !u!1 &1831448812
 GameObject:
   m_ObjectHideFlags: 0
