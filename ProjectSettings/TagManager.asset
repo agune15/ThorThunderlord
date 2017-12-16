@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - GameManager
+  - Thor
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Thor
   - 
   - 
   - 
