@@ -49,7 +49,25 @@ public class LevelLogic : MonoBehaviour
         //--------------------------------------------------------------//  
     }
 
-    public void LoadEnding() { StartLoad(4); }
+    public void StartNewGame()
+    {
+        StartLoad(nextScene);
+    }
+
+    public void LoadEndScene()
+    {
+        StartLoad(4);
+    }
+
+    public void RetryGame()
+    {
+        StartLoad(2);
+    }
+
+    public void BackToMenu()
+    {
+        StartLoad(1);
+    }
 
     void UpdateSceneState()
     {

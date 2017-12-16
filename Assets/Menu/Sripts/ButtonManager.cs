@@ -3,18 +3,33 @@ using UnityEngine.SceneManagement;
 
 public class ButtonManager : MonoBehaviour
 {
-    LevelLogic levelLoader;
-    public int goToScene;
+    private LevelLogic managerScenes;
+    public GameObject sceneLevelManager;
 
     private void Start()
     {
-        levelLoader = GameObject.Find("Managers").GetComponent<LevelLogic>();
+        sceneLevelManager = GameObject.FindWithTag("GameManager");
+        managerScenes = sceneLevelManager.GetComponent<LevelLogic>();
     }
 
-    public void NewGameBtn(string newGameLevel)
+    public void LoadNewGame()
     {
-        levelLoader.StartLoad(goToScene);
+        managerScenes.StartNewGame();
+    }
 
+    public void RetryGame()
+    {
+        managerScenes.RetryGame();
+    }
+
+    public void BackToMenu()
+    {
+        managerScenes.BackToMenu();
+    }
+
+    public void ExitToWin()
+    {
+        Application.Quit();
     }
 
 }
