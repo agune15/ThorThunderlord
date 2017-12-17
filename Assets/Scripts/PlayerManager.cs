@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
+    public GameObject player;
+    private LevelLogic managerScenes;
+    public GameObject sceneLevelManager;
 
     #region Singleton
 
@@ -19,11 +22,17 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
-    public GameObject player;
+    public void Start()
+    {
+        sceneLevelManager = GameObject.FindWithTag("GameManager");
+        managerScenes = sceneLevelManager.GetComponent<LevelLogic>();
+    }
 
     public void KillPlayer()
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        managerScenes.LoadEndScene();
+        PlayerPrefs.SetInt("ThorDie", 1);
     }
 
 }

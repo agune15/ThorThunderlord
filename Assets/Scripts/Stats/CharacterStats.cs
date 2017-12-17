@@ -4,8 +4,8 @@
 
 public class CharacterStats : MonoBehaviour
 {
-    private LevelLogic managerScenes;
-    public GameObject sceneLevelManager;
+    //private LevelLogic managerScenes;
+    //public GameObject sceneLevelManager;
     public HealthThorBar lifeBar;
     public Stat maxHealth;          // Maximum amount of health
     public float currentHealth { get; protected set; }    // Current amount of health
@@ -17,8 +17,8 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void Awake()
     {
-        sceneLevelManager = GameObject.FindWithTag("GameManager");
-        managerScenes = sceneLevelManager.GetComponent<LevelLogic>();
+        //sceneLevelManager = GameObject.FindWithTag("GameManager");
+        //managerScenes = sceneLevelManager.GetComponent<LevelLogic>();
 
         PlayerPrefs.SetInt("ThorDie", 0);
         currentHealth = maxHealth.GetValue();
@@ -62,8 +62,8 @@ public class CharacterStats : MonoBehaviour
     {
         // Die in some way
         // This method is meant to be overwritten
-        managerScenes.LoadEndScene();
-        PlayerPrefs.SetInt("ThorDie", 1);
+        //managerScenes.LoadEndScene();
+        //PlayerPrefs.SetInt("ThorDie", 1);
         Debug.Log(transform.name + " died.");
     }
 
