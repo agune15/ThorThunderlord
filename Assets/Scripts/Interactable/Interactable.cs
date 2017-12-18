@@ -23,7 +23,7 @@ public class Interactable : MonoBehaviour
         Debug.Log("Interacting with " + transform.name);
     }
 
-    public virtual void Update()
+    void Update()
     {
         // If we are currently being focused
         // and we haven't already interacted with the object
@@ -36,13 +36,8 @@ public class Interactable : MonoBehaviour
                 // Interact with the object
                 Interact();
                 hasInteracted = true;
-
+                              
             }
-            else Patrol(); 
-        }
-        else
-        {
-            Patrol();
         }
     }
 
@@ -72,8 +67,4 @@ public class Interactable : MonoBehaviour
         Gizmos.DrawWireSphere(interactionTransform.position, radius);
     }
 
-    public virtual void Patrol()
-    {
-
-    }
 }

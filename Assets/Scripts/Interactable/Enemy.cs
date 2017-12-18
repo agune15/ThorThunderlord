@@ -8,6 +8,7 @@ using UnityEngine;
 public class Enemy : Interactable
 {
     public Material enemyMat;
+    public AudioSource Skeleton;
     PlayerManager playerManager;
     CharacterStats myStats;
     public float delay = 0.5f; // Temps que triga en posar-se blanc again.
@@ -34,6 +35,7 @@ public class Enemy : Interactable
     {
         StartCoroutine(MatDelay(delay));
         enemyMat.color = Color.red;
+        Skeleton.Play();
     }
 
     IEnumerator MatDelay(float delay)

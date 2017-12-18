@@ -5,6 +5,8 @@ public class PickUpItem : Interactable
 {
     public GameObject text;
 
+    public AudioSource LevelUp;
+
     public override void Interact()
     {
         base.Interact();
@@ -20,7 +22,11 @@ public class PickUpItem : Interactable
 
         //Add our item to the colectionable menu. 
 
+        LevelUp.Play();
+
         Destroy(gameObject);
     }
+
+
 
 }

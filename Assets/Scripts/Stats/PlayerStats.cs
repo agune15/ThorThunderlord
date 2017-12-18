@@ -6,28 +6,14 @@ using UnityEngine;
 
 public class PlayerStats : CharacterStats
 {
-    GodMode godMode;
 
-    // Use this for initialization
-    public override void Start()
+    /*// Use this for initialization
+    void Start()
     {
-        //EquipmentManager.instance.onEquipmentChanged += OnEquipmentChanged;
-        godMode = GetComponent<GodMode>(); 
+        EquipmentManager.instance.onEquipmentChanged += OnEquipmentChanged;
     }
 
-    void Update()
-    {
-        if (godMode.isGodModeEnabled)
-        {
-            if (currentHealth != maxHealth.GetValue())
-            {
-                Heal(50); 
-            }
-            currentHealth = maxHealth.GetValue();
-            lifeBar.UpdateEnergyUI();
-        }
-    }
-    /*// Called when an item gets equipped/unequipped
+    // Called when an item gets equipped/unequipped
     void OnEquipmentChanged(Equipment newItem, Equipment oldItem)
     {
         // Add new modifiers

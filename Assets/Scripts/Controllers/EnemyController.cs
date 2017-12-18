@@ -9,8 +9,7 @@ public class EnemyController : MonoBehaviour
 
 
     Transform target;
-    [HideInInspector]
-    public NavMeshAgent agent;
+    NavMeshAgent agent;
     CharacterCombat combat;
 
     // Use this for initialization

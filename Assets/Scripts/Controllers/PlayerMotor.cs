@@ -6,8 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMotor : MonoBehaviour
 {
-    [HideInInspector]
-    public NavMeshAgent agent; //Target to follow
+    NavMeshAgent agent; //Target to follow
     Transform target;  //reference to our agent
 
     // Use this for initialization

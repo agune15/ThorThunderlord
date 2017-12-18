@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMotor))]
-public class PlayerController : MonoBehaviour
-{
-    private GodMode godMode;
-    public Transform bossTeleportTransform; 
-    
+public class PlayerController : MonoBehaviour {
+
+     
+
     public LayerMask Ground;
 
     public Interactable focus;
@@ -15,58 +14,32 @@ public class PlayerController : MonoBehaviour
     Camera cam;
     PlayerMotor motor;
 
+	// Use this for initialization
 	void Start ()
     {
         cam = Camera.main;
         motor = GetComponent<PlayerMotor>();
-        godMode = GetComponent<GodMode>();
     }
 	
+	// Update is called once per frame
 	void Update ()
     {
-        if (godMode.isGodModeEnabled)
+        
+        if (Input.GetMouseButtonDown(1) || (Input.GetMouseButton(1)))
         {
-            if (Input.GetMouseButtonDown(1))
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            
+            if (Physics.Raycast(ray, out hit))
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+                //Debug.Log("we hit" + hit.collider.name + " " + hit.point);
 
-                if (Physics.Raycast(ray, out hit))
-                {
-                    //Debug.Log("we hit" + hit.collider.name + " " + hit.point);
+                motor.MoveToPoint(hit.point); //Move Our player to what we hit
 
-                    transform.position = hit.point; //Move Our player to what we hit
-
-                    motor.MoveToPoint(hit.point);
-                    RemoveFocus(); //Stop focusing any objects
-                }
+                RemoveFocus(); //Stop focusing any objects
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-            {
-                motor.agent.enabled = false;
-                transform.position = bossTeleportTransform.position; //Move Our player to what we hit
-                RemoveFocus();
-
-                motor.agent.enabled = true; 
-            }
-        }
-        else 
-        {
-            if (Input.GetMouseButtonDown(1) || (Input.GetMouseButton(1)))
-            {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    //Debug.Log("we hit" + hit.collider.name + " " + hit.point);
-
-                    motor.MoveToPoint(hit.point); //Move Our player to what we hit
-
-                    RemoveFocus(); //Stop focusing any objects
-                }
-            }          
+            
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -119,5 +92,8 @@ public class PlayerController : MonoBehaviour
         focus = null;
         motor.StopFollowingTarget();
     }
+
+
+   
 }
 
