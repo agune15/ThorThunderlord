@@ -1,0 +1,90 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CameraBehaviour : MonoBehaviour {
+
+    Transform playerTransform;
+    Transform cameraTransform;
+
+    Vector3 startPos;
+    Vector3 relativePos;
+    public Vector3 offsetPos;
+    Vector3 velocity = Vector3.zero;
+
+    public bool playerCanMove;
+
+    float wheelAxis = 0;
+    float zoomSpeed = 4;
+
+    public float smoothTime;
+    float timeCounter = 0;
+
+    private void Start()
+    {
+        playerTransform = GameObject.FindWithTag("player").GetComponent<Transform>();
+        cameraTransform = this.transform;
+
+        startPos = cameraTransform.position;
+        relativePos = playerTransform.position + offsetPos;
+
+        playerCanMove = false;
+    }
+
+    private void LateUpdate()
+    {
+        if(!playerTransform) return;
+
+        //Debug.Log("Camera Rotation " + cameraTransform.rotation.eulerAngles.x);
+        //Debug.Log("StartPos " + startPos);
+
+        //Camera Offset Position
+        relativePos = playerTransform.position + offsetPos + new Vector3(0, 1.2f, 0);
+
+        //Initial Transition
+        if(timeCounter <= smoothTime)
+        {
+            timeCounter += Time.deltaTime;
+
+            //Camera Start Position
+            cameraTransform.position = Vector3.Lerp(startPos, relativePos, Mathf.SmoothStep(0, 1, timeCounter / smoothTime));
+
+            //Camera Start Rotation
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - cameraTransform.position + new Vector3(0, 1.2f, 0));
+
+            cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
+
+            //Debug.Log("timeCounter / smoothTime " + timeCounter / smoothTime);
+            //Debug.Log("timeCounter " + timeCounter);
+            //Debug.Log("smoothTime / timeCounter " + smoothTime / timeCounter);
+        }
+        else
+        {
+            smoothTime = 0.25f;
+            playerCanMove = true;   //Permitir mover el player
+
+            //Camera Position
+            cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, relativePos, ref velocity, smoothTime);
+
+            //Camera Rotation
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, 1.2f, 0));
+
+            cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
+
+            //Camera Zoom
+            wheelAxis = Input.GetAxis("Mouse ScrollWheel");
+
+            offsetPos.z += wheelAxis * zoomSpeed * 75 * Time.deltaTime;
+            offsetPos.y -= wheelAxis * zoomSpeed * 100 * Time.deltaTime;
+
+            //Limitar Y y Z EN EL ZOOM!!!!!!!!!!!!!
+        }
+    }
+
+    /*
+    void SetMouseWheel(float mouseWheel)
+    {
+        wheelAxis = mouseWheel;
+    }
+    */
+}
