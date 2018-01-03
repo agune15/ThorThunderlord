@@ -420,7 +420,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 9613e11bb1c62a04b80a62f9ac09a99b, type: 3}
       propertyPath: m_TagString
-      value: player
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 9613e11bb1c62a04b80a62f9ac09a99b, type: 3}
       propertyPath: m_Layer

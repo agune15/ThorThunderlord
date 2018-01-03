@@ -17,12 +17,17 @@ public class CameraBehaviour : MonoBehaviour {
     float wheelAxis = 0;
     float zoomSpeed = 4;
 
+    float zoomMinLimit = 0.8f;
+    float zoomMaxLimit = 0;
+
+    float wheelAxisStorage = 0;
+
     public float smoothTime;
     float timeCounter = 0;
 
     private void Start()
     {
-        playerTransform = GameObject.FindWithTag("player").GetComponent<Transform>();
+        playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         cameraTransform = this.transform;
 
         startPos = cameraTransform.position;
@@ -72,19 +77,26 @@ public class CameraBehaviour : MonoBehaviour {
             cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
 
             //Camera Zoom
-            wheelAxis = Input.GetAxis("Mouse ScrollWheel");
+            wheelAxisStorage += wheelAxis;
 
-            offsetPos.z += wheelAxis * zoomSpeed * 75 * Time.deltaTime;
-            offsetPos.y -= wheelAxis * zoomSpeed * 100 * Time.deltaTime;
-
-            //Limitar Y y Z EN EL ZOOM!!!!!!!!!!!!!
+            if (wheelAxisStorage <= zoomMinLimit && wheelAxisStorage >= zoomMaxLimit)
+            {
+                offsetPos.z += wheelAxis * zoomSpeed * 75 * Time.deltaTime;
+                offsetPos.y -= wheelAxis * zoomSpeed * 100 * Time.deltaTime;
+            }
+            else if (wheelAxisStorage >= zoomMinLimit)
+            {
+                wheelAxisStorage = zoomMinLimit;
+            }
+            else if (wheelAxisStorage <= zoomMaxLimit)
+            {
+                wheelAxisStorage = zoomMaxLimit;
+            }
         }
     }
 
-    /*
-    void SetMouseWheel(float mouseWheel)
+    public void SetMouseWheel(float mouseWheel)
     {
         wheelAxis = mouseWheel;
     }
-    */
 }
