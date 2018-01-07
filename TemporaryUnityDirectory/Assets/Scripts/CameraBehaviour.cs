@@ -12,6 +12,8 @@ public class CameraBehaviour : MonoBehaviour {
     public Vector3 offsetPos;
     Vector3 velocity = Vector3.zero;
 
+    public float heightOffset;
+
     public bool playerCanMove;
 
     float wheelAxis = 0;
@@ -40,11 +42,8 @@ public class CameraBehaviour : MonoBehaviour {
     {
         if(!playerTransform) return;
 
-        //Debug.Log("Camera Rotation " + cameraTransform.rotation.eulerAngles.x);
-        //Debug.Log("StartPos " + startPos);
-
         //Camera Offset Position
-        relativePos = playerTransform.position + offsetPos + new Vector3(0, 1.2f, 0);
+        relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
 
         //Initial Transition
         if(timeCounter <= smoothTime)
@@ -55,13 +54,9 @@ public class CameraBehaviour : MonoBehaviour {
             cameraTransform.position = Vector3.Lerp(startPos, relativePos, Mathf.SmoothStep(0, 1, timeCounter / smoothTime));
 
             //Camera Start Rotation
-            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - cameraTransform.position + new Vector3(0, 1.2f, 0));
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - cameraTransform.position + new Vector3(0, heightOffset, 0));
 
             cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
-
-            //Debug.Log("timeCounter / smoothTime " + timeCounter / smoothTime);
-            //Debug.Log("timeCounter " + timeCounter);
-            //Debug.Log("smoothTime / timeCounter " + smoothTime / timeCounter);
         }
         else
         {
@@ -72,7 +67,7 @@ public class CameraBehaviour : MonoBehaviour {
             cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, relativePos, ref velocity, smoothTime);
 
             //Camera Rotation
-            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, 1.2f, 0));
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, heightOffset, 0));
 
             cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
 
