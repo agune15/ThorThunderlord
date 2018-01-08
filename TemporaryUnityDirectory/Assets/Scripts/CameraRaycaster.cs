@@ -74,6 +74,12 @@ public class CameraRaycaster : MonoBehaviour {
                 hitPosition = hit.point;
                 enemyTransform = null;
             }
+            else
+            {
+                enemyWasHit = false;
+                hitPosition = ray.origin;
+                enemyTransform = null;
+            }
         }
     }
 }
