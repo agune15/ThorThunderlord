@@ -11,11 +11,42 @@ public class CameraRaycaster : MonoBehaviour {
     public LayerMask layerMask;
     float maxDistance = 100f;
 
+    CharacterBehaviour playerBehaviour;
+    Vector3 destination;
+    Vector3 hitPosition;
+
+    bool enemyWasHit = false;
+    Transform enemyTransform = null;
+
 	void Start () {
+        playerBehaviour = GameObject.Find("Player").GetComponent<CharacterBehaviour>();
         playerCamera = this.GetComponent<Camera>();
+
+        destination = playerBehaviour.gameObject.transform.position;
 	}
 
-    public void CastRay ()
+    private void Update()
+    {
+
+        if (enemyWasHit)
+        {
+            if(destination != enemyTransform.position)
+            {
+                destination = enemyTransform.position;
+                playerBehaviour.SetDestination(destination);
+            }
+        }
+        else
+        {
+            if(destination != hitPosition)
+            {
+                destination = hitPosition;
+                playerBehaviour.SetDestination(destination);
+            }
+        }
+    }
+
+    public void CastRay()
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
@@ -28,12 +59,21 @@ public class CameraRaycaster : MonoBehaviour {
                 //It has to follow the enemy
 
                 //Player should have a Target, if the ray hits enemy, follow enemy, if it hits the ground, go to the ground point.
+
+                Debug.Log(hit.transform.name);
+
+                enemyWasHit = true;
+                enemyTransform = hit.transform;
+                hitPosition = Vector3.zero;
             }
             else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                //player target pos = hit.point;
+                Debug.Log(hit.transform.name);
+
+                enemyWasHit = false;
+                hitPosition = hit.point;
+                enemyTransform = null;
             }
-            
         }
     }
 }

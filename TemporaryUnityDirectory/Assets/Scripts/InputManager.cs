@@ -6,9 +6,11 @@ public class InputManager : MonoBehaviour {
 
     [Header("GameObjects")]
     [SerializeField] private GameObject player = null;
-    
+
     [Header("Player Related Scripts")]
+    [SerializeField] private CharacterBehaviour playerBehaviour = null;
     [SerializeField] private CameraBehaviour playerCamBehaviour = null;
+    [SerializeField] private CameraRaycaster playerCamRaycaster = null;
 
     [Header("Other Scripts")]
     [SerializeField] private LevelLogic levelLogic;
@@ -35,21 +37,34 @@ public class InputManager : MonoBehaviour {
 
         if(GameObject.FindGameObjectWithTag("Player") != null)
         {
-            if (player == null) player = GameObject.Find("Player");
-            if (playerCamBehaviour == null) playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
-            
-            //switchCamera = player.GetComponent<SwitchCamera>();   //Ejemplo
+            if (player == null)
+            {
+                player = GameObject.Find("Player");
+                playerBehaviour = player.GetComponent<CharacterBehaviour>();
+                playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
+                playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
+            }
         }
         else
         {
-            if (player != null) player = null;
-            if (playerCamBehaviour != null) playerCamBehaviour = null;
+            if (player != null)
+            {
+                player = null;
+                playerBehaviour = null;
+                playerCamBehaviour = null;
+                playerCamRaycaster = null;
+            }
         }
     }
 
     void PlayerInput()
     {
         playerCamBehaviour.SetMouseWheel(Input.GetAxis("Mouse ScrollWheel"));
+
+        if(playerCamBehaviour.playerCanMove)
+        {
+            if(Input.GetButtonDown("Move")) playerCamRaycaster.CastRay();
+        }
     }
 
     void SceneLogicInput()
