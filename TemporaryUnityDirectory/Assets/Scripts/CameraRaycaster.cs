@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CameraRaycaster : MonoBehaviour {
 
@@ -51,15 +52,10 @@ public class CameraRaycaster : MonoBehaviour {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
-        if(Physics.Raycast(ray, out hit, maxDistance, layerMask, QueryTriggerInteraction.Ignore))
+        if(Physics.Raycast(ray, out hit, maxDistance, layerMask, QueryTriggerInteraction.Ignore))  //, maxDistance, layerMask, QueryTriggerInteraction.Ignore
         {
             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                //player target pos = hit.transform.gameobject.pos;
-                //It has to follow the enemy
-
-                //Player should have a Target, if the ray hits enemy, follow enemy, if it hits the ground, go to the ground point.
-
                 Debug.Log(hit.transform.name);
 
                 enemyWasHit = true;
@@ -77,9 +73,29 @@ public class CameraRaycaster : MonoBehaviour {
             else
             {
                 enemyWasHit = false;
-                hitPosition = ray.origin;
                 enemyTransform = null;
             }
+            /*
+            else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("RayArea"))
+            {
+                enemyWasHit = false;
+                enemyTransform = null;
+
+                NavMeshHit navHit;
+                if(NavMesh.SamplePosition(hit.point, out navHit, 1.0f, NavMesh.AllAreas))
+                {
+                    hitPosition = navHit.position;
+                }     
+            }*/
+        }
+        else
+        {
+            enemyWasHit = false;
+            enemyTransform = null;
+
+            Vector3 mouseScreenToWorld = playerCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, playerCamera.nearClipPlane));
+
+            //hitPosition = Hold Tight Asznee
         }
     }
 }
