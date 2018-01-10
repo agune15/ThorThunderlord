@@ -37,8 +37,8 @@ public class CharacterBehaviour : MonoBehaviour {
                 break;
         }
 
-        Debug.Log("Player state: " + playerStates);
-        Debug.Log("Distance from target: " + playerAgent.remainingDistance);
+        //Debug.Log("Player state: " + playerStates);
+        //Debug.Log("Distance from target: " + playerAgent.remainingDistance);
 
         if (playerAgent.isStopped == false)
         {
@@ -112,11 +112,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void SetRotation()
     {
-        
+        playerTransform.LookAt(playerAgent.steeringTarget);
+    }
 
-        /*
-        Vector3 towardsRotation = Vector3.RotateTowards(playerTransform.forward, targetPos, 5, 0);
-        playerTransform.rotation = Quaternion.LookRotation(towardsRotation);
-        */
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(playerAgent.steeringTarget, new Vector3(0.5f, 0.5f, 0.5f));
     }
 }
