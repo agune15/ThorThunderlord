@@ -5,12 +5,10 @@ using UnityEngine.AI;
 
 public class CameraRaycaster : MonoBehaviour {
 
-    //NECESITO HACER RAYCAST DE LA POSICION DEL MOUSE Y DETECTAR LA LAYER.
-    //POSICION DEL MOUSE A POSICION DEL MUNDO
-
     Camera playerCamera;
     public LayerMask layerMask;
     float maxDistance = 100f;
+    float maxRadius = 200f;
 
     CharacterBehaviour playerBehaviour;
     Vector3 destination;
@@ -28,7 +26,6 @@ public class CameraRaycaster : MonoBehaviour {
 
     private void Update()
     {
-
         if (enemyWasHit)
         {
             if(destination != enemyTransform.position)
@@ -52,7 +49,7 @@ public class CameraRaycaster : MonoBehaviour {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
-        if(Physics.Raycast(ray, out hit, maxDistance, layerMask, QueryTriggerInteraction.Ignore))  //, maxDistance, layerMask, QueryTriggerInteraction.Ignore
+        if(Physics.Raycast(ray, out hit, maxDistance, layerMask, QueryTriggerInteraction.Ignore))
         {
             if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
@@ -75,27 +72,28 @@ public class CameraRaycaster : MonoBehaviour {
                 enemyWasHit = false;
                 enemyTransform = null;
             }
-            /*
-            else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("RayArea"))
-            {
-                enemyWasHit = false;
-                enemyTransform = null;
 
-                NavMeshHit navHit;
-                if(NavMesh.SamplePosition(hit.point, out navHit, 1.0f, NavMesh.AllAreas))
-                {
-                    hitPosition = navHit.position;
-                }     
-            }*/
+            Debug.DrawRay(ray.origin, ray.direction, Color.red);
         }
         else
         {
-            enemyWasHit = false;
-            enemyTransform = null;
+            Ray alternativeRay = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-            Vector3 mouseScreenToWorld = playerCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, playerCamera.nearClipPlane));
+            Ray alternativePosition = new Ray(transform.position, playerCamera.ScreenToWorldPoint(Input.mousePosition));
 
-            //hitPosition = Hold Tight Asznee
+            if (Physics.Raycast(alternativePosition, out hit, maxDistance, layerMask, QueryTriggerInteraction.Ignore))
+            {
+                Vector3 rayPoint = alternativePosition.GetPoint(maxDistance);
+                rayPoint.y = playerBehaviour.transform.position.y;
+                NavMeshHit navHit;
+
+                if (NavMesh.SamplePosition(rayPoint, out navHit, maxRadius, NavMesh.AllAreas))
+                {
+                    hitPosition = navHit.position;
+                }
+
+                Debug.DrawRay(alternativeRay.origin, ray.direction, Color.red);
+            }
         }
     }
 }

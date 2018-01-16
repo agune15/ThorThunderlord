@@ -13,6 +13,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     Vector3 targetPos;
 
+
     private void Start()
     {
         playerTransform = this.GetComponent<Transform>();
@@ -104,7 +105,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
-    public void SetDestination(Vector3 destination)
+    public void SetDestination (Vector3 destination)
     {
         targetPos = destination;
         playerAgent.SetDestination(targetPos);
