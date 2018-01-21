@@ -10,29 +10,41 @@ public class CharacterBehaviour : MonoBehaviour {
 
     Transform playerTransform;
     NavMeshAgent playerAgent;
-    Rigidbody playerRB;
 
     Vector3 targetPos;
 
     [Header("Dash parameters")]
     bool isDashing = false;
     bool dashAvailable = true;
-    public float dashTime;
-    public float dashCooldown;
-    public float dashImpulse;
+    float dashCounter = 0;
+
     Vector3 dashDirection;
+    Quaternion desiredRotation;
+
+    Vector3 dashBegin;
+    Vector3 dashEnd;
+    Vector3 dashDelta;
+
+    public float dashDuration;
+    public float dashCooldown;
+    public float dashDistance;
+
+
 
     private void Start()
     {
         playerTransform = this.GetComponent<Transform>();
         playerAgent = this.GetComponent<NavMeshAgent>();
-        playerRB = this.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         //Estaria bien que se usara solo para el movimiento
-        if(!isDashing)
+        if(isDashing)
+        {
+            DashUpdate();
+        }
+        else
         {
             switch(moveStates)
             {
@@ -50,20 +62,12 @@ public class CharacterBehaviour : MonoBehaviour {
             }
         }
 
-            Debug.Log("Player state: " + moveStates);
+        //Debug.Log("Player state: " + moveStates);
         //Debug.Log("Distance from target: " + playerAgent.remainingDistance);
 
         if (!playerAgent.isStopped && !isDashing)
         {
             SetRotation();
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if(isDashing)
-        {
-            DashUpdate();
         }
     }
 
@@ -104,24 +108,28 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void DashUpdate()
     {
-        playerRB.WakeUp();
-        playerRB.isKinematic = false;
+        if (dashCounter <= dashDuration)
+        {
+            dashCounter += Time.deltaTime;
 
-        Vector3 desiredDirection = dashDirection - playerTransform.transform.position;
+            Vector3 dashEasing = new Vector3(
+                Easing.QuadEaseOut(dashCounter, dashBegin.x, dashDelta.x, dashDuration),
+                Easing.QuadEaseOut(dashCounter, dashBegin.y, dashDelta.y, dashDuration),
+                Easing.QuadEaseOut(dashCounter, dashBegin.z, dashDelta.z, dashDuration));
 
-        Quaternion rotation = Quaternion.LookRotation(desiredDirection);
-        playerTransform.rotation = rotation;
+            //playerAgent.Warp(new Vector3(dashEasing.x, playerTransform.position.y, dashEasing.z));
+            playerAgent.Warp(dashEasing);
 
-        //playerRB.AddForce(playerTransform.forward * dashImpulse);
-        playerRB.velocity = playerTransform.forward * dashImpulse;
+            //Debug.Log("dashEasing" + dashEasing);
+            //Debug.Log("dashDirection" + dashDirection);
+        }
+        else
+        {
+            moveStates = MoveStates.Idle;
+            isDashing = false;
 
-        playerRB.interpolation = RigidbodyInterpolation.Extrapolate;
-
-
-        dashAvailable = false;
-        isDashing = false;
-
-        StartCoroutine(DashCD());
+            StartCoroutine(DashCD());
+        }
     }
 
     #endregion
@@ -149,12 +157,30 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if(dashAvailable)
         {
-            dashDirection = direction;
+            dashCounter = 0;
+
             isDashing = true;
+            dashAvailable = false;
+
+            /*
+            NavMeshPath path = new NavMeshPath();
+            playerAgent.CalculatePath(direction, path);
+
+            dashDirection =  path.corners[0];
+            */
+            
+            dashDirection = direction - playerTransform.position;
+
+            desiredRotation = Quaternion.LookRotation(dashDirection);
+            playerTransform.rotation = Quaternion.Euler(0, desiredRotation.eulerAngles.y, 0);
+
+            Debug.Log("normalized direction" + dashDirection.normalized);
+            
+            dashBegin = playerTransform.position;
+            dashEnd = dashDirection.normalized * dashDistance;
+            dashDelta = dashEnd - dashBegin;
         }
     }
-
-
 
     public void SetDestination (Vector3 destination)
     {
@@ -176,16 +202,11 @@ public class CharacterBehaviour : MonoBehaviour {
 
     IEnumerator DashCD ()
     {
-        yield return new WaitForSeconds(dashTime);
-        //isDashing = false;
-        //playerAgent.SetDestination(playerTransform.transform.position);
-        moveStates = MoveStates.Idle;
-
-        playerRB.isKinematic = true;
-        playerRB.Sleep();
-
-
-        yield return new WaitForSeconds(dashCooldown);
+        yield return new WaitForSeconds(dashCooldown - dashDuration);
         dashAvailable = true;
     }
+
+
+    //HACER GODMODE CON playerAgent.Warp()!!!
+
 }

@@ -42,8 +42,6 @@ public class CameraRaycaster : MonoBehaviour {
             default:
                 break;
         }
-
-        Debug.Log(rayPorpuse);
     }
 
     void MoveUpdate ()
@@ -88,6 +86,8 @@ public class CameraRaycaster : MonoBehaviour {
                 break;
         }
     }
+
+    #region Ray Inputs
 
     void MoveRayInput ()
     {
@@ -166,4 +166,6 @@ public class CameraRaycaster : MonoBehaviour {
 
         DashUpdate();
     }
+
+    #endregion
 }
