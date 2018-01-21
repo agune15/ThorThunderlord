@@ -63,7 +63,8 @@ public class InputManager : MonoBehaviour {
 
         if(playerCamBehaviour.playerCanMove)
         {
-            if(Input.GetButtonDown("Move")) playerCamRaycaster.CastRay();
+            if(Input.GetButtonDown("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
+            if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
         }
     }
 

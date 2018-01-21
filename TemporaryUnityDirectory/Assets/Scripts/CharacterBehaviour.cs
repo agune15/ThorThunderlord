@@ -5,45 +5,65 @@ using UnityEngine.AI;
 
 public class CharacterBehaviour : MonoBehaviour {
 
-    enum PlayerStates { Idle, Move, Dead }
-    PlayerStates playerStates = PlayerStates.Idle;
+    enum MoveStates { Idle, Move, Dead }
+    MoveStates moveStates = MoveStates.Idle;
 
     Transform playerTransform;
     NavMeshAgent playerAgent;
+    Rigidbody playerRB;
 
     Vector3 targetPos;
 
+    [Header("Dash parameters")]
+    bool isDashing = false;
+    bool dashAvailable = true;
+    public float dashTime;
+    public float dashCooldown;
+    public float dashImpulse;
+    Vector3 dashDirection;
 
     private void Start()
     {
         playerTransform = this.GetComponent<Transform>();
         playerAgent = this.GetComponent<NavMeshAgent>();
+        playerRB = this.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         //Estaria bien que se usara solo para el movimiento
-        switch(playerStates)
+        if(!isDashing)
         {
-            case PlayerStates.Idle:
-                IdleUpdate();
-                break;
-            case PlayerStates.Move:
-                MoveUpdate();
-                break;
-            case PlayerStates.Dead:
-                DeadUpdate();
-                break;
-            default:
-                break;
+            switch(moveStates)
+            {
+                case MoveStates.Idle:
+                    IdleUpdate();
+                    break;
+                case MoveStates.Move:
+                    MoveUpdate();
+                    break;
+                case MoveStates.Dead:
+                    DeadUpdate();
+                    break;
+                default:
+                    break;
+            }
         }
 
-        //Debug.Log("Player state: " + playerStates);
+            Debug.Log("Player state: " + moveStates);
         //Debug.Log("Distance from target: " + playerAgent.remainingDistance);
 
-        if (playerAgent.isStopped == false)
+        if (!playerAgent.isStopped && !isDashing)
         {
             SetRotation();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(isDashing)
+        {
+            DashUpdate();
         }
     }
 
@@ -69,8 +89,6 @@ public class CharacterBehaviour : MonoBehaviour {
         
         playerAgent.SetDestination(targetPos);
 
-
-
         if (playerAgent.remainingDistance <= 0)
         {
             SetIdle();
@@ -84,26 +102,59 @@ public class CharacterBehaviour : MonoBehaviour {
         return;
     }
 
+    void DashUpdate()
+    {
+        playerRB.WakeUp();
+        playerRB.isKinematic = false;
+
+        Vector3 desiredDirection = dashDirection - playerTransform.transform.position;
+
+        Quaternion rotation = Quaternion.LookRotation(desiredDirection);
+        playerTransform.rotation = rotation;
+
+        //playerRB.AddForce(playerTransform.forward * dashImpulse);
+        playerRB.velocity = playerTransform.forward * dashImpulse;
+
+        playerRB.interpolation = RigidbodyInterpolation.Extrapolate;
+
+
+        dashAvailable = false;
+        isDashing = false;
+
+        StartCoroutine(DashCD());
+    }
+
     #endregion
 
     #region State Sets
 
     void SetIdle()
     {
-        playerStates = PlayerStates.Idle;
+        moveStates = MoveStates.Idle;
     }
 
     void SetMove()
     {
-        playerStates = PlayerStates.Move;
+        moveStates = MoveStates.Move;
     }
 
     void SetDead()
     {
-        playerStates = PlayerStates.Dead;
+        moveStates = MoveStates.Dead;
     }
 
     #endregion
+
+    public void Dash(Vector3 direction)
+    {
+        if(dashAvailable)
+        {
+            dashDirection = direction;
+            isDashing = true;
+        }
+    }
+
+
 
     public void SetDestination (Vector3 destination)
     {
@@ -116,9 +167,25 @@ public class CharacterBehaviour : MonoBehaviour {
         playerTransform.LookAt(playerAgent.steeringTarget);
     }
 
+    /*
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawCube(playerAgent.steeringTarget, new Vector3(0.5f, 0.5f, 0.5f));
+    }*/
+
+    IEnumerator DashCD ()
+    {
+        yield return new WaitForSeconds(dashTime);
+        //isDashing = false;
+        //playerAgent.SetDestination(playerTransform.transform.position);
+        moveStates = MoveStates.Idle;
+
+        playerRB.isKinematic = true;
+        playerRB.Sleep();
+
+
+        yield return new WaitForSeconds(dashCooldown);
+        dashAvailable = true;
     }
 }
