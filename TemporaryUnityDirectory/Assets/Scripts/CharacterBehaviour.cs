@@ -13,21 +13,19 @@ public class CharacterBehaviour : MonoBehaviour {
 
     Vector3 targetPos;
 
+    float agentSpeed;
+
     [Header("Dash parameters")]
     bool isDashing = false;
     bool dashAvailable = true;
     float dashCounter = 0;
 
     Vector3 dashDirection;
-    Quaternion desiredRotation;
-
-    Vector3 dashBegin;
-    Vector3 dashEnd;
-    Vector3 dashDelta;
 
     public float dashDuration;
     public float dashCooldown;
     public float dashDistance;
+    public float dashImpulse;
 
 
 
@@ -35,6 +33,8 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         playerTransform = this.GetComponent<Transform>();
         playerAgent = this.GetComponent<NavMeshAgent>();
+
+        agentSpeed = playerAgent.speed;
     }
 
     private void Update()
@@ -108,24 +108,19 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void DashUpdate()
     {
-        if (dashCounter <= dashDuration)
+        if (dashCounter <= dashDuration && playerAgent.remainingDistance > 0)
         {
             dashCounter += Time.deltaTime;
-
-            Vector3 dashEasing = new Vector3(
-                Easing.QuadEaseOut(dashCounter, dashBegin.x, dashDelta.x, dashDuration),
-                Easing.QuadEaseOut(dashCounter, dashBegin.y, dashDelta.y, dashDuration),
-                Easing.QuadEaseOut(dashCounter, dashBegin.z, dashDelta.z, dashDuration));
-
-            //playerAgent.Warp(new Vector3(dashEasing.x, playerTransform.position.y, dashEasing.z));
-            playerAgent.Warp(dashEasing);
-
-            //Debug.Log("dashEasing" + dashEasing);
-            //Debug.Log("dashDirection" + dashDirection);
+            
+            SetRotation();
         }
         else
         {
-            moveStates = MoveStates.Idle;
+            //SetDestination(playerTransform.position);
+
+            dashCounter = 0;
+            playerAgent.speed = agentSpeed;
+
             isDashing = false;
 
             StartCoroutine(DashCD());
@@ -157,29 +152,70 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if(dashAvailable)
         {
-            dashCounter = 0;
-
             isDashing = true;
             dashAvailable = false;
 
-            /*
-            NavMeshPath path = new NavMeshPath();
-            playerAgent.CalculatePath(direction, path);
+            Vector3 rayDirection = direction - playerTransform.position;
+            Ray ray = new Ray(playerTransform.position + new Vector3(0, 1, 0), rayDirection);
+            RaycastHit hit;
 
-            dashDirection =  path.corners[0];
-            */
-            
-            dashDirection = direction - playerTransform.position;
+            LayerMask layerMask = new LayerMask();
+            layerMask |= LayerMask.NameToLayer("Ground");
+            layerMask |= LayerMask.NameToLayer("Enemy");
 
-            desiredRotation = Quaternion.LookRotation(dashDirection);
-            playerTransform.rotation = Quaternion.Euler(0, desiredRotation.eulerAngles.y, 0);
+            if(Physics.Raycast(ray, out hit, dashDistance, layerMask, QueryTriggerInteraction.Ignore))
+            {
+                Vector3 hitPosition = hit.point;
+                NavMeshHit navHit;
 
-            Debug.Log("normalized direction" + dashDirection.normalized);
-            
-            dashBegin = playerTransform.position;
-            dashEnd = dashDirection.normalized * dashDistance;
-            dashDelta = dashEnd - dashBegin;
+                if(NavMesh.SamplePosition(hitPosition, out navHit, 1.5f, NavMesh.AllAreas))
+                {
+                    RaycastHit lineHit;
+
+                    if(Physics.Linecast(navHit.position, playerTransform.position + new Vector3(0, 1, 0), out lineHit, layerMask, QueryTriggerInteraction.Ignore))
+                    {
+                        if(lineHit.collider.gameObject.name == GameObject.Find("Player").name)
+                        {
+                            dashDirection = navHit.position;
+                        }
+                    }
+
+                    Debug.DrawLine(ray.origin, navHit.position);
+                }
+
+                Debug.DrawLine(ray.origin, hit.point);
+            }
+            else
+            {
+                NavMeshHit navHit;
+
+                if(NavMesh.SamplePosition(ray.GetPoint(dashDistance), out navHit, 1.5f, NavMesh.AllAreas))
+                {
+                    RaycastHit lineHit;
+
+                    if(Physics.Linecast(navHit.position, playerTransform.position + new Vector3(0, 1, 0), out lineHit, layerMask, QueryTriggerInteraction.Ignore))
+                    {
+                        if (lineHit.collider.gameObject.name == GameObject.Find("Player").name)
+                        {
+                            dashDirection = navHit.position;
+                        }
+                    }
+                    Debug.DrawLine(ray.origin, navHit.position);
+                }
+            }
+
+            playerAgent.speed *= dashImpulse;
+            playerAgent.isStopped = false;
+            playerAgent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+
+            if(Vector3.Distance(playerTransform.position, dashDirection) <= dashDistance)
+            {
+                playerAgent.SetDestination(dashDirection);
+
+                Debug.Log("heey");
+            }
         }
+        else return;
     }
 
     public void SetDestination (Vector3 destination)
@@ -191,6 +227,12 @@ public class CharacterBehaviour : MonoBehaviour {
     void SetRotation()
     {
         playerTransform.LookAt(playerAgent.steeringTarget);
+    }
+
+    public void SetSteeringTarget (Vector3 targetPos)
+    {
+        //navAgent.steeringTarget;
+        
     }
 
     /*
