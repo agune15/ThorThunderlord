@@ -5,12 +5,14 @@ using UnityEngine.AI;
 
 public class CameraRaycaster : MonoBehaviour {
 
-    //NECESITO HACER RAYCAST DE LA POSICION DEL MOUSE Y DETECTAR LA LAYER.
-    //POSICION DEL MOUSE A POSICION DEL MUNDO
+    public enum RayPorpuse { Move, Dash }
+    [HideInInspector] public RayPorpuse rayPorpuse;
 
     Camera playerCamera;
-    public LayerMask layerMask;
+    public LayerMask moveLayerMask;
+    public LayerMask dashLayerMask;
     float maxDistance = 100f;
+    float maxRadius = 20f;
 
     CharacterBehaviour playerBehaviour;
     Vector3 destination;
@@ -18,6 +20,8 @@ public class CameraRaycaster : MonoBehaviour {
 
     bool enemyWasHit = false;
     Transform enemyTransform = null;
+
+    Vector3 navMeshHitOrigin;
 
 	void Start () {
         playerBehaviour = GameObject.Find("Player").GetComponent<CharacterBehaviour>();
@@ -28,8 +32,21 @@ public class CameraRaycaster : MonoBehaviour {
 
     private void Update()
     {
+        switch(rayPorpuse)
+        {
+            case RayPorpuse.Move:
+                MoveUpdate();
+                break;
+            case RayPorpuse.Dash:
+                break;
+            default:
+                break;
+        }
+    }
 
-        if (enemyWasHit)
+    void MoveUpdate ()
+    {
+        if(enemyWasHit)
         {
             if(destination != enemyTransform.position)
             {
@@ -47,14 +64,39 @@ public class CameraRaycaster : MonoBehaviour {
         }
     }
 
-    public void CastRay()
+    void DashUpdate ()
+    {
+        destination = hitPosition;
+        playerBehaviour.Dash(destination);
+    }
+
+    public void CastRay (RayPorpuse rayInput)
+    {
+        rayPorpuse = rayInput;
+
+        switch(rayPorpuse)
+        {
+            case RayPorpuse.Move:
+                MoveRayInput();
+                break;
+            case RayPorpuse.Dash:
+                DashRayInput();
+                break;
+            default:
+                break;
+        }
+    }
+
+    #region Ray Inputs
+
+    void MoveRayInput ()
     {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
-        if(Physics.Raycast(ray, out hit, maxDistance, layerMask, QueryTriggerInteraction.Ignore))  //, maxDistance, layerMask, QueryTriggerInteraction.Ignore
+        if(Physics.Raycast(ray, out hit, maxDistance, moveLayerMask, QueryTriggerInteraction.Ignore))
         {
-            if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 Debug.Log(hit.transform.name);
 
@@ -62,7 +104,7 @@ public class CameraRaycaster : MonoBehaviour {
                 enemyTransform = hit.transform;
                 hitPosition = Vector3.zero;
             }
-            else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            else if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
                 Debug.Log(hit.transform.name);
 
@@ -70,32 +112,60 @@ public class CameraRaycaster : MonoBehaviour {
                 hitPosition = hit.point;
                 enemyTransform = null;
             }
-            else
-            {
-                enemyWasHit = false;
-                enemyTransform = null;
-            }
-            /*
-            else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("RayArea"))
-            {
-                enemyWasHit = false;
-                enemyTransform = null;
 
-                NavMeshHit navHit;
-                if(NavMesh.SamplePosition(hit.point, out navHit, 1.0f, NavMesh.AllAreas))
-                {
-                    hitPosition = navHit.position;
-                }     
-            }*/
+            Debug.DrawRay(ray.origin, ray.direction, Color.red);
         }
         else
         {
-            enemyWasHit = false;
-            enemyTransform = null;
+            Vector3 rayPoint = ray.GetPoint(maxDistance / 5);
+            NavMeshHit navHit;
 
-            Vector3 mouseScreenToWorld = playerCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, playerCamera.nearClipPlane));
+            navMeshHitOrigin = rayPoint;
 
-            //hitPosition = Hold Tight Asznee
+            if(NavMesh.SamplePosition(rayPoint, out navHit, maxRadius, NavMesh.AllAreas))
+            {
+                enemyWasHit = false;
+                enemyTransform = null;
+                hitPosition = navHit.position;
+            }
         }
     }
+
+    void DashRayInput ()
+    {
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if(Physics.Raycast(ray, out hit, maxDistance, moveLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                Debug.Log(hit.transform.name);
+
+                enemyWasHit = false;
+                hitPosition = hit.point;
+                enemyTransform = null;
+            }
+
+            Debug.DrawRay(ray.origin, ray.direction, Color.red);
+        }
+        else
+        {
+            Vector3 rayPoint = ray.GetPoint(maxDistance / 5);
+            NavMeshHit navHit;
+
+            navMeshHitOrigin = rayPoint;
+
+            if(NavMesh.SamplePosition(rayPoint, out navHit, maxRadius, NavMesh.AllAreas))
+            {
+                enemyWasHit = false;
+                enemyTransform = null;
+                hitPosition = navHit.position;
+            }
+        }
+
+        DashUpdate();
+    }
+
+    #endregion
 }
