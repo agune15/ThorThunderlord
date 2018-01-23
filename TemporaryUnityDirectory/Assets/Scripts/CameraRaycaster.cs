@@ -38,11 +38,14 @@ public class CameraRaycaster : MonoBehaviour {
                 MoveUpdate();
                 break;
             case RayPorpuse.Dash:
+                DashUpdate();
                 break;
             default:
                 break;
         }
     }
+
+    #region Ray Updates
 
     void MoveUpdate ()
     {
@@ -69,6 +72,8 @@ public class CameraRaycaster : MonoBehaviour {
         destination = hitPosition;
         playerBehaviour.Dash(destination);
     }
+
+    #endregion
 
     public void CastRay (RayPorpuse rayInput)
     {
@@ -98,22 +103,16 @@ public class CameraRaycaster : MonoBehaviour {
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                Debug.Log(hit.transform.name);
-
                 enemyWasHit = true;
                 enemyTransform = hit.transform;
                 hitPosition = Vector3.zero;
             }
             else if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                Debug.Log(hit.transform.name);
-
                 enemyWasHit = false;
                 hitPosition = hit.point;
                 enemyTransform = null;
             }
-
-            Debug.DrawRay(ray.origin, ray.direction, Color.red);
         }
         else
         {
@@ -133,6 +132,10 @@ public class CameraRaycaster : MonoBehaviour {
 
     void DashRayInput ()
     {
+        if(!playerBehaviour.dashAvailable) return;
+
+        Debug.Log("dash Ray!!");
+
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
@@ -140,14 +143,10 @@ public class CameraRaycaster : MonoBehaviour {
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
-                Debug.Log(hit.transform.name);
-
                 enemyWasHit = false;
                 hitPosition = hit.point;
                 enemyTransform = null;
             }
-
-            Debug.DrawRay(ray.origin, ray.direction, Color.red);
         }
         else
         {
@@ -164,7 +163,7 @@ public class CameraRaycaster : MonoBehaviour {
             }
         }
 
-        DashUpdate();
+        //DashUpdate();
     }
 
     #endregion
