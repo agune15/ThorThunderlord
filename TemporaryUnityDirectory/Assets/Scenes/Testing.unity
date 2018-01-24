@@ -561,10 +561,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1973f97910834d14c8d12d6947fde65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashAvailable: 1
   dashDuration: 1
   dashCooldown: 2
-  dashDistance: 5
   dashImpulse: 4
+  dashDistance: 5
 --- !u!195 &1253981764
 NavMeshAgent:
   m_ObjectHideFlags: 0

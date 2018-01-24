@@ -19,8 +19,13 @@ public class CameraBehaviour : MonoBehaviour {
     float wheelAxis = 0;
     float zoomSpeed = 4;
 
+    float zoomAddition = 0.64f;
+
     float zoomMinLimit = 0.8f;
     float zoomMaxLimit = 0;
+
+    Vector3 minOffset;
+    Vector3 maxOffset;
 
     float wheelAxisStorage = 0;
 
@@ -36,6 +41,9 @@ public class CameraBehaviour : MonoBehaviour {
         relativePos = playerTransform.position + offsetPos;
 
         playerCanMove = false;
+
+        minOffset = offsetPos + new Vector3(0, -zoomAddition * 8, zoomAddition * 8 * 0.75f);
+        maxOffset = offsetPos;
     }
 
     private void LateUpdate()
@@ -73,18 +81,29 @@ public class CameraBehaviour : MonoBehaviour {
 
             //Camera Zoom
             wheelAxisStorage += wheelAxis;
+            Debug.Log(wheelAxisStorage);
             
             if (wheelAxisStorage <= zoomMinLimit && wheelAxisStorage >= zoomMaxLimit)
             {
-                offsetPos.z += wheelAxis * zoomSpeed * 75 * Time.deltaTime;
-                offsetPos.y -= wheelAxis * zoomSpeed * 100 * Time.deltaTime;
+                offsetPos.y -= wheelAxis * 10 * zoomAddition;
+                offsetPos.z += wheelAxis * 10 * zoomAddition * 0.75f;
             }
             else if (wheelAxisStorage >= zoomMinLimit)
             {
+                if (offsetPos.y < minOffset.y || offsetPos.z > minOffset.z)
+                {
+                    offsetPos = minOffset;
+                }
+
                 wheelAxisStorage = zoomMinLimit;
             }
             else if (wheelAxisStorage <= zoomMaxLimit)
             {
+                if(offsetPos.y > maxOffset.y || offsetPos.z > maxOffset.z)
+                {
+                    offsetPos = maxOffset;
+                }
+
                 wheelAxisStorage = zoomMaxLimit;
             }
         }

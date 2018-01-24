@@ -141,8 +141,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
             isDashing = true;
             dashAvailable = false;
-        
-            moveStates = MoveStates.Move;
 
             NavMeshPath path = new NavMeshPath();
 
@@ -150,7 +148,7 @@ public class CharacterBehaviour : MonoBehaviour {
             {
                 dashEnd = path.corners[1];
 
-                SetDestination(dashEnd);
+                playerAgent.SetDestination(dashEnd);
             }
 
             dashRemainingDistance = playerAgent.remainingDistance - dashDistance;
