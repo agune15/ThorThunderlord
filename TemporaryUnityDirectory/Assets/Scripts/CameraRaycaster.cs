@@ -30,51 +30,6 @@ public class CameraRaycaster : MonoBehaviour {
         destination = playerBehaviour.gameObject.transform.position;
 	}
 
-    private void Update()
-    {
-        switch(rayPorpuse)
-        {
-            case RayPorpuse.Move:
-                MoveUpdate();
-                break;
-            case RayPorpuse.Dash:
-                DashUpdate();
-                break;
-            default:
-                break;
-        }
-    }
-
-    #region Ray Updates
-
-    void MoveUpdate ()
-    {
-        if(enemyWasHit)
-        {
-            if(destination != enemyTransform.position)
-            {
-                destination = enemyTransform.position;
-                playerBehaviour.SetDestination(destination);
-            }
-        }
-        else
-        {
-            if(destination != hitPosition)
-            {
-                destination = hitPosition;
-                playerBehaviour.SetDestination(destination);
-            }
-        }
-    }
-
-    void DashUpdate ()
-    {
-        destination = hitPosition;
-        playerBehaviour.Dash(destination);
-    }
-
-    #endregion
-
     public void CastRay (RayPorpuse rayInput)
     {
         rayPorpuse = rayInput;
@@ -128,13 +83,13 @@ public class CameraRaycaster : MonoBehaviour {
                 hitPosition = navHit.position;
             }
         }
+
+        MoveUpdate();
     }
 
     void DashRayInput ()
     {
         if(!playerBehaviour.dashAvailable) return;
-
-        Debug.Log("dash Ray!!");
 
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
@@ -163,7 +118,37 @@ public class CameraRaycaster : MonoBehaviour {
             }
         }
 
-        //DashUpdate();
+        DashUpdate();
+    }
+
+    #endregion
+
+    #region Ray Updates
+
+    void MoveUpdate()
+    {
+        if(enemyWasHit)
+        {
+            if(destination != enemyTransform.position)
+            {
+                destination = enemyTransform.position;
+                playerBehaviour.SetDestination(destination);
+            }
+        }
+        else
+        {
+            if(destination != hitPosition)
+            {
+                destination = hitPosition;
+                playerBehaviour.SetDestination(destination);
+            }
+        }
+    }
+
+    void DashUpdate()
+    {
+        destination = hitPosition;
+        playerBehaviour.Dash(destination);
     }
 
     #endregion

@@ -15,7 +15,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     float agentSpeed;
 
-    [Header("Dash parameters")]
+    [Header("Dash Parameters")]
     bool isDashing = false;
     public bool dashAvailable = true;
     
@@ -27,6 +27,23 @@ public class CharacterBehaviour : MonoBehaviour {
     float dashRemainingDistance;
     public float dashDistance;
 
+    [Header("Slowing Area parameters")]
+    public List<Transform> enemyTransformList = new List<Transform>();
+    public LayerMask slowAreaLayers;
+
+    Vector3 slowAreaOrigin;
+
+    bool isSlowingArea = false;
+    bool slowAreaAvailable = true;
+
+    public float slowAreaRange;
+    public float slowAreaDuration;
+    public float slowAreaCD;
+
+    float slowAreaCount = 0;
+    float slowAreaCurrentRange;
+
+   
 
     private void Start()
     {
@@ -54,15 +71,17 @@ public class CharacterBehaviour : MonoBehaviour {
                 break;
         }
 
-        //Debug.Log("Player state: " + moveStates);
-        //Debug.Log("Distance from target: " + playerAgent.remainingDistance);
-
+        //Rotation Update
         if (!playerAgent.isStopped)
         {
             SetRotation();
         }
 
-        Debug.Log(playerAgent.remainingDistance);
+        //Slow Area Update
+        if (isSlowingArea)
+        {
+            SlowAreaUpdate();
+        }
     }
 
     #region State Updates
@@ -99,8 +118,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
         if (playerAgent.remainingDistance <= 0)
         {
-            SetIdle();
             DisableDash();
+            SetIdle();
         }
     }
 
@@ -113,7 +132,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
-    #region State Sets
+    #region Move State Sets
 
     void SetIdle()
     {
@@ -132,13 +151,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
+    #region Dash behaviour
+
     public void Dash(Vector3 destination)
     {
-        if(!dashAvailable) return;
-        else
+        if(dashAvailable)
         {
-            Debug.Log("daash!");
-
             isDashing = true;
             dashAvailable = false;
 
@@ -162,19 +180,75 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void DisableDash()
     {
+        isDashing = false;
+
         playerAgent.speed = agentSpeed;
         playerAgent.SetDestination(playerTransform.position);
 
-        isDashing = false;
         StartCoroutine(DashCD());
     }
+
+    #endregion
+
+    #region Slow Area behaviour
+
+    public void SlowArea()
+    {
+        if(slowAreaAvailable)
+        {
+            isSlowingArea = true;
+            slowAreaAvailable = false;
+
+            slowAreaCurrentRange = 0;
+            slowAreaCount = 0;
+
+            slowAreaOrigin = playerTransform.position;
+
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")) enemyTransformList.Add(enemy.transform);
+        }
+    }
+
+    void SlowAreaUpdate()
+    {
+        if(slowAreaCount <= slowAreaDuration)
+        {
+            slowAreaCount += Time.deltaTime;
+
+            slowAreaCurrentRange = Easing.QuartEaseInOut(slowAreaCount, 0, slowAreaRange, slowAreaDuration);
+
+            if (slowAreaCount >= slowAreaDuration)
+            {
+                slowAreaCurrentRange = slowAreaRange;
+            }
+        }
+        else
+        {
+            isSlowingArea = false;
+
+            enemyTransformList.Clear();
+
+            StartCoroutine(SlowAreaCD());
+        }
+
+        foreach(Transform enemy in enemyTransformList)
+        {
+            if(Vector3.Distance(slowAreaOrigin, enemy.position) < slowAreaCurrentRange)
+            {
+                Debug.Log("eee");
+
+                //Slowear al enemigo y hacerle algo de daño
+            }
+        }
+    }
+
+    #endregion
+
+    #region Sets
 
     public void SetDestination (Vector3 destination)
     {
         if (!isDashing)
         {
-            Debug.Log("heeey ddoug");
-
             targetPos = destination;
             playerAgent.SetDestination(targetPos);
         }
@@ -185,17 +259,33 @@ public class CharacterBehaviour : MonoBehaviour {
         playerTransform.LookAt(playerAgent.steeringTarget);
     }
 
+    #endregion
+
+    #region Others
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        if (playerAgent != null) Gizmos.DrawCube(playerAgent.steeringTarget, new Vector3(0.5f, 0.5f, 0.5f));
+        if(playerAgent != null)
+        {
+            Gizmos.DrawCube(playerAgent.steeringTarget, new Vector3(0.5f, 0.5f, 0.5f));
+            Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaCurrentRange);
+        }
     }
 
-    IEnumerator DashCD ()
+    IEnumerator DashCD()
     {
         yield return new WaitForSeconds(dashCooldown);
         dashAvailable = true;
     }
-    
+
+    IEnumerator SlowAreaCD()
+    {
+        yield return new WaitForSeconds(slowAreaCD);
+        slowAreaAvailable = true;
+    }
+
+    #endregion
+
     //HACER GODMODE CON playerAgent.Warp()!!!
 }

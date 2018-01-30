@@ -374,7 +374,7 @@ GameObject:
   - component: {fileID: 731210973}
   m_Layer: 10
   m_Name: SampleEnemy01
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -566,6 +566,13 @@ MonoBehaviour:
   dashCooldown: 2
   dashImpulse: 4
   dashDistance: 5
+  enemyTransformList: []
+  slowAreaLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  slowAreaRange: 5
+  slowAreaDuration: 1.2
+  slowAreaCD: 2
 --- !u!195 &1253981764
 NavMeshAgent:
   m_ObjectHideFlags: 0

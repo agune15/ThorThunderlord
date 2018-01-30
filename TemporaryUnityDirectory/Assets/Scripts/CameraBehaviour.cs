@@ -81,7 +81,6 @@ public class CameraBehaviour : MonoBehaviour {
 
             //Camera Zoom
             wheelAxisStorage += wheelAxis;
-            Debug.Log(wheelAxisStorage);
             
             if (wheelAxisStorage <= zoomMinLimit && wheelAxisStorage >= zoomMaxLimit)
             {
