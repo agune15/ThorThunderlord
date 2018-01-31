@@ -567,12 +567,12 @@ MonoBehaviour:
   dashImpulse: 4
   dashDistance: 5
   enemyTransformList: []
-  slowAreaLayers:
-    serializedVersion: 2
-    m_Bits: 1024
   slowAreaRange: 5
-  slowAreaDuration: 1.2
+  slowAreaDuration: 3
+  slowAreaDelay: 0.5
+  slowAreaFadeTime: 1.5
   slowAreaCD: 2
+  slowAreaCount: 0
 --- !u!195 &1253981764
 NavMeshAgent:
   m_ObjectHideFlags: 0

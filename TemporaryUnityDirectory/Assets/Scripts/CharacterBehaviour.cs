@@ -5,17 +5,21 @@ using UnityEngine.AI;
 
 public class CharacterBehaviour : MonoBehaviour {
 
-    enum MoveStates { Idle, Move, Dead }
-    MoveStates moveStates = MoveStates.Idle;
-
     Transform playerTransform;
     NavMeshAgent playerAgent;
+
+    //Move parameters
+    enum MoveStates { Idle, Move, Dead }
+    MoveStates moveStates = MoveStates.Idle;
 
     Vector3 targetPos;
 
     float agentSpeed;
 
-    [Header("Dash Parameters")]
+    bool canMove = true;
+
+    //Dash parameters
+    [Header("Dash parameters")]
     bool isDashing = false;
     public bool dashAvailable = true;
     
@@ -27,9 +31,9 @@ public class CharacterBehaviour : MonoBehaviour {
     float dashRemainingDistance;
     public float dashDistance;
 
+    //Slowing Area parameters
     [Header("Slowing Area parameters")]
     public List<Transform> enemyTransformList = new List<Transform>();
-    public LayerMask slowAreaLayers;
 
     Vector3 slowAreaOrigin;
 
@@ -38,10 +42,11 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public float slowAreaRange;
     public float slowAreaDuration;
+    public float slowAreaDelay;
+    public float slowAreaFadeTime;
     public float slowAreaCD;
 
-    float slowAreaCount = 0;
-    float slowAreaCurrentRange;
+    [SerializeField] float slowAreaCount = 0;
 
    
 
@@ -51,6 +56,8 @@ public class CharacterBehaviour : MonoBehaviour {
         playerAgent = this.GetComponent<NavMeshAgent>();
 
         agentSpeed = playerAgent.speed;
+
+        slowAreaFadeTime += slowAreaDuration;
     }
 
     private void Update()
@@ -159,6 +166,7 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             isDashing = true;
             dashAvailable = false;
+            canMove = false;
 
             NavMeshPath path = new NavMeshPath();
 
@@ -181,6 +189,7 @@ public class CharacterBehaviour : MonoBehaviour {
     void DisableDash()
     {
         isDashing = false;
+        canMove = true;
 
         playerAgent.speed = agentSpeed;
         playerAgent.SetDestination(playerTransform.position);
@@ -194,45 +203,67 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void SlowArea()
     {
-        if(slowAreaAvailable)
+        if(slowAreaAvailable && !isDashing)
         {
             isSlowingArea = true;
             slowAreaAvailable = false;
-
-            slowAreaCurrentRange = 0;
+            
             slowAreaCount = 0;
 
             slowAreaOrigin = playerTransform.position;
 
-            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")) enemyTransformList.Add(enemy.transform);
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange * 6)
+                {
+                    enemyTransformList.Add(enemy.transform);
+                }
+            }
         }
     }
 
     void SlowAreaUpdate()
     {
-        if(slowAreaCount <= slowAreaDuration)
+        if(slowAreaDelay > 0)
         {
-            slowAreaCount += Time.deltaTime;
-
-            slowAreaCurrentRange = Easing.QuartEaseInOut(slowAreaCount, 0, slowAreaRange, slowAreaDuration);
-
-            if (slowAreaCount >= slowAreaDuration)
-            {
-                slowAreaCurrentRange = slowAreaRange;
-            }
+            slowAreaDelay -= Time.deltaTime;
+            playerAgent.isStopped = true;
+            canMove = false;
+            return;
         }
         else
         {
-            isSlowingArea = false;
+            playerAgent.isStopped = false;
+            canMove = true;
+        }
 
-            enemyTransformList.Clear();
+        if(slowAreaCount <= slowAreaDuration)
+        {
+            slowAreaCount += Time.deltaTime;
+        }
+        else
+        {
+            if (slowAreaCount <= slowAreaFadeTime)
+            {
+                slowAreaCount += Time.deltaTime;
 
-            StartCoroutine(SlowAreaCD());
+                //easing desvanecimiento del area (shader)
+
+            }
+            else
+            {
+                //alpha del shader a 0
+                isSlowingArea = false;
+
+                enemyTransformList.Clear();
+
+                StartCoroutine(SlowAreaCD());
+            }
         }
 
         foreach(Transform enemy in enemyTransformList)
         {
-            if(Vector3.Distance(slowAreaOrigin, enemy.position) < slowAreaCurrentRange)
+            if(Vector3.Distance(slowAreaOrigin, enemy.position) < slowAreaRange)
             {
                 Debug.Log("eee");
 
@@ -247,7 +278,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void SetDestination (Vector3 destination)
     {
-        if (!isDashing)
+        if (canMove)
         {
             targetPos = destination;
             playerAgent.SetDestination(targetPos);
@@ -269,7 +300,7 @@ public class CharacterBehaviour : MonoBehaviour {
         if(playerAgent != null)
         {
             Gizmos.DrawCube(playerAgent.steeringTarget, new Vector3(0.5f, 0.5f, 0.5f));
-            Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaCurrentRange);
+            if (isSlowingArea && slowAreaDelay < 0) Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaRange);
         }
     }
 
