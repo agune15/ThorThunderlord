@@ -7,19 +7,24 @@ public class CharacterBehaviour : MonoBehaviour {
 
     Transform playerTransform;
     NavMeshAgent playerAgent;
-    CameraRaycaster cameraRaycaster;
     HammerBehaviour hammerBehaviour;
-    public Animator thorAnimator;
+    Animator thorAnimator;
 
     //Move parameters
     enum MoveStates { Idle, Move, Dead }
     MoveStates moveStates = MoveStates.Idle;
+
+    enum RotationTypes { Move, Dash, Throw }
+    RotationTypes rotationType = RotationTypes.Move;
 
     Vector3 targetPos;
 
     float agentSpeed;
 
     bool canMove = true;
+
+    //Animation related
+    [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
 
     //Dash parameters
     [Header("Dash parameters")]
@@ -53,10 +58,13 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //Hammer Throw parameters
     [Header("Hammer Throw parameters")]
-    public bool throwAvailable = true;
+
+
     bool isThrowing = false;
+    public bool throwAvailable = true;
 
     Vector3 throwDestination;
+    Vector3 throwTurnOrigin;
 
     public float throwCD;
     public float throwDistance;
@@ -65,22 +73,20 @@ public class CharacterBehaviour : MonoBehaviour {
     public float throwTurnTime;
     float yRotationBeforeTurn;
 
-    public List<AnimationClip> animationClips = new List<AnimationClip>();
-
-    //public AnimationClip[] animationClips;
 
     private void Start()
     {
         playerTransform = this.GetComponent<Transform>();
         playerAgent = this.GetComponent<NavMeshAgent>();
         hammerBehaviour = this.GetComponentInChildren<HammerBehaviour>();
-        //thorAnimator = this.GetComponentInChildren<Animator>();
-        thorAnimator = this.GetComponent<Animator>();
+        thorAnimator = this.GetComponentInChildren<Animator>();
 
-        animationClips.AddRange(thorAnimator.runtimeAnimatorController.animationClips);
-        //int thorThrowHammerAIndex = animationClips.IndexOf(animationClips.)
-        //animationClips[
-        //throwDuration = 
+        foreach (AnimationClip animation in thorAnimator.runtimeAnimatorController.animationClips)
+        {
+            animationsList.Add(new AnimationClipName(animation.name, animation));
+
+            //if(animation.name == "Attack_E_edited") throwDuration = animation.length;
+        }
 
         agentSpeed = playerAgent.speed;
 
@@ -105,9 +111,6 @@ public class CharacterBehaviour : MonoBehaviour {
                 break;
         }
 
-        //Rotation Update
-        SetRotation();
-
         //Slow Area Update
         if (isSlowingArea)
         {
@@ -122,9 +125,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
         //Animations
         thorAnimator.SetBool("isThrowing", isThrowing);
-
-        Debug.Log("canMove: " + canMove);
-        Debug.Log("isStopped: " + playerAgent.isStopped);
     }
 
     #region State Updates
@@ -144,6 +144,8 @@ public class CharacterBehaviour : MonoBehaviour {
     void MoveUpdate()
     {
         playerAgent.isStopped = false;
+
+        if (!isThrowing && !isDashing) SetRotation(RotationTypes.Move);
 
         //play moving animation
 
@@ -216,9 +218,9 @@ public class CharacterBehaviour : MonoBehaviour {
             dashRemainingDistance = playerAgent.remainingDistance - dashDistance;
             if(dashRemainingDistance < dashDistance) dashRemainingDistance = dashDistance;
 
-            SetRotation();
-
             playerAgent.speed *= dashImpulse;
+
+            SetRotation(RotationTypes.Dash);
         }
     }
 
@@ -318,17 +320,16 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             isThrowing = true;
             throwAvailable = false;
-            
+
             Vector3 throwDirection = destination - transform.position;
 
             Vector3 desiredDestination = transform.position + (throwDirection.normalized * throwDistance);
             throwDestination = desiredDestination;
 
+            throwTurnOrigin = transform.position + (transform.forward * throwDistance);
+
             throwTime = 0;
             yRotationBeforeTurn = playerTransform.rotation.eulerAngles.y;
-
-            //playerTransform.LookAt(throwDestination);
-            hammerBehaviour.ThrowHammer(throwDestination);
         }
     }
 
@@ -337,15 +338,8 @@ public class CharacterBehaviour : MonoBehaviour {
         if (throwTime < throwDuration)
         {
             throwTime += Time.deltaTime;
-            float playerYAngle = Mathf.Atan2(throwDestination.x, throwDestination.z) * Mathf.Rad2Deg;
-            Debug.Log("playerYAngle: " + playerYAngle);
-            //playerTransform.rotation = Quaternion.Lerp(playerTransform.rotation, Quaternion.Euler(0, playerYAngle, 0), throwTurnSpeed * Time.deltaTime);
 
-            //if(throwTime <= 0.2f) playerTransform.rotation = Quaternion.Euler(0, Easing.QuadEaseInOut(throwTime, yRotationBeforeTurn, playerYAngle, 0.2f), 0);
-
-            SetRotation();
-
-            //playerTransform.rotation = (throwTime <= throwTurnTime) ? Quaternion.Euler(0, Easing.QuadEaseInOut(throwTime, yRotationBeforeTurn, yRotationBeforeTurn - playerYAngle, throwTurnTime), 0) : Quaternion.Euler(0, playerYAngle, 0);
+            SetRotation(RotationTypes.Throw);
 
             playerAgent.isStopped = true;
             canMove = false;
@@ -361,13 +355,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
     }
 
-    /*
     public Vector3 HammerDestination ()
     {
-        //Vector3 hammerDestination =
-
-        return hammerDestination;
-    }*/
+        return throwDestination;
+    }
 
     #endregion
 
@@ -382,16 +373,55 @@ public class CharacterBehaviour : MonoBehaviour {
         }
     }
 
-    void SetRotation()
+    void SetRotation(RotationTypes rotationInput)
     {
-        if(!playerAgent.isStopped && canMove)
+        rotationType = rotationInput;
+
+        Debug.Log("rotationType: " + rotationType);
+
+        switch(rotationType)
         {
-            playerTransform.LookAt(playerAgent.steeringTarget);
-            return;
+            case RotationTypes.Move:
+                MoveRotation();
+                break;
+            case RotationTypes.Dash:
+                DashRotation();
+                break;
+            case RotationTypes.Throw:
+                ThrowRotation();
+                break;
+            default:
+                break;
         }
-        else if(isDashing) playerTransform.LookAt(playerAgent.steeringTarget);
-        else if (isThrowing) playerTransform.LookAt(throwDestination);
+
+        playerTransform.rotation = Quaternion.Euler(0, playerTransform.rotation.eulerAngles.y, 0);
     }
+
+    #region Rotation types
+
+    void MoveRotation()
+    {
+        playerTransform.LookAt(playerAgent.steeringTarget);
+    }
+
+    void DashRotation()
+    {
+        playerTransform.LookAt(dashEnd);
+    }
+
+    void ThrowRotation()
+    {
+        Vector3 throwTurnDestination = throwDestination - throwTurnOrigin;
+
+        Vector3 throwLookAt = (throwTime <= throwTurnTime) ? new Vector3(Easing.CubicEaseOut(throwTime, throwTurnOrigin.x, throwTurnDestination.x, throwTurnTime),
+                                                            Easing.CubicEaseOut(throwTime, throwTurnOrigin.y, throwTurnDestination.y, throwTurnTime),
+                                                            Easing.CubicEaseOut(throwTime, throwTurnOrigin.z, throwTurnDestination.z, throwTurnTime))
+                                                            : throwDestination;
+
+        playerTransform.LookAt(throwLookAt);
+    }
+
+    #endregion
 
     #endregion
 
@@ -428,4 +458,16 @@ public class CharacterBehaviour : MonoBehaviour {
     #endregion
 
     //HACER GODMODE CON playerAgent.Warp()!!!
+}
+
+public class AnimationClipName : MonoBehaviour
+{
+    public string animationName;
+    public AnimationClip animationClip;
+
+    public AnimationClipName(string name, AnimationClip clip)
+    {
+        animationName = name;
+        animationClip = clip;
+    }
 }

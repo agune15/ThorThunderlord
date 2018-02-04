@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class HammerBehaviour : MonoBehaviour {
 
-    public GameObject parentBone;
+    [SerializeField] GameObject parentBone;
+    [SerializeField] CharacterBehaviour playerBehaviour;
+    [SerializeField] Transform hammerTransform;
+
 
     Vector3 currentPosition;
     [SerializeField] Vector3 startPosition;
@@ -20,27 +23,31 @@ public class HammerBehaviour : MonoBehaviour {
 
     private void Start()
     {
+        playerBehaviour = this.GetComponentInParent<CharacterBehaviour>();
+
+        hammerTransform = GameObject.Find("J_Axe").GetComponent<Transform>();
+
         parentBone = GameObject.Find("CC_Hammer");
-        transform.parent = parentBone.transform;
+        hammerTransform.parent = parentBone.transform;
     }
 
     private void Update ()
     {
         if(!isThrowing)
         {
-            if (transform.localPosition != Vector3.zero) transform.localPosition = Vector3.zero;
-            if(transform.rotation.eulerAngles != Vector3.zero) transform.localRotation = Quaternion.Euler(Vector3.zero);
+            if (hammerTransform.localPosition != Vector3.zero) hammerTransform.localPosition = Vector3.zero;
+            if(hammerTransform.rotation.eulerAngles != Vector3.zero) hammerTransform.localRotation = Quaternion.Euler(Vector3.zero);
             return;
         }
         else
         {
             TimeUpdate();
 
-            currentPosition = new Vector3(Easing.QuadEaseOut(currentTime, startPosition.x, deltaPosition.x, durationTime),
-                Easing.QuadEaseOut(currentTime, startPosition.y, deltaPosition.y, durationTime),
-                Easing.QuadEaseOut(currentTime, startPosition.z, deltaPosition.z, durationTime));
+            currentPosition = new Vector3(Easing.QuartEaseOut(currentTime, startPosition.x, deltaPosition.x, durationTime),
+                Easing.QuartEaseOut(currentTime, startPosition.y, deltaPosition.y, durationTime),
+                Easing.QuartEaseOut(currentTime, startPosition.z, deltaPosition.z, durationTime));
 
-            transform.position = currentPosition;
+            hammerTransform.position = currentPosition;
 
             //Debug.Log("currentPosition" + currentPosition);
         }
@@ -68,6 +75,7 @@ public class HammerBehaviour : MonoBehaviour {
 
             if(currentTime <= 0)
             {
+                currentTime = 0;
                 comeBack = false;
                 isThrowing = false;
                 HammerIsBack();
@@ -75,13 +83,15 @@ public class HammerBehaviour : MonoBehaviour {
         }
     }
 
-    public void ThrowHammer(Vector3 direction)
+    void ThrowHammer()
     {
-        transform.rotation = parentBone.transform.rotation;
-        transform.parent = null;
+        Vector3 direction = playerBehaviour.HammerDestination();
+
+        hammerTransform.rotation = parentBone.transform.rotation;
+        hammerTransform.parent = null;
 
         startPosition = parentBone.transform.position;
-        endPosition = new Vector3(direction.x, transform.position.y, direction.z);
+        endPosition = new Vector3(direction.x, hammerTransform.position.y, direction.z);
 
         deltaPosition = endPosition - startPosition;
         currentTime = 0;
@@ -93,8 +103,8 @@ public class HammerBehaviour : MonoBehaviour {
     void HammerIsBack()
     {
         isThrowing = false;
-        transform.parent = parentBone.transform;
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
+        hammerTransform.parent = parentBone.transform;
+        hammerTransform.localPosition = Vector3.zero;
+        hammerTransform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 }

@@ -30,6 +30,15 @@ public class CameraRaycaster : MonoBehaviour {
         destination = playerBehaviour.gameObject.transform.position;
 	}
 
+    private void Update()
+    {
+        if (rayPorpuse == RayPorpuse.Move && enemyWasHit && destination != enemyTransform.position)
+        {
+            destination = enemyTransform.position;
+            playerBehaviour.SetDestination(destination);
+        }
+    }
+
     public void CastRay (RayPorpuse rayInput)
     {
         rayPorpuse = rayInput;
