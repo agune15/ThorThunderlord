@@ -66,6 +66,7 @@ public class InputManager : MonoBehaviour {
             if(Input.GetButtonDown("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
             if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
             if(Input.GetButtonDown("SlowArea")) playerBehaviour.SlowArea();
+            if(Input.GetButtonDown("ThrowHammer")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.ThrowHammer);
         }
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class CameraRaycaster : MonoBehaviour {
 
-    public enum RayPorpuse { Move, Dash }
+    public enum RayPorpuse { Move, Dash, ThrowHammer }
     [HideInInspector] public RayPorpuse rayPorpuse;
 
     Camera playerCamera;
@@ -41,6 +41,9 @@ public class CameraRaycaster : MonoBehaviour {
                 break;
             case RayPorpuse.Dash:
                 DashRayInput();
+                break;
+            case RayPorpuse.ThrowHammer:
+                HammerThrowInput();
                 break;
             default:
                 break;
@@ -121,6 +124,40 @@ public class CameraRaycaster : MonoBehaviour {
         DashUpdate();
     }
 
+    void HammerThrowInput()
+    {
+        if(!playerBehaviour.throwAvailable) return;
+
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if(Physics.Raycast(ray, out hit, maxDistance, moveLayerMask, QueryTriggerInteraction.Ignore))
+        {
+            if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                enemyWasHit = false;
+                hitPosition = hit.point;
+                enemyTransform = null;
+            }
+        }
+        else
+        {
+            Vector3 rayPoint = ray.GetPoint(maxDistance / 5);
+            NavMeshHit navHit;
+
+            navMeshHitOrigin = rayPoint;
+
+            if(NavMesh.SamplePosition(rayPoint, out navHit, maxRadius, NavMesh.AllAreas))
+            {
+                enemyWasHit = false;
+                enemyTransform = null;
+                hitPosition = navHit.position;
+            }
+        }
+
+        ThrowHammerUpdate();
+    }
+
     #endregion
 
     #region Ray Updates
@@ -149,6 +186,12 @@ public class CameraRaycaster : MonoBehaviour {
     {
         destination = hitPosition;
         playerBehaviour.Dash(destination);
+    }
+
+    void ThrowHammerUpdate()
+    {
+        destination = hitPosition;
+        playerBehaviour.ThrowHammer(destination);
     }
 
     #endregion
