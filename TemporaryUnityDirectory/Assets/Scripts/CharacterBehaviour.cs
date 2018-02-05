@@ -30,7 +30,7 @@ public class CharacterBehaviour : MonoBehaviour {
     [Header("Dash parameters")]
     bool isDashing = false;
     public bool dashAvailable = true;
-    
+
     Vector3 dashEnd;
 
     public float dashDuration;
@@ -126,7 +126,6 @@ public class CharacterBehaviour : MonoBehaviour {
         //Animations
         thorAnimator.SetBool("isThrowing", isThrowing);
     }
-
     #region State Updates
 
     void IdleUpdate()
