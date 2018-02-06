@@ -1453,6 +1453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationsList: []
+  attackRange: 1.8
   dashAvailable: 1
   dashDuration: 1
   dashCooldown: 2

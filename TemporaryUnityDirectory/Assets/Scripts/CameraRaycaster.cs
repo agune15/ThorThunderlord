@@ -179,6 +179,8 @@ public class CameraRaycaster : MonoBehaviour {
             {
                 destination = enemyTransform.position;
                 playerBehaviour.SetDestination(destination);
+
+                playerBehaviour.SetEnemyTransform(enemyTransform, enemyWasHit);
             }
         }
         else
@@ -187,6 +189,8 @@ public class CameraRaycaster : MonoBehaviour {
             {
                 destination = hitPosition;
                 playerBehaviour.SetDestination(destination);
+
+                playerBehaviour.SetEnemyTransform(null, enemyWasHit);
             }
         }
     }

@@ -26,6 +26,15 @@ public class CharacterBehaviour : MonoBehaviour {
     //Animation related
     [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
 
+    //Basic Attack parameters
+    [Header("Basic Attack parameters")]
+    bool isAttacking = false;
+    bool attack = false;
+
+    public float attackRange;
+
+    Transform enemyTargetTransform;
+
     //Dash parameters
     [Header("Dash parameters")]
     bool isDashing = false;
@@ -71,7 +80,6 @@ public class CharacterBehaviour : MonoBehaviour {
     float throwTime;
     public float throwDuration;
     public float throwTurnTime;
-    float yRotationBeforeTurn;
 
 
     private void Start()
@@ -96,7 +104,7 @@ public class CharacterBehaviour : MonoBehaviour {
     private void Update()
     {
         //Estaria bien que se usara solo para el movimiento
-        switch(moveStates)
+        switch (moveStates)
         {
             case MoveStates.Idle:
                 IdleUpdate();
@@ -109,6 +117,12 @@ public class CharacterBehaviour : MonoBehaviour {
                 break;
             default:
                 break;
+        }
+
+        //Basic Attack Update
+        if (isAttacking)
+        {
+            BasicAttackUpdate();
         }
 
         //Slow Area Update
@@ -126,6 +140,7 @@ public class CharacterBehaviour : MonoBehaviour {
         //Animations
         thorAnimator.SetBool("isThrowing", isThrowing);
     }
+
     #region State Updates
 
     void IdleUpdate()
@@ -148,7 +163,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
         //play moving animation
 
-        if(!isDashing) playerAgent.SetDestination(targetPos);
+        if (!isDashing) playerAgent.SetDestination(targetPos);
         else
         {
             playerAgent.SetDestination(dashEnd);
@@ -191,6 +206,36 @@ public class CharacterBehaviour : MonoBehaviour {
     void SetDead()
     {
         moveStates = MoveStates.Dead;
+    }
+
+    #endregion
+
+    #region Basic Attack behaviour
+
+    void BasicAttackUpdate()
+    {
+        attack = (Vector3.Distance(playerTransform.position, enemyTargetTransform.position) < attackRange) ? true : false;
+
+            /*attack = true;    Ejecuta animacion hammer
+
+            En el script del hammer
+            Si el trigger del hammer golpea al enemy, lo daña (y se desactiva por si acasao hasta la siguiente ronda de animacion)
+            y desactiva el DamageDeal
+            
+            Animacion con 1 evento
+                1 en el frame 0 que active el DamageDeal al enemigo
+            */
+        
+        if (attack)
+        {
+            canMove = false;
+            playerAgent.isStopped = true;
+        }
+        else
+        {
+            canMove = true;
+            playerAgent.isStopped = false;
+        }
     }
 
     #endregion
@@ -328,7 +373,6 @@ public class CharacterBehaviour : MonoBehaviour {
             throwTurnOrigin = transform.position + (transform.forward * throwDistance);
 
             throwTime = 0;
-            yRotationBeforeTurn = playerTransform.rotation.eulerAngles.y;
         }
     }
 
@@ -376,8 +420,6 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         rotationType = rotationInput;
 
-        Debug.Log("rotationType: " + rotationType);
-
         switch(rotationType)
         {
             case RotationTypes.Move:
@@ -421,6 +463,12 @@ public class CharacterBehaviour : MonoBehaviour {
     }
 
     #endregion
+
+    public void SetEnemyTransform (Transform enemyTransfrom, bool enemyWasHit)
+    {
+        enemyTargetTransform = enemyTransfrom;
+        isAttacking = enemyWasHit;
+    }
 
     #endregion
 

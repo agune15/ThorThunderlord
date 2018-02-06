@@ -17,7 +17,6 @@ public class CameraBehaviour : MonoBehaviour {
     public bool playerCanMove;
 
     float wheelAxis = 0;
-    float zoomSpeed = 4;
 
     float zoomAddition = 0.64f;
 
