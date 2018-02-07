@@ -70,6 +70,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
 
     bool isThrowing = false;
+    bool hasThrown = false;
     public bool throwAvailable = true;
 
     Vector3 throwDestination;
@@ -80,6 +81,7 @@ public class CharacterBehaviour : MonoBehaviour {
     float throwTime;
     public float throwDuration;
     public float throwTurnTime;
+    public float throwHammerEventTime;
 
 
     private void Start()
@@ -386,21 +388,26 @@ public class CharacterBehaviour : MonoBehaviour {
 
             playerAgent.isStopped = true;
             canMove = false;
+
+            if (throwTime > throwHammerEventTime)
+            {
+                if(hasThrown) return;
+                else
+                {
+                    hammerBehaviour.ThrowHammer(throwDestination);
+                    hasThrown = true;
+                }
+            }
         }
         else
         {
             isThrowing = false;
             playerAgent.isStopped = false;
             canMove = true;
+            hasThrown = false;
 
             StartCoroutine(ThrowHammerCD());
         }
-
-    }
-
-    public Vector3 HammerDestination ()
-    {
-        return throwDestination;
     }
 
     #endregion

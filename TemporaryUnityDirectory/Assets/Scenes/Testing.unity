@@ -1471,6 +1471,7 @@ MonoBehaviour:
   throwDistance: 6
   throwDuration: 2
   throwTurnTime: 0.2
+  throwHammerEventTime: 0.7
 --- !u!195 &1253981764
 NavMeshAgent:
   m_ObjectHideFlags: 0

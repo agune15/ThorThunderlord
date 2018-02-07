@@ -88,15 +88,15 @@ public class HammerBehaviour : MonoBehaviour {
         }
     }
 
-    void ThrowHammer()
+    public void ThrowHammer(Vector3 hammerDestination)
     {
-        Vector3 direction = playerBehaviour.HammerDestination();
+        //Vector3 direction = playerBehaviour.HammerDestination();
 
         hammerTransform.rotation = parentBone.rotation;
         hammerTransform.parent = null;
 
         startPosition = parentBone.position;
-        endPosition = new Vector3(direction.x, hammerTransform.position.y, direction.z);
+        endPosition = new Vector3(hammerDestination.x, hammerTransform.position.y, hammerDestination.z);
 
         deltaPosition = endPosition - startPosition;
         currentTime = 0;
