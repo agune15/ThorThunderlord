@@ -5,7 +5,6 @@ using UnityEngine;
 public class HammerBehaviour : MonoBehaviour {
 
     [SerializeField] Transform parentBone;
-    [SerializeField] CharacterBehaviour playerBehaviour;
     [SerializeField] Transform hammerTransform;
 
 
@@ -21,10 +20,11 @@ public class HammerBehaviour : MonoBehaviour {
     bool goForward = true;
     bool comeBack = false;
 
+    //Basic Attack parameters
+    bool isAttacking = false;
+
     private void Start()
     {
-        playerBehaviour = this.GetComponentInParent<CharacterBehaviour>();
-
         hammerTransform = GameObject.Find("J_Axe").GetComponent<Transform>();
 
         parentBone = GameObject.Find("CC_Hammer").GetComponent<Transform>();
@@ -114,4 +114,26 @@ public class HammerBehaviour : MonoBehaviour {
     }
 
     #endregion
+
+    #region Basic Attack behaviour
+
+    public void BasicAttack()
+    {
+        isAttacking = true;
+    }
+
+    #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isAttacking)
+        {
+            if(other.tag == "Enemy")
+            {
+                //Haz pupa al enemigo
+                Debug.Log("daño enemy");
+                isAttacking = false;
+            }
+        }
+    }
 }
