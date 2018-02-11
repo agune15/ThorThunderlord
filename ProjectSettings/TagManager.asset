@@ -5,8 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - GameManager
-  - Thor
+  - manager
   layers:
   - Default
   - TransparentFX
@@ -17,9 +16,9 @@ TagManager:
   - 
   - 
   - Ground
-  - Thor
-  - 
-  - 
+  - Player
+  - Enemy
+  - RayArea
   - 
   - 
   - 
