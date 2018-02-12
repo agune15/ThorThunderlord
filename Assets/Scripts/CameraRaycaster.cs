@@ -173,27 +173,19 @@ public class CameraRaycaster : MonoBehaviour {
 
     void MoveUpdate()
     {
-        Vector3 playerDestination = playerBehaviour.GetPlayerDestination();
-
         if(enemyWasHit)
         {
-            if(destination != playerDestination)
-            {
-                destination = enemyTransform.position;
-                playerBehaviour.SetDestination(destination);
+            destination = enemyTransform.position;
+            playerBehaviour.SetDestination(destination);
 
-                playerBehaviour.SetEnemyTransform(enemyTransform, enemyWasHit);
-            }
+            playerBehaviour.SetBasicAttackTransform(enemyTransform, enemyWasHit);
         }
         else
         {
-            if(destination != playerDestination)
-            {
-                destination = hitPosition;
-                playerBehaviour.SetDestination(destination);
+            destination = hitPosition;
+            playerBehaviour.SetDestination(destination);
 
-                playerBehaviour.SetEnemyTransform(null, enemyWasHit);
-            }
+            playerBehaviour.SetBasicAttackTransform(null, enemyWasHit);
         }
     }
 

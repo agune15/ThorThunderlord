@@ -126,31 +126,26 @@ public class HammerBehaviour : MonoBehaviour {
 
     #region Basic Attack behaviour
 
-    public void BasicAttack()
+    public void BasicAttack(bool isAvailable)
     {
-        isAttacking = true;
+        isAttacking = isAvailable;
     }
 
-    public void ResetBasicAttack()
+    public void DealDamage()
     {
-        if(!isAttacking) isAttacking = true;
-    }
-
-    #endregion
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (isAttacking)
+        if(isAttacking)
         {
-            if(other.tag == "Enemy")
-            {
-                //Haz pupa al enemigo
-                Debug.Log("daño enemy");
-                isAttacking = false;
-            }
+            Debug.Log("daño enemy BasicAttack");
+            isAttacking = false;
+        }
+        else if(isThrowing)
+        {
+            Debug.Log("daño enemy Throw");
+            //damage / 60, ya que va a ser daño por segundo
         }
     }
 
+    #endregion
 
     private void OnDrawGizmos()
     {
