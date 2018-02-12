@@ -100,7 +100,7 @@ public class CharacterBehaviour : MonoBehaviour {
             animationsList.Add(new AnimationClipName(animation.name, animation));
 
             //if(animation.name == "HammerThrow") throwDuration = animation.length;
-            if(animation.name == "BasicAttack") attackDuration = animation.length;
+            if(animation.name == "hit") attackDuration = animation.length;
         }
 
         agentSpeed = playerAgent.speed;
@@ -110,9 +110,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
     private void Update()
     {
-        Debug.Log("CanMove: " + canMove);
-        Debug.Log("TargetPos: " + targetPos);
-
         //Estaria bien que se usara solo para el movimiento
         switch (moveStates)
         {
@@ -151,6 +148,11 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isThrowing", isThrowing);
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
+
+
+
+
+        //Debug.Log(thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1);
     }
 
     #region State Updates
@@ -177,7 +179,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
         if(!isDashing)
         {
-            if(playerAgent.destination != targetPos) playerAgent.SetDestination(targetPos);
+            if (isAttacking)
+            {
+                if(playerAgent.destination != enemyTargetTransform.position) playerAgent.SetDestination(enemyTargetTransform.position);
+            }         
         }
         else
         {
@@ -229,23 +234,34 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void BasicAttackUpdate()
     {
-        attack = (Vector3.Distance(playerTransform.position, enemyTargetTransform.position) < attackRange) ? true : false;
+        if (Vector3.Distance(playerTransform.position, enemyTargetTransform.position) < attackRange)
+        {
+            if(!attack)
+            {
+                hammerBehaviour.BasicAttack(true);
+                thorAnimator.SetTrigger("hit");
+            }
+            attack = true;
+        }
+        else
+        {
+            attack = false;
+        }
 
         if(attack)
         {
             canMove = false;
             playerAgent.isStopped = true;
 
+            if(thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03f)
+            {
+                alreadyAttacked = false;
+            }
+
             if(!alreadyAttacked)
             {
                 alreadyAttacked = true;
-                thorAnimator.SetTrigger("hit");
-
-                if(thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime == 0)
-                {
-                    alreadyAttacked = false;
-                    thorAnimator.ResetTrigger("hit");
-                }
+                hammerBehaviour.BasicAttack(true);
             }
         }
         else
@@ -255,15 +271,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
             thorAnimator.ResetTrigger("hit");
             alreadyAttacked = false;
+
+            hammerBehaviour.BasicAttack(true);
         }
-
-            /*attack = true;    Ejecuta animacion hammer
-
-            En el script del hammer
-            Si el trigger del hammer golpea al enemy, lo daña (y se desactiva por si acasao hasta la siguiente ronda de animacion)
-            y desactiva el DamageDeal
-            
-            */
     }
 
     #endregion
@@ -502,7 +512,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
-    public void SetEnemyTransform (Transform enemyTransfrom, bool enemyWasHit)
+    public void SetBasicAttackTransform (Transform enemyTransfrom, bool enemyWasHit)
     {
         enemyTargetTransform = enemyTransfrom;
         isAttacking = enemyWasHit;
@@ -510,7 +520,7 @@ public class CharacterBehaviour : MonoBehaviour {
         if (enemyTargetTransform == null && !isAttacking)
         {
             canMove = true;
-            SetDestination(targetPos);
+            hammerBehaviour.BasicAttack(false);
         }
     }
 
