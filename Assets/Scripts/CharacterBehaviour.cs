@@ -23,6 +23,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
     bool canMove = true;
 
+    public float life;
+
     //Animation related
     [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
 
@@ -110,7 +112,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
     private void Update()
     {
-        //Estaria bien que se usara solo para el movimiento
+        if(life <= 0 && moveStates != MoveStates.Dead) SetDead();
+
+        //Move Behaviour
         switch (moveStates)
         {
             case MoveStates.Idle:
@@ -206,6 +210,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void DeadUpdate()
     {
+        if(!playerAgent.isStopped) playerAgent.isStopped = true;
         return;
     }
 
@@ -225,6 +230,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void SetDead()
     {
+        canMove = false;
+        playerAgent.isStopped = true;
+        CameraBehaviour.playerCanMove = false;
+
         moveStates = MoveStates.Dead;
     }
 
@@ -522,6 +531,13 @@ public class CharacterBehaviour : MonoBehaviour {
             canMove = true;
             hammerBehaviour.BasicAttack(false);
         }
+    }
+
+    public void SetDamage (float damage)
+    {
+        life -= damage;
+
+        if(life <= 0) SetDead();
     }
 
     #endregion

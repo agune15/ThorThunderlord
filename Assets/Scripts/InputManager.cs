@@ -61,7 +61,7 @@ public class InputManager : MonoBehaviour {
     {
         playerCamBehaviour.SetMouseWheel(Input.GetAxis("Mouse ScrollWheel"));
 
-        if(playerCamBehaviour.playerCanMove)
+        if(CameraBehaviour.playerCanMove)
         {
             if(Input.GetButtonDown("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
             if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
