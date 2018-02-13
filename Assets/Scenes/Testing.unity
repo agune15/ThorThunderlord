@@ -309,7 +309,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offsetPos: {x: 0, y: 8, z: -6}
   heightOffset: 1.2
-  playerCanMove: 0
   smoothTime: 1
 --- !u!114 &57465375
 MonoBehaviour:
@@ -1907,6 +1906,7 @@ GameObject:
   - component: {fileID: 731210974}
   - component: {fileID: 731210973}
   - component: {fileID: 731210975}
+  - component: {fileID: 731210978}
   m_Layer: 10
   m_Name: Skull_01
   m_TagString: Enemy
@@ -1955,10 +1955,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skullState: 0
   skullAttack: 0
-  life: 0
   unfreezeTime: 1
   chaseRange: 12
-  attackRange: 1
+  attackRange: 1.3
 --- !u!4 &731210976
 Transform:
   m_ObjectHideFlags: 0
@@ -1983,7 +1982,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.6
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 35
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -1994,6 +1993,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &731210978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731210972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19d32f5d8975ed42b0efd0c8566d25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyType: 0
+  life: 0
 --- !u!1 &772562511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,6 +2619,10 @@ Prefab:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: d5e3bd65e3266014a93c7e3ed7353532, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e816a2a3f6a4d544d9b6c88c25147a15, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d5e3bd65e3266014a93c7e3ed7353532, type: 3}
   m_IsPrefabParent: 0
@@ -3861,6 +3877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1973f97910834d14c8d12d6947fde65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  life: 160
   attackRange: 1.8
   dashAvailable: 1
   dashDuration: 1
@@ -3870,7 +3887,6 @@ MonoBehaviour:
   enemyTransformList: []
   slowAreaRange: 5
   slowAreaDuration: 3
-  slowAreaDelay: 0.5
   slowAreaFadeTime: 1.5
   slowAreaCD: 2
   slowAreaCount: 0
@@ -3958,6 +3974,8 @@ MonoBehaviour:
   hammerTransform: {fileID: 0}
   startPosition: {x: 0, y: 0, z: 0}
   endPosition: {x: 0, y: 0, z: 0}
+  basicAttackDamage: 10
+  throwHammerDamage: 10
 --- !u!1 &1254544206
 GameObject:
   m_ObjectHideFlags: 0
@@ -4906,7 +4924,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 877496393}
-  - {fileID: 1747261449}
   m_Father: {fileID: 731210976}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5084,77 +5101,6 @@ Transform:
   m_Father: {fileID: 653242505}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -3.633476e-14, y: -2.9046337e-16, z: 0}
---- !u!1 &1747261448
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1747261449}
-  - component: {fileID: 1747261451}
-  - component: {fileID: 1747261450}
-  m_Layer: 10
-  m_Name: capsule
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1747261449
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1747261448}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1656924825}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1747261450
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1747261448}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 85e4c6b9102baa24995c1815975d626e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1747261451
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1747261448}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1749168627
 GameObject:
   m_ObjectHideFlags: 0

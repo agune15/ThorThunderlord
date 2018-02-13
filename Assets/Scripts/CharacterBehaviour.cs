@@ -14,7 +14,7 @@ public class CharacterBehaviour : MonoBehaviour {
     enum MoveStates { Idle, Move, Dead }
     MoveStates moveStates = MoveStates.Idle;
 
-    enum RotationTypes { Move, Dash, Throw }
+    enum RotationTypes { Move, Dash, Throw, BasicAttack }
     RotationTypes rotationType = RotationTypes.Move;
 
     Vector3 targetPos;
@@ -62,10 +62,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
     bool isSlowingArea = false;
     bool slowAreaAvailable = true;
+    bool isCastingArea = false;
 
     public float slowAreaRange;
     public float slowAreaDuration;
-    public float slowAreaDelay;
+    float slowAreaInitDelay;
+    float slowAreaDelay;
     public float slowAreaFadeTime;
     public float slowAreaCD;
 
@@ -73,8 +75,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //Hammer Throw parameters
     [Header("Hammer Throw parameters")]
-
-
     bool isThrowing = false;
     bool hasThrown = false;
     public bool throwAvailable = true;
@@ -101,13 +101,15 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             animationsList.Add(new AnimationClipName(animation.name, animation));
 
-            //if(animation.name == "HammerThrow") throwDuration = animation.length;
+            if(animation.name == "throwHammer") throwDuration = animation.length;
             if(animation.name == "hit") attackDuration = animation.length;
+            if(animation.name == "smash") slowAreaInitDelay = animation.length;
         }
 
         agentSpeed = playerAgent.speed;
 
         slowAreaFadeTime += slowAreaDuration;
+        slowAreaDelay = slowAreaInitDelay;
     }
 
     private void Update()
@@ -152,11 +154,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isThrowing", isThrowing);
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
-
-
-
-
-        //Debug.Log(thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1);
+        thorAnimator.SetBool("isCastingArea", isCastingArea);
     }
 
     #region State Updates
@@ -234,6 +232,7 @@ public class CharacterBehaviour : MonoBehaviour {
         playerAgent.isStopped = true;
         CameraBehaviour.playerCanMove = false;
 
+        thorAnimator.SetTrigger("die");
         moveStates = MoveStates.Dead;
     }
 
@@ -243,6 +242,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void BasicAttackUpdate()
     {
+        SetRotation(RotationTypes.BasicAttack);
+
         if (Vector3.Distance(playerTransform.position, enemyTargetTransform.position) < attackRange)
         {
             if(!attack)
@@ -336,7 +337,12 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             isSlowingArea = true;
             slowAreaAvailable = false;
-            
+            isCastingArea = true;
+            slowAreaDelay = slowAreaInitDelay;
+
+            thorAnimator.SetTrigger("castArea");
+            thorAnimator.ResetTrigger("hit");
+
             slowAreaCount = 0;
 
             slowAreaOrigin = playerTransform.position;
@@ -364,6 +370,8 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             playerAgent.isStopped = false;
             canMove = true;
+            if (isCastingArea) thorAnimator.SetTrigger("hit");
+            isCastingArea = false;
         }
 
         if(slowAreaCount <= slowAreaDuration)
@@ -383,6 +391,7 @@ public class CharacterBehaviour : MonoBehaviour {
             {
                 //alpha del shader a 0
                 isSlowingArea = false;
+                thorAnimator.ResetTrigger("castArea");
 
                 enemyTransformList.Clear();
 
@@ -422,6 +431,7 @@ public class CharacterBehaviour : MonoBehaviour {
             throwTime = 0;
 
             thorAnimator.SetTrigger("throwHammer");
+            thorAnimator.ResetTrigger("hit");
         }
     }
 
@@ -454,6 +464,11 @@ public class CharacterBehaviour : MonoBehaviour {
             hasThrown = false;
 
             thorAnimator.ResetTrigger("throwHammer");
+
+            if (isAttacking)
+            {
+                thorAnimator.SetTrigger("hit");
+            }
 
             StartCoroutine(ThrowHammerCD());
         }
@@ -488,6 +503,9 @@ public class CharacterBehaviour : MonoBehaviour {
             case RotationTypes.Throw:
                 ThrowRotation();
                 break;
+            case RotationTypes.BasicAttack:
+                BasicAttackRotation();
+                break;
             default:
                 break;
         }
@@ -519,12 +537,19 @@ public class CharacterBehaviour : MonoBehaviour {
         playerTransform.LookAt(throwLookAt);
     }
 
+    void BasicAttackRotation()
+    {
+        playerTransform.LookAt(enemyTargetTransform);
+    }
+
     #endregion
 
     public void SetBasicAttackTransform (Transform enemyTransfrom, bool enemyWasHit)
     {
         enemyTargetTransform = enemyTransfrom;
         isAttacking = enemyWasHit;
+
+        attack = false;
 
         if (enemyTargetTransform == null && !isAttacking)
         {
@@ -544,9 +569,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #region Gets
 
-    public Vector3 GetPlayerDestination ()
+    public void IsPlayerAttacking (out bool playerIsAttacking, out bool playerIsMoving)
     {
-        return playerAgent.destination;
+        playerIsAttacking = isAttacking;
+        playerIsMoving = !playerAgent.isStopped;
     }
 
     #endregion

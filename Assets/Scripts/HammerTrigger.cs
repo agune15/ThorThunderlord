@@ -21,7 +21,7 @@ public class HammerTrigger : MonoBehaviour {
     {
         if (other.tag == "Enemy")
         {
-            hammerBehaviour.DealDamage();
+            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.DealDamage());
 
             Debug.Log("triggerEnter");
         }
@@ -31,7 +31,7 @@ public class HammerTrigger : MonoBehaviour {
     {
         if(other.tag == "Enemy")
         {
-            hammerBehaviour.DealDamage();
+            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.DealDamage());
 
             Debug.Log("triggerStay");
         }

@@ -26,6 +26,9 @@ public class HammerBehaviour : MonoBehaviour {
     //Basic Attack parameters
     bool isAttacking = false;
 
+    public float basicAttackDamage;
+    public float throwHammerDamage;
+
     private void Start()
     {
         hammerTransform = GameObject.Find("J_Axe").GetComponent<Transform>();
@@ -131,18 +134,27 @@ public class HammerBehaviour : MonoBehaviour {
         isAttacking = isAvailable;
     }
 
-    public void DealDamage()
+    public float DealDamage()
     {
+        float damageToDeal;
+
         if(isAttacking)
         {
             Debug.Log("daño enemy BasicAttack");
+            damageToDeal = basicAttackDamage;
+
             isAttacking = false;
+            return damageToDeal;
         }
         else if(isThrowing)
         {
             Debug.Log("daño enemy Throw");
+            damageToDeal = throwHammerDamage / 30;
+
+            return damageToDeal;
             //damage / 60, ya que va a ser daño por segundo
         }
+        else return 0;
     }
 
     #endregion
