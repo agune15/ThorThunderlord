@@ -14,7 +14,7 @@ public class CameraBehaviour : MonoBehaviour {
 
     public float heightOffset;
 
-    public bool playerCanMove;
+    public static bool playerCanMove;
 
     float wheelAxis = 0;
 

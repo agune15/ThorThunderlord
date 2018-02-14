@@ -175,22 +175,24 @@ public class CameraRaycaster : MonoBehaviour {
     {
         if(enemyWasHit)
         {
+            playerBehaviour.SetBasicAttackTransform(enemyTransform, enemyWasHit);
+
             destination = enemyTransform.position;
             playerBehaviour.SetDestination(destination);
-
-            playerBehaviour.SetBasicAttackTransform(enemyTransform, enemyWasHit);
         }
         else
         {
+            playerBehaviour.SetBasicAttackTransform(null, enemyWasHit);
+
             destination = hitPosition;
             playerBehaviour.SetDestination(destination);
-
-            playerBehaviour.SetBasicAttackTransform(null, enemyWasHit);
         }
     }
 
     void DashUpdate()
     {
+        playerBehaviour.SetBasicAttackTransform(null, false);
+
         destination = hitPosition;
         playerBehaviour.Dash(destination);
     }
