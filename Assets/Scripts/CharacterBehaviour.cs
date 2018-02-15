@@ -67,7 +67,7 @@ public class CharacterBehaviour : MonoBehaviour {
     public float slowAreaRange;
     public float slowAreaDuration;
     float slowAreaInitDelay;
-    float slowAreaDelay;
+    [SerializeField] float slowAreaDelay;
     public float slowAreaFadeTime;
     public float slowAreaCD;
 
@@ -368,9 +368,9 @@ public class CharacterBehaviour : MonoBehaviour {
         }
         else
         {
-            playerAgent.isStopped = false;
+            if (playerAgent.destination != transform.position)   playerAgent.isStopped = false;
             canMove = true;
-            if (isCastingArea) thorAnimator.SetTrigger("hit");
+            if (isCastingArea && isAttacking) thorAnimator.SetTrigger("hit");
             isCastingArea = false;
         }
 
@@ -484,7 +484,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
         if (canMove)
         {
-            playerAgent.SetDestination(targetPos);
+            if(targetPos != transform.position) playerAgent.SetDestination(targetPos);
+            else
+            {
+                playerAgent.SetDestination(targetPos);
+                SetIdle();
+            }
         }
     }
 
@@ -546,6 +551,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void SetBasicAttackTransform (Transform enemyTransfrom, bool enemyWasHit)
     {
+        if(enemyTargetTransform == enemyTransfrom && attack) return;
+
         enemyTargetTransform = enemyTransfrom;
         isAttacking = enemyWasHit;
 
@@ -584,7 +591,7 @@ public class CharacterBehaviour : MonoBehaviour {
         Gizmos.color = Color.red;
         if(playerAgent != null)
         {
-            Gizmos.DrawCube(playerAgent.steeringTarget, new Vector3(0.5f, 0.5f, 0.5f));
+            Gizmos.DrawCube(playerAgent.destination, new Vector3(0.5f, 0.5f, 0.5f));
             if (isSlowingArea && slowAreaDelay < 0) Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaRange);
         }
     }

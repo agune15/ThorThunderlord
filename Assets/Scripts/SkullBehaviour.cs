@@ -38,6 +38,7 @@ public class SkullBehaviour : MonoBehaviour {
 
     bool isAttacking;
     bool alreadyAttacked = false;
+    bool hasAttacked = false;
 
 
 
@@ -161,7 +162,14 @@ public class SkullBehaviour : MonoBehaviour {
 
     void DeadUpdate()
     {
-        if(!enemyAgent.isStopped) enemyAgent.isStopped = true;
+        if(enemyAgent.enabled)
+        {
+            if(!enemyAgent.isStopped)
+            {
+                enemyAgent.isStopped = true;
+            }
+            enemyAgent.enabled = false;
+        }
         return;
     }
 
@@ -179,6 +187,7 @@ public class SkullBehaviour : MonoBehaviour {
 
         isSpinning = false;
         alreadyAttacked = false;
+        hasAttacked = false;
 
         skullState = SkullStates.Chase;
     }
@@ -187,6 +196,9 @@ public class SkullBehaviour : MonoBehaviour {
     {
         SetPlayerAttack();
 
+        if(!isSpinning) skullAttack = SkullAttacks.BasicAttack;
+        else skullAttack = SkullAttacks.SpinAttack;
+
         skullState = SkullStates.Attack;
     }
 
@@ -194,6 +206,9 @@ public class SkullBehaviour : MonoBehaviour {
     {
         enemyAgent.isStopped = true;
         skullAnimator.SetTrigger("die");
+
+        targetBehaviour.SetBasicAttackTransform(null, false);
+        targetBehaviour.SetDestination(targetTransform.position);
 
         skullState = SkullStates.Dead;
     }
@@ -206,13 +221,18 @@ public class SkullBehaviour : MonoBehaviour {
     {
         if(isSpinning)
         {
-            //haz daño si el trigger le da
+            if(hasAttacked)
+            {
+                targetBehaviour.SetDamage(10);
 
-            enemyAgent.speed = enemySpeed;
-            enemyAgent.angularSpeed = enemyAngularSpeed;
+                hasAttacked = false;
 
-            skullAttack = SkullAttacks.BasicAttack;
-            isSpinning = false;
+                enemyAgent.speed = enemySpeed;
+                enemyAgent.angularSpeed = enemyAngularSpeed;
+
+                skullAttack = SkullAttacks.BasicAttack;
+                isSpinning = false;
+            }
         }
     }
 
@@ -220,21 +240,22 @@ public class SkullBehaviour : MonoBehaviour {
     {
         if(!alreadyAttacked)
         {
-            //Llama al script del enemy para atacar
-
-            //Si va a haber mas de un script de SkullTrigger, hacemos un array?
-
-            alreadyAttacked = true;
+            if(skullAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.25f && skullAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.4f)
+            {
+                if(hasAttacked)
+                {
+                    targetBehaviour.SetDamage(4);
+                    alreadyAttacked = true;
+                    hasAttacked = false;
+                }
+            }
         }
         else
         {
-            /*
             if (skullAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03f)
             {
                 alreadyAttacked = false;
-
-                //resetar ataque en el script de ataque del enemigo
-            }*/
+            }
         }
     }
 
@@ -263,12 +284,13 @@ public class SkullBehaviour : MonoBehaviour {
         if(!playerIsAttacking) //&& !playerIsMoving por si solo queremos hacerlo cuando el player este quieto
         {
             targetBehaviour.SetBasicAttackTransform(this.transform, true);
-            Debug.Log("heeey");
         }
+    }
 
-        Debug.Log("playerATtack Set!");
-        Debug.Log("playerisAttacking: " + playerIsAttacking);
-        Debug.Log("playerisMoving: " + playerIsMoving);
+    public void SkullHasAttacked ()
+    {
+        if(skullState == SkullStates.Attack) hasAttacked = true;
+        else hasAttacked = false;
     }
 
     void AnimatorUpdate()
