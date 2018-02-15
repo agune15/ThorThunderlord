@@ -9,10 +9,19 @@ public class EnemyStats : MonoBehaviour {
 
     SkullBehaviour skullBehaviour = null;
 
+    [SerializeField] Renderer enemyRenderer;
+    [SerializeField] Collider enemyCollider;
+
     [SerializeField] float life;
 
-	// Use this for initialization
-	void Start () {
+    public float deadTimer;
+
+
+    // Use this for initialization
+    void Start () {
+        enemyRenderer = this.GetComponentInChildren<Renderer>();
+        enemyCollider = this.GetComponent<Collider>();
+
         switch(enemyType)
         {
             case EnemyType.Skull:
@@ -28,7 +37,19 @@ public class EnemyStats : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (life <= 0)
+        {
+            if(!enemyRenderer.gameObject.isStatic) enemyRenderer.gameObject.isStatic = true;
+            enemyCollider.enabled = false;
+
+            if(deadTimer > 0)
+            {
+                deadTimer -= Time.deltaTime;
+                return;
+            }
+            
+            if (!enemyRenderer.isVisible) this.gameObject.SetActive(false);
+        }
 	}
 
     #region Inits
