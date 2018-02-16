@@ -28,13 +28,11 @@ public class CharacterBehaviour : MonoBehaviour {
     //Animation related
     [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
 
-    bool alreadyAttacked = false;
-    bool alreadyThrew = false;
-
     //Basic Attack parameters
     [Header("Basic Attack parameters")]
     bool isAttacking = false;
     bool attack = false;
+    bool alreadyAttacked = false;
 
     public float attackRange;
     float attackDuration;
@@ -56,7 +54,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //Slowing Area parameters
     [Header("Slowing Area parameters")]
-    public List<Transform> enemyTransformList = new List<Transform>();
+    public List<EnemyStatsTransform> enemyList = new List<EnemyStatsTransform>();
 
     Vector3 slowAreaOrigin;
 
@@ -177,8 +175,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
         if (!isThrowing && !isDashing) SetRotation(RotationTypes.Move);
 
-        //play moving animation
-
         if(!isDashing)
         {
             if (isAttacking)
@@ -204,11 +200,18 @@ public class CharacterBehaviour : MonoBehaviour {
         }
     }
 
-    //Chase update to chase enemies?
-
     void DeadUpdate()
     {
-        if(!playerAgent.isStopped) playerAgent.isStopped = true;
+        if(playerAgent.enabled)
+        {
+            if(!playerAgent.isStopped)
+            {
+                playerAgent.isStopped = true;
+                playerAgent.enabled = false;
+                EnemyStats.SetFrozen();
+                GetComponent<CharacterBehaviour>().enabled = false;
+            }
+        }
         return;
     }
 
@@ -242,13 +245,14 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void BasicAttackUpdate()
     {
+        if(isDashing || isThrowing || isCastingArea || moveStates == MoveStates.Dead) return;
+
         SetRotation(RotationTypes.BasicAttack);
 
         if (Vector3.Distance(playerTransform.position, enemyTargetTransform.position) < attackRange)
         {
             if(!attack)
             {
-                hammerBehaviour.BasicAttack(true);
                 thorAnimator.SetTrigger("hit");
             }
             attack = true;
@@ -270,8 +274,11 @@ public class CharacterBehaviour : MonoBehaviour {
 
             if(!alreadyAttacked)
             {
-                alreadyAttacked = true;
-                hammerBehaviour.BasicAttack(true);
+                if (thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.5f && thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.7f)
+                {
+                    alreadyAttacked = true;
+                    hammerBehaviour.BasicAttack(true);
+                }
             }
         }
         else
@@ -292,7 +299,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void Dash(Vector3 destination)
     {
-        if(dashAvailable)
+        if(dashAvailable && !isThrowing && !isCastingArea && moveStates != MoveStates.Dead)
         {
             isDashing = true;
             dashAvailable = false;
@@ -307,6 +314,7 @@ public class CharacterBehaviour : MonoBehaviour {
                 playerAgent.SetDestination(dashEnd);
             }
 
+            //Esto hay que aplicarlo en algun momento (limite distancia dash)
             dashRemainingDistance = playerAgent.remainingDistance - dashDistance;
             if(dashRemainingDistance < dashDistance) dashRemainingDistance = dashDistance;
 
@@ -333,7 +341,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void SlowArea()
     {
-        if(slowAreaAvailable && !isDashing)
+        if(slowAreaAvailable && !isDashing && !isThrowing && moveStates != MoveStates.Dead)
         {
             isSlowingArea = true;
             slowAreaAvailable = false;
@@ -349,9 +357,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
             foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange * 6)
+                if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange * 8)  //Ajustar!
                 {
-                    enemyTransformList.Add(enemy.transform);
+                    enemyList.Add(new EnemyStatsTransform(enemy.transform, enemy.GetComponent<EnemyStats>()));
                 }
             }
         }
@@ -393,19 +401,27 @@ public class CharacterBehaviour : MonoBehaviour {
                 isSlowingArea = false;
                 thorAnimator.ResetTrigger("castArea");
 
-                enemyTransformList.Clear();
+                foreach(EnemyStatsTransform enemy in enemyList)
+                {
+                    if(enemy.stats.isSlowed) enemy.stats.SetInitSpeed();
+                }
+
+                enemyList.Clear();
 
                 StartCoroutine(SlowAreaCD());
             }
         }
 
-        foreach(Transform enemy in enemyTransformList)
+        foreach(EnemyStatsTransform enemy in enemyList)
         {
-            if(Vector3.Distance(slowAreaOrigin, enemy.position) < slowAreaRange)
+            if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange)
             {
-                Debug.Log("eee");
-
-                //Slowear al enemigo y hacerle algo de daño
+                enemy.stats.SetDamage(0.02f);
+                if (!enemy.stats.isSlowed) enemy.stats.SetSlowSpeed();
+            }
+            else
+            {
+                if(enemy.stats.isSlowed) enemy.stats.SetInitSpeed();
             }
         }
     }
@@ -416,7 +432,7 @@ public class CharacterBehaviour : MonoBehaviour {
     
     public void ThrowHammer (Vector3 destination)
     {
-        if (throwAvailable)
+        if (throwAvailable && !isDashing && !isCastingArea && moveStates != MoveStates.Dead)
         {
             isThrowing = true;
             throwAvailable = false;
@@ -549,11 +565,13 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
-    public void SetBasicAttackTransform (Transform enemyTransfrom, bool enemyWasHit)
+    public void SetBasicAttackTransform (Transform enemyTransform, bool enemyWasHit)
     {
-        if(enemyTargetTransform == enemyTransfrom && attack) return;
+        if(enemyTargetTransform == enemyTransform && attack) return;
 
-        enemyTargetTransform = enemyTransfrom;
+        if(isCastingArea || isThrowing || isDashing) return;
+
+        enemyTargetTransform = enemyTransform;
         isAttacking = enemyWasHit;
 
         attack = false;
@@ -569,7 +587,7 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         life -= damage;
 
-        if(life <= 0) SetDead();
+        if(life <= 0 && moveStates != MoveStates.Dead) SetDead();
     }
 
     #endregion
@@ -619,6 +637,7 @@ public class CharacterBehaviour : MonoBehaviour {
     //HACER GODMODE CON playerAgent.Warp()!!!
 }
 
+[System.Serializable]
 public class AnimationClipName 
 {
     public string animationName;
@@ -628,5 +647,18 @@ public class AnimationClipName
     {
         animationName = name;
         animationClip = clip;
+    }
+}
+
+[System.Serializable]
+public class EnemyStatsTransform
+{
+    public Transform transform;
+    public EnemyStats stats;
+
+    public EnemyStatsTransform(Transform enemyTransform, EnemyStats enemyStats)
+    {
+        transform = enemyTransform;
+        stats = enemyStats;
     }
 }

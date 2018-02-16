@@ -11,17 +11,31 @@ public class InputManager : MonoBehaviour {
     [SerializeField] private CharacterBehaviour playerBehaviour = null;
     [SerializeField] private CameraBehaviour playerCamBehaviour = null;
     [SerializeField] private CameraRaycaster playerCamRaycaster = null;
+    [SerializeField] private PauseGameplay pauseGameplay = null;
 
     [Header("Other Scripts")]
     [SerializeField] private LevelLogic levelLogic;
 
-    //float mouseWheelAxis;
+    [Header("Gamepad")]
+    [SerializeField] bool controllerAvailable;
+    [SerializeField] bool useController = false;
 
-    //[SerializeField] private bool aim = false;    //Ejemplo
 
     void Start()
     {
         levelLogic = GetComponent<LevelLogic>();
+
+        //Debug.Log(Input.GetJoystickNames()[0]);
+
+        if(Input.GetJoystickNames().Length > 0)
+        {
+            if(Input.GetJoystickNames()[0] != "") controllerAvailable = true;
+        }
+        else controllerAvailable = false;
+
+        useController = false;
+
+        SetScripts();
     }
 
     void Update()
@@ -29,46 +43,40 @@ public class InputManager : MonoBehaviour {
         //Player Inputs
         if(player != null)
         {
-            PlayerInput();
+            if(!useController)
+            {
+                PlayerInput();
+            }
+            //else ControllerInputs();
         }
 
         //Scene Logic
         SceneLogicInput();
-
-        if(GameObject.FindGameObjectWithTag("Player") != null)
-        {
-            if (player == null)
-            {
-                player = GameObject.Find("Player");
-                playerBehaviour = player.GetComponent<CharacterBehaviour>();
-                playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
-                playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
-            }
-        }
-        else
-        {
-            if (player != null)
-            {
-                player = null;
-                playerBehaviour = null;
-                playerCamBehaviour = null;
-                playerCamRaycaster = null;
-            }
-        }
     }
 
     void PlayerInput()
     {
-        playerCamBehaviour.SetMouseWheel(Input.GetAxis("Mouse ScrollWheel"));
+        if (Input.GetButtonDown("Pause")) pauseGameplay.Pause();
 
-        if(CameraBehaviour.playerCanMove)
+        if (!pauseGameplay.isGamePaused)
         {
-            if(Input.GetButtonDown("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
-            if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
-            if(Input.GetButtonDown("SlowArea")) playerBehaviour.SlowArea();
-            if(Input.GetButtonDown("ThrowHammer")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.ThrowHammer);
+            playerCamBehaviour.SetMouseWheel(Input.GetAxis("Mouse ScrollWheel"));
+
+            if(CameraBehaviour.playerCanMove)
+            {
+                if(Input.GetButtonDown("Move") || Input.GetButton("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
+                if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
+                if(Input.GetButtonDown("SlowArea")) playerBehaviour.SlowArea();
+                if(Input.GetButtonDown("ThrowHammer")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.ThrowHammer);
+            }
         }
     }
+
+    /*
+    void ControllerInputs()
+    {
+
+    }*/
 
     void SceneLogicInput()
     {
@@ -79,4 +87,39 @@ public class InputManager : MonoBehaviour {
             if(Input.GetKeyDown(KeyCode.R)) levelLogic.StartLoad(levelLogic.currentScene);
         }
     }
+
+    #region Public Methods
+
+    public void UseController (bool controllerChosen)
+    {
+        useController = controllerChosen;
+    }
+
+    public void SetScripts ()
+    {
+        if(GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            if(player == null)
+            {
+                player = GameObject.Find("Player");
+                playerBehaviour = player.GetComponent<CharacterBehaviour>();
+                pauseGameplay = player.GetComponent<PauseGameplay>();
+                playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
+                playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
+            }
+        }
+        else
+        {
+            if(player != null)
+            {
+                player = null;
+                playerBehaviour = null;
+                pauseGameplay = null;
+                playerCamBehaviour = null;
+                playerCamRaycaster = null;
+            }
+        }
+    }
+
+    #endregion
 }

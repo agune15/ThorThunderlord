@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HammerTrigger : MonoBehaviour {
 
+    EnemyStats.EnemyType enemyType;
+
     HammerBehaviour hammerBehaviour;
 
     private void Update()

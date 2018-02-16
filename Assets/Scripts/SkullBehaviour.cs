@@ -24,6 +24,10 @@ public class SkullBehaviour : MonoBehaviour {
 
     bool isFrozen = true;
 
+    bool isSlowed = false;
+
+    bool playerIsDead;
+
     //Chase parameters
     public float unfreezeTime;
     public float chaseRange;
@@ -39,7 +43,6 @@ public class SkullBehaviour : MonoBehaviour {
     bool isAttacking;
     bool alreadyAttacked = false;
     bool hasAttacked = false;
-
 
 
     void Start() {
@@ -120,12 +123,13 @@ public class SkullBehaviour : MonoBehaviour {
             if(!isSpinning)
             {
                 skullAttack = SkullAttacks.SpinAttack;
-                enemyAgent.speed = enemySpeed * 2;
+
                 enemyAgent.angularSpeed = enemyAngularSpeed / 2;
 
                 //Trigger ataque giratorio
 
                 isSpinning = true;
+                SetSpeed();
             }
         }
 
@@ -182,12 +186,14 @@ public class SkullBehaviour : MonoBehaviour {
         if(skullState == SkullStates.Frozen) isFrozen = false;
 
         enemyAgent.SetDestination(targetTransform.position);
-        enemyAgent.speed = enemySpeed;
+
         enemyAgent.angularSpeed = enemyAngularSpeed;
 
         isSpinning = false;
         alreadyAttacked = false;
         hasAttacked = false;
+
+        SetSpeed();
 
         skullState = SkullStates.Chase;
     }
@@ -226,12 +232,13 @@ public class SkullBehaviour : MonoBehaviour {
                 targetBehaviour.SetDamage(10);
 
                 hasAttacked = false;
+                isSpinning = false;
 
-                enemyAgent.speed = enemySpeed;
                 enemyAgent.angularSpeed = enemyAngularSpeed;
 
                 skullAttack = SkullAttacks.BasicAttack;
-                isSpinning = false;
+
+                SetSpeed();
             }
         }
     }
@@ -291,6 +298,19 @@ public class SkullBehaviour : MonoBehaviour {
     {
         if(skullState == SkullStates.Attack) hasAttacked = true;
         else hasAttacked = false;
+    }
+
+    public void SetSlow (bool slowed)
+    {
+        isSlowed = slowed;
+
+        SetSpeed();
+    }
+
+    void SetSpeed()
+    {
+        if(isSpinning) enemyAgent.speed = (isSlowed) ? enemySpeed : enemySpeed * 2;
+        else enemyAgent.speed = (isSlowed) ? enemySpeed / 2 : enemySpeed;
     }
 
     void AnimatorUpdate()

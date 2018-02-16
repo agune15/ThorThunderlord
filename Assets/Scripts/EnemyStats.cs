@@ -8,19 +8,25 @@ public class EnemyStats : MonoBehaviour {
     public EnemyType enemyType;
 
     SkullBehaviour skullBehaviour = null;
+    EnemyBehaviour enemyBehaviour = null;
 
     [SerializeField] Renderer enemyRenderer;
     [SerializeField] Collider enemyCollider;
+    [SerializeField] public static Animator enemyAnimator;
 
     [SerializeField] float life;
+    
+    public bool isSlowed = false;
 
     public float deadTimer;
+
 
 
     // Use this for initialization
     void Start () {
         enemyRenderer = this.GetComponentInChildren<Renderer>();
         enemyCollider = this.GetComponent<Collider>();
+        enemyAnimator = this.GetComponentInChildren<Animator>();
 
         switch(enemyType)
         {
@@ -33,6 +39,9 @@ public class EnemyStats : MonoBehaviour {
             default:
                 break;
         }
+
+        enemyBehaviour = this.GetComponent<EnemyBehaviour>();
+        enemyBehaviour.SetLife(life);
     }
 	
 	// Update is called once per frame
@@ -57,9 +66,6 @@ public class EnemyStats : MonoBehaviour {
     void SkullInit()
     {
         life = 60;
-
-        skullBehaviour = this.GetComponent<SkullBehaviour>();
-        skullBehaviour.SetLife(life);
     }
 
     void FenrirInit()
@@ -84,17 +90,36 @@ public class EnemyStats : MonoBehaviour {
                 case EnemyType.Skull:
                     life -= damage;
 
-                    skullBehaviour.SetLife(life);
+                    enemyBehaviour.SetLife(life);
                     break;
                 case EnemyType.Fenrir:
                     life -= damage / 0.75f;
 
-                    //fenrirBehaviour.SetLife(life);
+                    enemyBehaviour.SetLife(life);
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    public void SetSlowSpeed()
+    {
+        isSlowed = true;
+        enemyBehaviour.SetSlow(true);
+    }
+
+    public void SetInitSpeed()
+    {
+        isSlowed = false;
+        enemyBehaviour.SetSlow(false);
+    }
+
+    public static void SetFrozen ()
+    {
+        enemyAnimator.enabled = false;
+
+        Debug.Log("heey");
     }
 
     #endregion
@@ -104,6 +129,11 @@ public class EnemyStats : MonoBehaviour {
     public float GetLife()
     {
         return life;
+    }
+
+    public EnemyType GetEnemyType ()
+    {
+        return enemyType;
     }
 
     #endregion

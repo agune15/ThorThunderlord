@@ -149,10 +149,10 @@ public class HammerBehaviour : MonoBehaviour {
         else if(isThrowing)
         {
             Debug.Log("daño enemy Throw");
-            damageToDeal = throwHammerDamage / 30;
+            damageToDeal = throwHammerDamage / 10;
 
             return damageToDeal;
-            //damage / 60, ya que va a ser daño por segundo
+            //damage / 60, ya que va a ser daño por cada vez que entra al trigger
         }
         else return 0;
     }

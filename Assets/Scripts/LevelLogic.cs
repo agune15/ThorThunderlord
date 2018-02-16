@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class LevelLogic : MonoBehaviour
 {
+    InputManager inputManager;
+
     [Header("Scene state")]
     public int backScene;
     public int currentScene;
@@ -26,11 +28,6 @@ public class LevelLogic : MonoBehaviour
     public Text percentText;
     public Image blackScreen;
 
-    private void Update()
-    {
-        //Debug.Log(currentScene);
-    }
-
     void Start()
     {
         managerCanvas = GameObject.Find("ManagerCanvas").GetComponent<Canvas>();
@@ -44,6 +41,9 @@ public class LevelLogic : MonoBehaviour
         UpdateSceneState();
 
         if(currentScene == managerScene) StartLoad(nextScene);
+
+        inputManager = this.GetComponent<InputManager>();
+        if(inputManager != null) inputManager.SetScripts();
     }
 
     void UpdateSceneState()
@@ -67,6 +67,8 @@ public class LevelLogic : MonoBehaviour
         sceneToLoad = index;
         managerCanvas.enabled = true;
         FadeOut();
+
+        if(inputManager != null) inputManager.SetScripts();
     }
 
     void Load()
@@ -111,6 +113,7 @@ public class LevelLogic : MonoBehaviour
 
                 SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneToLoad));
                 UpdateSceneState();
+                if(inputManager != null) inputManager.SetScripts();
 
                 loading = false;
             }

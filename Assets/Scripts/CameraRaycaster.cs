@@ -204,4 +204,13 @@ public class CameraRaycaster : MonoBehaviour {
     }
 
     #endregion
+
+    #region Others
+
+    public Vector2 GetCameraPixelSize ()
+    {
+        return new Vector2(playerCamera.pixelWidth, playerCamera.pixelHeight);
+    }
+
+    #endregion
 }
