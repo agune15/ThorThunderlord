@@ -236,6 +236,7 @@ public class CharacterBehaviour : MonoBehaviour {
         CameraBehaviour.playerCanMove = false;
 
         thorAnimator.SetTrigger("die");
+        PlayingEndMessage.PlayDefeat();
         moveStates = MoveStates.Dead;
     }
 
