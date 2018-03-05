@@ -1,34 +1,22 @@
 fileFormatVersion: 2
-guid: 7f2947cbeb5f52249ba252deec0d2feb
-timeCreated: 1518701201
+guid: db3458b76c897684ea97850a4f847c3f
+timeCreated: 1520266186
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Plane591
-    100002: polySurface7
-    100004: polySurface8
-    100006: transform7
-    100008: //RootNode
-    400000: Plane591
-    400002: polySurface7
-    400004: polySurface8
-    400006: transform7
-    400008: //RootNode
-    2100000: lambert17
-    2300000: polySurface7
-    2300002: polySurface8
-    3300000: polySurface7
-    3300002: polySurface8
-    4300000: polySurface7
-    4300002: polySurface8
+    100000: group2
+    100002: Plane590
+    100004: //RootNode
+    400000: group2
+    400002: Plane590
+    400004: //RootNode
+    2100000: lambert25
+    2300000: Plane590
+    3300000: Plane590
+    4300000: Plane590
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert17
-    second: {fileID: 2100000, guid: 73ec71e78e2719d48bbf8980aca93fa6, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0

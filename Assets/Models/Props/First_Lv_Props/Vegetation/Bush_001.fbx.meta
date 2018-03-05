@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: a89792d6108ee074089d097b816bc2b7
-timeCreated: 1518623380
+guid: 05675b38e9943f843906f9d63e59259d
+timeCreated: 1520266185
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Plane587
+    100002: group2
+    100004: Plane587
     400000: //RootNode
-    400002: Plane587
-    2100000: lambert16
+    400002: group2
+    400004: Plane587
+    2100000: lambert21
     2300000: Plane587
     3300000: Plane587
     4300000: Plane587
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert16
-    second: {fileID: 2100000, guid: 73ec71e78e2719d48bbf8980aca93fa6, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
