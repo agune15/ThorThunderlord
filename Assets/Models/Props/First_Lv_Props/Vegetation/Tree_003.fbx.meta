@@ -1,27 +1,58 @@
 fileFormatVersion: 2
 guid: db3458b76c897684ea97850a4f847c3f
-timeCreated: 1520266186
+timeCreated: 1520270552
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: group2
-    100002: Plane590
-    100004: //RootNode
-    400000: group2
-    400002: Plane590
-    400004: //RootNode
-    2100000: lambert25
-    2300000: Plane590
-    3300000: Plane590
-    4300000: Plane590
+    100000: group3
+    100002: polySurface10
+    100004: polySurface11
+    100006: polySurface12
+    100008: polySurface13
+    100010: polySurface3
+    100012: polySurface4
+    100014: polySurface5
+    100016: polySurface9
+    100018: transform2
+    100020: transform3
+    100022: //RootNode
+    400000: group3
+    400002: polySurface10
+    400004: polySurface11
+    400006: polySurface12
+    400008: polySurface13
+    400010: polySurface3
+    400012: polySurface4
+    400014: polySurface5
+    400016: polySurface9
+    400018: transform2
+    400020: transform3
+    400022: //RootNode
+    2100000: lambert30
+    2300000: polySurface10
+    2300002: polySurface11
+    2300004: polySurface12
+    2300006: polySurface13
+    2300008: polySurface3
+    2300010: polySurface5
+    2300012: polySurface9
+    3300000: polySurface10
+    3300002: polySurface11
+    3300004: polySurface12
+    3300006: polySurface13
+    3300008: polySurface3
+    3300010: polySurface5
+    3300012: polySurface9
+    4300000: polySurface9
+    4300002: polySurface3
+    4300004: polySurface5
+    4300006: polySurface11
+    4300008: polySurface12
+    4300010: polySurface10
+    4300012: polySurface13
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert25
-    second: {fileID: 2100000, guid: 8a34a14d8f9c86045905fcfda6802f94, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
