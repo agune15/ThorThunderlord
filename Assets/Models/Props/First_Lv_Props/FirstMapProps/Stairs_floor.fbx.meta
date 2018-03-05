@@ -1,27 +1,25 @@
 fileFormatVersion: 2
-guid: 007bed24c310f8d45850e9c991a5752b
-timeCreated: 1519720906
+guid: 130a8ba543552e241acaf9e04d5338de
+timeCreated: 1520262181
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: pCube2
+    100000: pCube16
+    100002: //RootNode
+    400000: pCube16
+    400002: //RootNode
+    2100000: lambert4
+    2300000: pCube16
+    3300000: pCube16
+    4300000: pCube16
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert1
-    second: {fileID: 2100000, guid: 5241f659d41a52941b62a1c92412cd63, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -59,6 +57,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
