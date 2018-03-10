@@ -1,23 +1,40 @@
 fileFormatVersion: 2
-guid: 5645810dafcb0f346afc72698b57a3ef
-timeCreated: 1519986482
+guid: d3e03ea537234d44ca0e12a47d8c4468
+timeCreated: 1520688278
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
+    100002: pCube84
+    100004: pCube86
+    100006: pCube87
+    100008: pCube88
+    100010: pCube89
+    100012: pCube90
+    100014: transform10
+    100016: transform11
+    100018: transform12
+    100020: transform8
+    100022: transform9
     400000: //RootNode
-    2100000: islitas
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: pCylinder7
+    400002: pCube84
+    400004: pCube86
+    400006: pCube87
+    400008: pCube88
+    400010: pCube89
+    400012: pCube90
+    400014: transform10
+    400016: transform11
+    400018: transform12
+    400020: transform8
+    400022: transform9
+    2100000: lambert1
+    2300000: pCube90
+    3300000: pCube90
+    4300000: pCube90
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: islitas
-    second: {fileID: 2100000, guid: bc4c9216f83c93145994fef226d0aec9, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
