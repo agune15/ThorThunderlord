@@ -12,7 +12,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: pCube72
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: islitas
+    second: {fileID: 2100000, guid: bc4c9216f83c93145994fef226d0aec9, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
