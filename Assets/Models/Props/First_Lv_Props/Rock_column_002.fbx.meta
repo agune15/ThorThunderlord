@@ -16,6 +16,7 @@ ModelImporter:
     400006: polySurface6
     400008: //RootNode
     2100000: lambert6
+    2100002: lambert13
     2300000: polySurface17
     3300000: polySurface17
     4300000: polySurface17
@@ -25,7 +26,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: lambert6
-    second: {fileID: 2100000, guid: 1a3d35ebf6b7e35438c8e2f84e86cd65, type: 2}
+    second: {fileID: 2100000, guid: 3b4f53e8c6369d24380fb620217c9ec9, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
