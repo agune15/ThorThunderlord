@@ -1,50 +1,90 @@
 fileFormatVersion: 2
-guid: 4492c836d3fc3c743bc11eb677b9ca59
-timeCreated: 1520769063
+guid: 7781d0b143713c246914196cb5da4aba
+timeCreated: 1520769249
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: pCube99
-    100002: pPlane22
-    100004: pPlane23
-    100006: pPlane24
-    100008: pPlane25
-    100010: pPlane26
-    100012: //RootNode
-    400000: pCube99
-    400002: pPlane22
-    400004: pPlane23
-    400006: pPlane24
-    400008: pPlane25
-    400010: pPlane26
-    400012: //RootNode
-    2100000: lambert26
-    2100002: lambert1
-    2300000: pCube99
-    2300002: pPlane22
-    2300004: pPlane23
-    2300006: pPlane24
-    2300008: pPlane25
-    2300010: pPlane26
-    3300000: pCube99
-    3300002: pPlane22
-    3300004: pPlane23
-    3300006: pPlane24
-    3300008: pPlane25
-    3300010: pPlane26
-    4300000: pPlane26
-    4300002: pPlane24
-    4300004: pPlane23
-    4300006: pPlane22
-    4300008: pPlane25
-    4300010: pCube99
+    100000: //RootNode
+    100002: Arbolaco:pCube1
+    100004: Arbolaco:pPlane10
+    100006: Arbolaco:pPlane11
+    100008: Arbolaco:pPlane12
+    100010: Arbolaco:pPlane13
+    100012: Arbolaco:pPlane14
+    100014: Arbolaco:pPlane15
+    100016: Arbolaco:pPlane16
+    100018: Arbolaco:pPlane17
+    100020: Arbolaco:pPlane5
+    100022: Arbolaco:pPlane6
+    100024: Arbolaco:pPlane7
+    100026: Arbolaco:pPlane8
+    100028: Arbolaco:pPlane9
+    400000: //RootNode
+    400002: Arbolaco:pCube1
+    400004: Arbolaco:pPlane10
+    400006: Arbolaco:pPlane11
+    400008: Arbolaco:pPlane12
+    400010: Arbolaco:pPlane13
+    400012: Arbolaco:pPlane14
+    400014: Arbolaco:pPlane15
+    400016: Arbolaco:pPlane16
+    400018: Arbolaco:pPlane17
+    400020: Arbolaco:pPlane5
+    400022: Arbolaco:pPlane6
+    400024: Arbolaco:pPlane7
+    400026: Arbolaco:pPlane8
+    400028: Arbolaco:pPlane9
+    2100000: Arbolaco_initialShadingGroup1
+    2100002: lambert26
+    2300000: Arbolaco:pCube1
+    2300002: Arbolaco:pPlane10
+    2300004: Arbolaco:pPlane11
+    2300006: Arbolaco:pPlane12
+    2300008: Arbolaco:pPlane13
+    2300010: Arbolaco:pPlane14
+    2300012: Arbolaco:pPlane15
+    2300014: Arbolaco:pPlane16
+    2300016: Arbolaco:pPlane17
+    2300018: Arbolaco:pPlane5
+    2300020: Arbolaco:pPlane6
+    2300022: Arbolaco:pPlane7
+    2300024: Arbolaco:pPlane8
+    2300026: Arbolaco:pPlane9
+    3300000: Arbolaco:pCube1
+    3300002: Arbolaco:pPlane10
+    3300004: Arbolaco:pPlane11
+    3300006: Arbolaco:pPlane12
+    3300008: Arbolaco:pPlane13
+    3300010: Arbolaco:pPlane14
+    3300012: Arbolaco:pPlane15
+    3300014: Arbolaco:pPlane16
+    3300016: Arbolaco:pPlane17
+    3300018: Arbolaco:pPlane5
+    3300020: Arbolaco:pPlane6
+    3300022: Arbolaco:pPlane7
+    3300024: Arbolaco:pPlane8
+    3300026: Arbolaco:pPlane9
+    4300000: Arbolaco:pCube1
+    4300002: Arbolaco:pPlane5
+    4300004: Arbolaco:pPlane6
+    4300006: Arbolaco:pPlane7
+    4300008: Arbolaco:pPlane8
+    4300010: Arbolaco:pPlane9
+    4300012: Arbolaco:pPlane10
+    4300014: Arbolaco:pPlane11
+    4300016: Arbolaco:pPlane12
+    4300018: Arbolaco:pPlane13
+    4300020: Arbolaco:pPlane14
+    4300022: Arbolaco:pPlane15
+    4300024: Arbolaco:pPlane16
+    4300026: Arbolaco:pPlane17
     9500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert1
+      name: Arbolaco_initialShadingGroup1
     second: {fileID: 2100000, guid: d76611e445a837f49b5bbaece36faa18, type: 2}
   - first:
       type: UnityEngine:Material

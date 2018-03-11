@@ -12,7 +12,12 @@ ModelImporter:
     3300000: //RootNode
     4300000: tronco1:polySurface1
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tronco1_initialShadingGroup1
+    second: {fileID: 2100000, guid: f5341504ebf20f3458d04fde7d636344, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
