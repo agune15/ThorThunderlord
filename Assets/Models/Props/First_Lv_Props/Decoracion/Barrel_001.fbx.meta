@@ -30,11 +30,24 @@ ModelImporter:
     400020: transform8
     400022: transform9
     2100000: lambert1
+    2100002: lambert2
     2300000: polySurface117
+    2300002: //RootNode
     3300000: polySurface117
+    3300002: //RootNode
     4300000: polySurface117
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 8d23faba05908554a88f616100749db9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: 8d23faba05908554a88f616100749db9, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
