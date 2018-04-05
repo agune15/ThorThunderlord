@@ -35,7 +35,8 @@ public class HammerBehaviour : MonoBehaviour {
         hammerLPosition = hammerTransform.localPosition;
         hammerLRotation = hammerTransform.localRotation;
 
-        parentBone = GameObject.Find("transform9").GetComponent<Transform>();
+
+        parentBone = GameObject.FindWithTag("hammerParent").GetComponent<Transform>();
         hammerTransform.SetParent(parentBone, true);
     }
 

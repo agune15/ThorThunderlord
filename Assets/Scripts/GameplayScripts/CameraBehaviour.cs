@@ -18,7 +18,9 @@ public class CameraBehaviour : MonoBehaviour {
 
     float wheelAxis = 0;
 
-    float zoomAddition = 0.64f;
+    //float zoomAddition = 0.64f;
+    float yZoomAddition;
+    float zZoomAddition;
 
     float zoomMinLimit = 0.8f;
     float zoomMaxLimit = 0;
@@ -41,8 +43,30 @@ public class CameraBehaviour : MonoBehaviour {
 
         playerCanMove = false;
 
-        minOffset = offsetPos + new Vector3(0, -zoomAddition * 8, zoomAddition * 8 * 0.75f);
+        bool yOffsetIsBigger = (Mathf.Abs(offsetPos.y) > Mathf.Abs(offsetPos.z)) ? true : false;
+        float smallAdditionPercentage;
+
+        if (yOffsetIsBigger)
+        {
+            smallAdditionPercentage = Mathf.Abs(offsetPos.z) / Mathf.Abs(offsetPos.y);
+            yZoomAddition = offsetPos.y / 10;
+            zZoomAddition = -Mathf.Abs(yZoomAddition) * smallAdditionPercentage;
+        }
+        else
+        {
+            smallAdditionPercentage = Mathf.Abs(offsetPos.y) / Mathf.Abs(offsetPos.z);
+            zZoomAddition = offsetPos.z / 10;
+            yZoomAddition = Mathf.Abs(zZoomAddition) * smallAdditionPercentage;
+        }
+
+        Debug.Log("zZoomAddition = " + zZoomAddition);
+        Debug.Log("yZoomAddition = " + yZoomAddition);
+
+        minOffset = new Vector3(0, yZoomAddition * 2, zZoomAddition * 2);
         maxOffset = offsetPos;
+
+        Debug.Log("minOffset = " + minOffset);
+        Debug.Log("maxOffset = " + maxOffset);
     }
 
     private void LateUpdate()
@@ -83,24 +107,38 @@ public class CameraBehaviour : MonoBehaviour {
             
             if (wheelAxisStorage <= zoomMinLimit && wheelAxisStorage >= zoomMaxLimit)
             {
-                offsetPos.y -= wheelAxis * 10 * zoomAddition;
-                offsetPos.z += wheelAxis * 10 * zoomAddition * 0.75f;
+                offsetPos.y -= wheelAxis * 10 * yZoomAddition;
+                offsetPos.z -= wheelAxis * 10 * zZoomAddition;
             }
             else if (wheelAxisStorage >= zoomMinLimit)
             {
+                if (offsetPos.magnitude < minOffset.magnitude)
+                {
+                    offsetPos = minOffset;
+                }
+
+                /*
                 if (offsetPos.y < minOffset.y || offsetPos.z > minOffset.z)
                 {
                     offsetPos = minOffset;
                 }
+                */
 
                 wheelAxisStorage = zoomMinLimit;
             }
             else if (wheelAxisStorage <= zoomMaxLimit)
             {
+                if (offsetPos.magnitude > maxOffset.magnitude)
+                {
+                    offsetPos = maxOffset;
+                }
+
+                /*
                 if(offsetPos.y > maxOffset.y || offsetPos.z > maxOffset.z)
                 {
                     offsetPos = maxOffset;
                 }
+                */
 
                 wheelAxisStorage = zoomMaxLimit;
             }
