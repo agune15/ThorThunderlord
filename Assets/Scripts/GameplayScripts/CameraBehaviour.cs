@@ -59,14 +59,8 @@ public class CameraBehaviour : MonoBehaviour {
             yZoomAddition = Mathf.Abs(zZoomAddition) * smallAdditionPercentage;
         }
 
-        Debug.Log("zZoomAddition = " + zZoomAddition);
-        Debug.Log("yZoomAddition = " + yZoomAddition);
-
         minOffset = new Vector3(0, yZoomAddition * 2, zZoomAddition * 2);
         maxOffset = offsetPos;
-
-        Debug.Log("minOffset = " + minOffset);
-        Debug.Log("maxOffset = " + maxOffset);
     }
 
     private void LateUpdate()

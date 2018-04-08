@@ -23,12 +23,17 @@ public class CameraRaycaster : MonoBehaviour {
 
     Vector3 navMeshHitOrigin;
 
-	void Start () {
+    EnemyHealthBar enemyHealthBar;
+
+    void Start () {
         playerBehaviour = GameObject.Find("Player").GetComponent<CharacterBehaviour>();
         playerCamera = this.GetComponent<Camera>();
 
         destination = playerBehaviour.gameObject.transform.position;
-	}
+
+        enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
+
+    }
 
     void Update()
     {
@@ -173,12 +178,15 @@ public class CameraRaycaster : MonoBehaviour {
 
     void MoveUpdate()
     {
-        if(enemyWasHit)
+        if (enemyWasHit)
         {
             playerBehaviour.SetBasicAttackTransform(enemyTransform, enemyWasHit);
 
             destination = enemyTransform.position;
             playerBehaviour.SetDestination(destination);
+
+            EnemyStats enemyStats = enemyTransform.gameObject.GetComponent<EnemyStats>();
+            enemyHealthBar.DrawEnemyHealthBar(enemyStats.gameObject, enemyStats.GetMaxLife(), enemyStats.GetLife(), enemyStats.GetEnemyType().ToString());
         }
         else
         {
@@ -186,6 +194,8 @@ public class CameraRaycaster : MonoBehaviour {
 
             destination = hitPosition;
             playerBehaviour.SetDestination(destination);
+            
+            enemyHealthBar.DisableEnemyHealthBar(null);
         }
     }
 

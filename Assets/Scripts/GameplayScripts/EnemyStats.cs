@@ -10,16 +10,18 @@ public class EnemyStats : MonoBehaviour {
     SkullBehaviour skullBehaviour = null;
     EnemyBehaviour enemyBehaviour = null;
 
+    [SerializeField] EnemyHealthBar enemyHealthBar = null;
+
     [SerializeField] Renderer enemyRenderer;
     [SerializeField] Collider enemyCollider;
     [SerializeField] public static Animator enemyAnimator;
 
     [SerializeField] float life;
+    float maxLife;
     
     public bool isSlowed = false;
 
     public float deadTimer;
-
 
 
     // Use this for initialization
@@ -27,6 +29,8 @@ public class EnemyStats : MonoBehaviour {
         enemyRenderer = this.GetComponentInChildren<Renderer>();
         enemyCollider = this.GetComponent<Collider>();
         enemyAnimator = this.GetComponentInChildren<Animator>();
+
+        enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
 
         switch(enemyType)
         {
@@ -66,11 +70,13 @@ public class EnemyStats : MonoBehaviour {
     void SkullInit()
     {
         life = 60;
+        maxLife = life;
     }
 
     void FenrirInit()
     {
         life = 340;
+        maxLife = life;
     }
 
     #endregion
@@ -101,6 +107,10 @@ public class EnemyStats : MonoBehaviour {
                     break;
             }
         }
+
+
+        Debug.Log("hey");
+        if (enemyHealthBar.playerAttackingTarget != null && enemyHealthBar.playerAttackingTarget == this.gameObject) enemyHealthBar.DrawEnemyHealthBar(this.gameObject, maxLife, life, enemyType.ToString());
     }
 
     public void SetSlowSpeed()
@@ -118,8 +128,6 @@ public class EnemyStats : MonoBehaviour {
     public static void SetFrozen ()
     {
         enemyAnimator.enabled = false;
-
-        Debug.Log("heey");
     }
 
     #endregion
@@ -130,10 +138,29 @@ public class EnemyStats : MonoBehaviour {
     {
         return life;
     }
+    
+    public float GetMaxLife()
+    {
+        return maxLife;
+    }
 
     public EnemyType GetEnemyType ()
     {
         return enemyType;
+    }
+
+    #endregion
+
+    #region Others
+
+    private void OnMouseOver()
+    {
+        enemyHealthBar.DrawEnemyHealthBar(maxLife, life, enemyType.ToString());
+    }
+
+    private void OnMouseExit()
+    {
+        enemyHealthBar.DisableEnemyHealthBar();
     }
 
     #endregion
