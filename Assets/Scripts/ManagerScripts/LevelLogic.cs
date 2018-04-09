@@ -43,11 +43,7 @@ public class LevelLogic : MonoBehaviour
         if(currentScene == managerScene) StartLoad(nextScene);
 
         inputManager = this.GetComponent<InputManager>();
-        if (inputManager != null)
-        {
-            inputManager.SetScripts();
-            inputManager.ResetStaticVariables();
-        }
+        if(inputManager != null) inputManager.SetScripts();
     }
 
     void UpdateSceneState()
@@ -72,11 +68,7 @@ public class LevelLogic : MonoBehaviour
         managerCanvas.enabled = true;
         FadeOut();
 
-        if (inputManager != null)
-        {
-            inputManager.SetScripts();
-            inputManager.ResetStaticVariables();
-        }
+        if(inputManager != null) inputManager.SetScripts();
     }
 
     void Load()
@@ -121,11 +113,7 @@ public class LevelLogic : MonoBehaviour
 
                 SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneToLoad));
                 UpdateSceneState();
-                if (inputManager != null)
-                {
-                    inputManager.SetScripts();
-                    inputManager.ResetStaticVariables();
-                }
+                if(inputManager != null) inputManager.SetScripts();
 
                 loading = false;
             }
