@@ -20,6 +20,9 @@ public class InputManager : MonoBehaviour {
     [SerializeField] bool controllerAvailable;
     [SerializeField] bool useController = false;
 
+    [Header("Variables")]
+    public static bool playerBeingAttacked = true;
+
 
     void Start()
     {
@@ -49,9 +52,6 @@ public class InputManager : MonoBehaviour {
             }
             //else ControllerInputs();
         }
-
-        //Scene Logic
-        SceneLogicInput();
     }
 
     void PlayerInput()
@@ -78,16 +78,6 @@ public class InputManager : MonoBehaviour {
 
     }*/
 
-    void SceneLogicInput()
-    {
-        if(Input.GetKey(KeyCode.AltGr))
-        {
-            if(Input.GetKeyDown(KeyCode.N)) levelLogic.StartLoad(levelLogic.nextScene);
-            if(Input.GetKeyDown(KeyCode.B)) levelLogic.StartLoad(levelLogic.backScene);
-            if(Input.GetKeyDown(KeyCode.R)) levelLogic.StartLoad(levelLogic.currentScene);
-        }
-    }
-
     #region Public Methods
 
     public void UseController (bool controllerChosen)
@@ -99,26 +89,25 @@ public class InputManager : MonoBehaviour {
     {
         if(GameObject.FindGameObjectWithTag("Player") != null)
         {
-            if(player == null)
-            {
-                player = GameObject.Find("Player");
-                playerBehaviour = player.GetComponent<CharacterBehaviour>();
-                pauseGameplay = player.GetComponent<PauseGameplay>();
-                playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
-                playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
-            }
+            player = GameObject.Find("Player");
+            playerBehaviour = player.GetComponent<CharacterBehaviour>();
+            pauseGameplay = player.GetComponent<PauseGameplay>();
+            playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
+            playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
         }
         else
         {
-            if(player != null)
-            {
-                player = null;
-                playerBehaviour = null;
-                pauseGameplay = null;
-                playerCamBehaviour = null;
-                playerCamRaycaster = null;
-            }
+            player = null;
+            playerBehaviour = null;
+            pauseGameplay = null;
+            playerCamBehaviour = null;
+            playerCamRaycaster = null;
         }
+    }
+
+    public void ResetStaticVariables ()
+    {
+        playerBeingAttacked = true;
     }
 
     #endregion

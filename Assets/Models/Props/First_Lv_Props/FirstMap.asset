@@ -308,7 +308,7 @@ MonoBehaviour:
     m_Enabled: 0
   monitors:
     currentMonitorID: 0
-    refreshOnPlay: 1
+    refreshOnPlay: 0
     histogramMode: 3
     waveformExposure: 0.12
     waveformY: 0

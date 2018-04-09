@@ -55,12 +55,7 @@ ModelImporter:
     4300012: polySurface78
     4300014: polySurface79
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Antorcha_initialShadingGroup1
-    second: {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0

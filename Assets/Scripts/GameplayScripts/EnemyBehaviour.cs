@@ -120,7 +120,7 @@ public class EnemyBehaviour : MonoBehaviour {
         }
     }
 
-    #region Skull State Updates
+    #region State Updates
 
     void FronzenUpdate()
     {
@@ -174,6 +174,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if(Vector3.Distance(transform.position, targetTransform.position) > attackRange)
         {
             SetChase();
+            InputManager.playerBeingAttacked = true;
         }
 
         switch(enemyType)
@@ -401,6 +402,8 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             targetBehaviour.SetBasicAttackTransform(this.transform, true);
         }
+
+        InputManager.playerBeingAttacked = false;
     }
 
     public void EnemyHasAttacked()
