@@ -7,12 +7,14 @@ public class EnemyHealthBar : MonoBehaviour {
 
     Canvas healthCanvas;
 
+    //UI elements
     Image healthBarBG;
     Image healthBarMask;
     Image currentHealthBar;
 
     Text enemyName;
 
+    //Enemy related variables
     public GameObject playerAttackingTarget = null;
 
 

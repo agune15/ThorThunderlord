@@ -10,6 +10,9 @@ public class CharacterBehaviour : MonoBehaviour {
     HammerBehaviour hammerBehaviour;
     Animator thorAnimator;
 
+    //UI related
+    PlayerHealthBar playerHealthBar;
+
     //Move parameters
     enum MoveStates { Idle, Move, Dead }
     MoveStates moveStates = MoveStates.Idle;
@@ -24,6 +27,7 @@ public class CharacterBehaviour : MonoBehaviour {
     bool canMove = true;
 
     public float life;
+    float maxLife;
 
     //Animation related
     [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
@@ -108,6 +112,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
         slowAreaFadeTime += slowAreaDuration;
         slowAreaDelay = slowAreaInitDelay;
+
+        maxLife = life;
+        playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
+        playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
     }
 
     private void Update()
@@ -322,6 +330,8 @@ public class CharacterBehaviour : MonoBehaviour {
             playerAgent.speed *= dashImpulse;
 
             SetRotation(RotationTypes.Dash);
+
+            playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.E, 1);
         }
     }
 
@@ -333,6 +343,7 @@ public class CharacterBehaviour : MonoBehaviour {
         playerAgent.speed = agentSpeed;
         playerAgent.SetDestination(playerTransform.position);
 
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.E);
         StartCoroutine(DashCD());
     }
 
@@ -363,6 +374,8 @@ public class CharacterBehaviour : MonoBehaviour {
                     enemyList.Add(new EnemyStatsTransform(enemy.transform, enemy.GetComponent<EnemyStats>()));
                 }
             }
+
+            playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.W, 1);
         }
     }
 
@@ -409,6 +422,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
                 enemyList.Clear();
 
+                playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.W);
                 StartCoroutine(SlowAreaCD());
             }
         }
@@ -449,6 +463,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
             thorAnimator.SetTrigger("throwHammer");
             thorAnimator.ResetTrigger("hit");
+
+            playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         }
     }
 
@@ -487,6 +503,7 @@ public class CharacterBehaviour : MonoBehaviour {
                 thorAnimator.SetTrigger("hit");
             }
 
+            playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
             StartCoroutine(ThrowHammerCD());
         }
     }
@@ -587,8 +604,9 @@ public class CharacterBehaviour : MonoBehaviour {
     public void SetDamage (float damage)
     {
         life -= damage;
+        playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
 
-        if(life <= 0 && moveStates != MoveStates.Dead) SetDead();
+        if (life <= 0 && moveStates != MoveStates.Dead) SetDead();
     }
 
     #endregion
@@ -599,6 +617,19 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         playerIsAttacking = isAttacking;
         playerIsMoving = !playerAgent.isStopped;
+    }
+
+    //Value storage
+    public float GetLife ()
+    {
+        return life;
+    }
+
+    public void GetAbilityCooldowns (out float qCooldown, out float wCooldown, out float eCooldown)
+    {
+        qCooldown = throwCD;
+        wCooldown = slowAreaCD;
+        eCooldown = dashCooldown;
     }
 
     #endregion
@@ -629,6 +660,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
     IEnumerator ThrowHammerCD()
     {
+        playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
         yield return new WaitForSeconds(throwCD);
         throwAvailable = true;
     }

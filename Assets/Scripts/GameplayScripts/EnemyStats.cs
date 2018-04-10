@@ -69,13 +69,13 @@ public class EnemyStats : MonoBehaviour {
 
     void SkullInit()
     {
-        life = 60;
+        life = 30;
         maxLife = life;
     }
 
     void FenrirInit()
     {
-        life = 340;
+        life = 300;
         maxLife = life;
     }
 
@@ -108,8 +108,8 @@ public class EnemyStats : MonoBehaviour {
             }
         }
 
+        Debug.Log(enemyType.ToString() + " received damage");
 
-        Debug.Log("hey");
         if (enemyHealthBar.playerAttackingTarget != null && enemyHealthBar.playerAttackingTarget == this.gameObject) enemyHealthBar.DrawEnemyHealthBar(this.gameObject, maxLife, life, enemyType.ToString());
     }
 
