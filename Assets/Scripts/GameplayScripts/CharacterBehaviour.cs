@@ -41,6 +41,9 @@ public class CharacterBehaviour : MonoBehaviour {
     public float attackRange;
     float attackDuration;
 
+    public bool isBeingAttacked = false;
+    [SerializeField] List<string> enemiesWhoAttacked = new List<string>();
+
     Transform enemyTargetTransform;
 
     //Dash parameters
@@ -115,7 +118,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
         maxLife = life;
         playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
-        playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
+        StartCoroutine(SetInitLife());
     }
 
     private void Update()
@@ -161,6 +164,8 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
+
+        Debug.Log(isBeingAttacked);
     }
 
     #region State Updates
@@ -609,6 +614,24 @@ public class CharacterBehaviour : MonoBehaviour {
         if (life <= 0 && moveStates != MoveStates.Dead) SetDead();
     }
 
+    public void SetBeingAttacked(string enemyName, bool enemyIsAttacking)
+    {
+        if (enemyIsAttacking)
+        {
+            if (!enemiesWhoAttacked.Contains(enemyName)) enemiesWhoAttacked.Add(enemyName);
+            if (isBeingAttacked != enemyIsAttacking) isBeingAttacked = enemyIsAttacking;
+        }
+        else
+        {
+            if (enemiesWhoAttacked.Contains(enemyName))
+            {
+                enemiesWhoAttacked.Remove(enemyName);
+            }
+        }
+
+        if (enemiesWhoAttacked.Count == 0) isBeingAttacked = false;
+    }
+
     #endregion
 
     #region Gets
@@ -664,6 +687,12 @@ public class CharacterBehaviour : MonoBehaviour {
         playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
         yield return new WaitForSeconds(throwCD);
         throwAvailable = true;
+    }
+
+    IEnumerator SetInitLife()
+    {
+        yield return new WaitForSeconds(0.1f);
+        playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
     }
 
     #endregion

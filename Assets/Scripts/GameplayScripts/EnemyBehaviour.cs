@@ -222,6 +222,8 @@ public class EnemyBehaviour : MonoBehaviour {
         SetSpeed();
 
         enemyState = EnemyStates.Chase;
+
+        targetBehaviour.SetBeingAttacked(this.gameObject.name, true);
     }
 
     void SetAttack()
@@ -252,6 +254,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
         targetBehaviour.SetBasicAttackTransform(null, false);
         targetBehaviour.SetDestination(targetTransform.position);
+
+        targetBehaviour.SetBeingAttacked(this.gameObject.name, false);
 
         enemyState = EnemyStates.Dead;
     }

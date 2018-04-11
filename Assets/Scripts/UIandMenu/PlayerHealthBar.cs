@@ -10,7 +10,7 @@ public class PlayerHealthBar : MonoBehaviour {
     CharacterBehaviour playerBehaviour;
 
     //UI elements
-    Image healthBar;
+    [SerializeField] Image healthBar;
 
     Image qIcon;
     Image wIcon;

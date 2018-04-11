@@ -4,13 +4,34 @@ using UnityEngine;
 
 public class LeverPuller : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    CharacterBehaviour playerBehaviour;
+    public LeverDoorBehaviour doorBehaviour;
+    
+    enum LeverStates { Unused = 0, Used }
+    LeverStates leverState = LeverStates.Unused;
+    Animator leverAnimator;
+
+    private void Start()
+    {
+        playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
+        leverAnimator = GetComponentInChildren<Animator>();
+    }
+
+    private void Update()
+    {
+        //Animator related
+        leverAnimator.SetInteger("leverState", (int)leverState);
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetButtonDown("Interact") && !playerBehaviour.isBeingAttacked && leverState != LeverStates.Unused)
+        {
+            if (Vector3.Distance(playerBehaviour.transform.position, transform.position) < 10)
+            {
+                //doorBehaviour.OpenDoor();
+                leverState = LeverStates.Unused;
+            }
+        }
+    }
 }

@@ -2237,7 +2237,6 @@ GameObject:
   - component: {fileID: 136310849900959572}
   - component: {fileID: 54629985572375298}
   - component: {fileID: 114497663873833028}
-  - component: {fileID: 114844341763025740}
   - component: {fileID: 81094928250364540}
   - component: {fileID: 82650840092177112}
   m_Layer: 9
@@ -4588,7 +4587,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1954781730001834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -14.3, y: 4.087, z: -9.85}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4791781108823340}
@@ -4839,9 +4838,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1973f97910834d14c8d12d6947fde65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  life: 160
+  life: 220
   animationsList: []
   attackRange: 1.8
+  enemiesWhoAttacked: []
   dashAvailable: 1
   dashDuration: 1
   dashCooldown: 2
@@ -4877,19 +4877,6 @@ MonoBehaviour:
   endPosition: {x: 0, y: 0, z: 0}
   basicAttackDamage: 8
   throwHammerDamage: 10
---- !u!114 &114844341763025740
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1954781730001834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a758790215e3274a80425cd40284472, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGamePaused: 0
-  canvas: {fileID: 0}
 --- !u!114 &114871391840987604
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4464641360409440}
   - component: {fileID: 33514634555442900}
   - component: {fileID: 23259302620883276}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4761883807320226}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 4328083735877670}
   - component: {fileID: 33896788044038450}
   - component: {fileID: 23986373636245244}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 4087586030376932}
   - component: {fileID: 33745096828184164}
   - component: {fileID: 23023263130379190}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 4546409350813842}
   - component: {fileID: 135722173815136860}
   - component: {fileID: 114504503349348216}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: WoodenDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4027760450817058}
   - component: {fileID: 33852407842764940}
   - component: {fileID: 23655623765882390}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 4104432926347200}
   - component: {fileID: 33193856998966772}
   - component: {fileID: 23349750541481100}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 4244607540247288}
   - component: {fileID: 33562239029838472}
   - component: {fileID: 23846396985297124}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 4932882440759362}
   - component: {fileID: 33837927067630230}
   - component: {fileID: 23365907141939926}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 4962728998655210}
   - component: {fileID: 33450768514703632}
   - component: {fileID: 23877084048221664}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4444208884528966}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 4195899507818764}
   - component: {fileID: 33844346548543142}
   - component: {fileID: 23890348732138482}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: polySurface19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4604757550938084}
   - component: {fileID: 95235449281011902}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WoodenDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +422,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -456,7 +456,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -490,7 +490,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -524,7 +524,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -558,7 +558,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -592,7 +592,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -626,7 +626,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -660,7 +660,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -694,7 +694,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 17a81ecf92344ed4e9ce6a4eace56058, type: 3}
+  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
