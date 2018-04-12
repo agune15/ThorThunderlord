@@ -19,6 +19,4 @@ public class LeverDoorBehaviour : MonoBehaviour {
         doorState = DoorStates.Opened;
         doorAnimator.SetInteger("doorStates", (int)doorState);
     }
-
-    //A method to trigger the door animation, etc
 }

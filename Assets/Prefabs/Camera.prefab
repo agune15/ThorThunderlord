@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 20539987094211466}
   - component: {fileID: 114258308161688796}
   - component: {fileID: 114295832453140650}
+  - component: {fileID: 114748588088759860}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -35,13 +36,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1915825363212386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: -21.87}
+  m_LocalRotation: {x: 0.34243017, y: 0, z: 0, w: 0.9395433}
+  m_LocalPosition: {x: -14.6, y: 19, z: -34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 40.050003, y: 0, z: 0}
 --- !u!20 &20539987094211466
 Camera:
   m_ObjectHideFlags: 1
@@ -89,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeef2b3e68f63dc498a8ec1d9f9c5a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetPos: {x: 0, y: 8, z: -6}
+  offsetPos: {x: 0, y: 11, z: -11}
   heightOffset: 1.2
   smoothTime: 1
 --- !u!114 &114295832453140650
@@ -110,3 +111,15 @@ MonoBehaviour:
   dashLayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &114748588088759860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1915825363212386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: f10066417e9a0314d85130a605d0f546, type: 2}

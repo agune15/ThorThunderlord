@@ -5,7 +5,7 @@ using UnityEngine;
 public class LeverPuller : MonoBehaviour {
 
     CharacterBehaviour playerBehaviour;
-    //public LeverDoorBehaviour doorBehaviour;
+    public LeverDoorBehaviour doorBehaviour;
     
     enum LeverStates { Unused = 0, Used }
     LeverStates leverState = LeverStates.Unused;
@@ -24,7 +24,7 @@ public class LeverPuller : MonoBehaviour {
         {
             if (Vector3.Distance(playerBehaviour.transform.position, transform.position) < 10)
             {
-                //doorBehaviour.OpenDoor();
+                doorBehaviour.OpenDoor();
                 leverState = LeverStates.Used;
                 leverAnimator.SetInteger("leverState", (int)leverState);
             }

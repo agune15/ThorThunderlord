@@ -9,7 +9,7 @@ OcclusionCullingSettings:
     smallestHole: 0.25
     backfaceThreshold: 100
   m_SceneGUID: 1fa84fd4cb69919419e372f58d1f5fc1
-  m_OcclusionCullingData: {fileID: 36300000, guid: 275e5b151f1edf546b65fa22cf06fdd0,
+  m_OcclusionCullingData: {fileID: 36300000, guid: ba76d71fb39853640a5adb822420b3ff,
     type: 2}
 --- !u!104 &2
 RenderSettings:
@@ -99,21 +99,21 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.7
+    agentRadius: 0.5
     agentHeight: 2
     agentSlope: 60
-    agentClimb: 0.3
+    agentClimb: 0.5
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.23333333
+    cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 642b9e42af125ae4fbdd74305a0a0934, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 22d29ecbc87f62342b372a7bcca5b12e, type: 2}
 --- !u!1 &962826718
 GameObject:
   m_ObjectHideFlags: 0
