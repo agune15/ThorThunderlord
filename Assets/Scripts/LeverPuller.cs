@@ -5,7 +5,7 @@ using UnityEngine;
 public class LeverPuller : MonoBehaviour {
 
     CharacterBehaviour playerBehaviour;
-    public LeverDoorBehaviour doorBehaviour;
+    //public LeverDoorBehaviour doorBehaviour;
     
     enum LeverStates { Unused = 0, Used }
     LeverStates leverState = LeverStates.Unused;
@@ -15,22 +15,18 @@ public class LeverPuller : MonoBehaviour {
     {
         playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
         leverAnimator = GetComponentInChildren<Animator>();
-    }
-
-    private void Update()
-    {
-        //Animator related
         leverAnimator.SetInteger("leverState", (int)leverState);
     }
 
     private void OnMouseOver()
     {
-        if (Input.GetButtonDown("Interact") && !playerBehaviour.isBeingAttacked && leverState != LeverStates.Unused)
+        if (Input.GetButtonDown("Interact") && !playerBehaviour.isBeingAttacked && leverState == LeverStates.Unused)
         {
             if (Vector3.Distance(playerBehaviour.transform.position, transform.position) < 10)
             {
                 //doorBehaviour.OpenDoor();
-                leverState = LeverStates.Unused;
+                leverState = LeverStates.Used;
+                leverAnimator.SetInteger("leverState", (int)leverState);
             }
         }
     }

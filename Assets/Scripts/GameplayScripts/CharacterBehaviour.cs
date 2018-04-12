@@ -164,8 +164,6 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
-
-        Debug.Log(isBeingAttacked);
     }
 
     #region State Updates
