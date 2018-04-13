@@ -7,6 +7,8 @@ public class EnemyStats : MonoBehaviour {
     public enum EnemyType { Skull, Fenrir }
     public EnemyType enemyType;
 
+    ParticleInstancer particleInstancer;
+
     SkullBehaviour skullBehaviour = null;
     EnemyBehaviour enemyBehaviour = null;
 
@@ -26,6 +28,8 @@ public class EnemyStats : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        particleInstancer = GameObject.Find("GameplayUI").GetComponent<ParticleInstancer>();
+
         enemyRenderer = this.GetComponentInChildren<Renderer>();
         enemyCollider = this.GetComponent<Collider>();
         enemyAnimator = this.GetComponentInChildren<Animator>();
@@ -111,6 +115,27 @@ public class EnemyStats : MonoBehaviour {
         Debug.Log(enemyType.ToString() + " received damage");
 
         if (enemyHealthBar.playerAttackingTarget != null && enemyHealthBar.playerAttackingTarget == this.gameObject) enemyHealthBar.DrawEnemyHealthBar(this.gameObject, maxLife, life, enemyType.ToString());
+    }
+
+    //Particle instancing overload
+    public void SetDamage(float damage, Quaternion particleAngle)
+    {
+        if (life > 0)
+        {
+            switch (enemyType)
+            {
+                case EnemyType.Skull:
+                    particleInstancer.InstanciateParticleSystem("Enemy_Blood", transform.position + new Vector3(0, 1, 0), particleAngle);
+                    break;
+                case EnemyType.Fenrir:
+                    particleInstancer.InstanciateParticleSystem("Enemy_Blood", transform.position + new Vector3(0, 2, -0.5f), particleAngle);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        SetDamage(damage);
     }
 
     public void SetSlowSpeed()

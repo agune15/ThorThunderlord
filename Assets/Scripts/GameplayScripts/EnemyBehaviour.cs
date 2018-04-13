@@ -249,6 +249,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void SetDead()
     {
+        if (enemyType == EnemyStats.EnemyType.Fenrir) PlayingEndMessage.PlayVictory();
+
         enemyAgent.isStopped = true;
         enemyAnimator.SetTrigger("die");
 
@@ -287,7 +289,7 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             if(hasAttacked)
             {
-                targetBehaviour.SetDamage(10);
+                targetBehaviour.SetDamage(10, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(targetTransform.position)), 0)));
 
                 hasAttacked = false;
                 isSpinning = false;
@@ -309,7 +311,7 @@ public class EnemyBehaviour : MonoBehaviour {
             {
                 if(hasAttacked)
                 {
-                    targetBehaviour.SetDamage(4);
+                    targetBehaviour.SetDamage(4, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(targetTransform.position)), 0)));
                     alreadyAttacked = true;
                     hasAttacked = false;
                 }
@@ -364,7 +366,7 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             if(hasAttacked)
             {
-                targetBehaviour.SetDamage(9);
+                targetBehaviour.SetDamage(9, transform.rotation);
                 alreadyAttacked = true;
                 hasAttacked = false;
             }

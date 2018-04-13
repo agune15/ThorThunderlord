@@ -33,6 +33,9 @@ public class LevelLogic : MonoBehaviour
         managerCanvas = GameObject.Find("ManagerCanvas").GetComponent<Canvas>();
         managerCanvas.enabled = true;
 
+        blackScreen = GameObject.Find("blackScreen").GetComponent<Image>();
+        percentText = GameObject.Find("percentText").GetComponent<Text>();
+
         blackScreen.color = Color.black;
         blackScreen.CrossFadeAlpha(0, fadeTime, true);
 

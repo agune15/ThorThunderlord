@@ -7,6 +7,13 @@ public class HammerTrigger : MonoBehaviour {
     EnemyStats.EnemyType enemyType;
 
     HammerBehaviour hammerBehaviour;
+    Transform playerTransform;
+
+    void Start()
+    {
+        hammerBehaviour = this.GetComponentInParent<HammerBehaviour>();
+        playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+    }
 
     private void Update()
     {
@@ -14,16 +21,13 @@ public class HammerTrigger : MonoBehaviour {
         if(transform.localRotation.eulerAngles != Vector3.zero) transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
-    void Start ()
-    {
-        hammerBehaviour = this.GetComponentInParent<HammerBehaviour>();
-    }
-
     private void OnTriggerEnter (Collider other)
     {
         if (other.tag == "Enemy")
         {
-            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.DealDamage());
+            Vector3 directionToEnemy = other.transform.position - playerTransform.position;
+
+            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.DealDamage(), playerTransform.rotation);
 
             Debug.Log("triggerEnter");
         }

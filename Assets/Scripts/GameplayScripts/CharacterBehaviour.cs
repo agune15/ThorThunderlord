@@ -32,6 +32,9 @@ public class CharacterBehaviour : MonoBehaviour {
     //Animation related
     [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
 
+    //Particle related
+    ParticleInstancer particleInstancer;
+
     //Basic Attack parameters
     [Header("Basic Attack parameters")]
     bool isAttacking = false;
@@ -68,6 +71,7 @@ public class CharacterBehaviour : MonoBehaviour {
     bool isSlowingArea = false;
     bool slowAreaAvailable = true;
     bool isCastingArea = false;
+    bool castedAreaFX = false;
 
     public float slowAreaRange;
     public float slowAreaDuration;
@@ -119,6 +123,8 @@ public class CharacterBehaviour : MonoBehaviour {
         maxLife = life;
         playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
         StartCoroutine(SetInitLife());
+
+        particleInstancer = playerHealthBar.gameObject.GetComponent<ParticleInstancer>();
     }
 
     private void Update()
@@ -361,6 +367,7 @@ public class CharacterBehaviour : MonoBehaviour {
             isSlowingArea = true;
             slowAreaAvailable = false;
             isCastingArea = true;
+            castedAreaFX = false;
             slowAreaDelay = slowAreaInitDelay;
 
             thorAnimator.SetTrigger("castArea");
@@ -393,7 +400,7 @@ public class CharacterBehaviour : MonoBehaviour {
         }
         else
         {
-            if (playerAgent.destination != transform.position)   playerAgent.isStopped = false;
+            if (playerAgent.destination != transform.position) playerAgent.isStopped = false;
             canMove = true;
             if (isCastingArea && isAttacking) thorAnimator.SetTrigger("hit");
             isCastingArea = false;
@@ -401,6 +408,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
         if(slowAreaCount <= slowAreaDuration)
         {
+            if (!castedAreaFX)
+            {
+                particleInstancer.InstanciateParticleSystem("Area_Thor", playerTransform.position, Quaternion.identity);
+                castedAreaFX = true;
+            }
+
             slowAreaCount += Time.deltaTime;
         }
         else
@@ -609,7 +622,19 @@ public class CharacterBehaviour : MonoBehaviour {
         life -= damage;
         playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
 
-        if (life <= 0 && moveStates != MoveStates.Dead) SetDead();
+        if (life <= 0 && moveStates != MoveStates.Dead)
+        {
+            SetDead();
+            PlayingEndMessage.PlayVictory();
+        }
+    }
+
+    //Particle instancing overload
+    public void SetDamage (float damage, Quaternion particleAngle)
+    {
+        particleInstancer.InstanciateParticleSystem("Blood", playerTransform.position + new Vector3(0, 1, 0), particleAngle);
+
+        SetDamage(damage);
     }
 
     public void SetBeingAttacked(string enemyName, bool enemyIsAttacking)

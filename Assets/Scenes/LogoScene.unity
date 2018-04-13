@@ -88,6 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -151,8 +152,9 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 168216930}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: b2780a14f8f10c64486f9a5746cb8f17, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 8c7a0ce997e9cb84983bad769f3ede0a, type: 3}
   m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 2029607866}
   m_TargetTexture: {fileID: 0}
   m_TimeReference: 0
@@ -164,7 +166,7 @@ VideoPlayer:
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources:
-  - {fileID: 0}
+  - {fileID: 168216933}
   m_DirectAudioVolumes:
   - 1
   m_Url: 
@@ -264,7 +266,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 168216930}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727903adde419c14b88b488183f2aabc, type: 3}
+  m_Script: {fileID: 11500000, guid: 46b000680a162f545bb6842faf9d2549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &168216935
@@ -344,6 +346,7 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10

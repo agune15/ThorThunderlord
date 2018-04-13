@@ -42,4 +42,10 @@ public class PlayingEndMessage : MonoBehaviour {
         play = true;
         playerWon = false;
     }
+
+    public static void ResetEndMessage ()
+    {
+        play = false;
+        playerWon = false;
+    }
 }

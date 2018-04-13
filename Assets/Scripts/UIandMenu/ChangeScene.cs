@@ -8,7 +8,7 @@ public class ChangeScene : MonoBehaviour {
 
     private void Start()
     {
-        levelLogic = GameObject.Find("Managers").GetComponent<LevelLogic>();
+        levelLogic = GameObject.FindWithTag("manager").GetComponent<LevelLogic>();
     }
 
     public void SetScene(int scene)
