@@ -5,17 +5,7 @@ using UnityEngine.UI;
 
 public class FunctionButtons : MonoBehaviour
 {
-    
     public Text myText;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void ChangeTextColor()
     {
