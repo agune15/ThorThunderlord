@@ -58,6 +58,8 @@ public class ForestTransition : MonoBehaviour
 
     public void EasingStart()
     {
+        if (isEasing) return;
+
         goUp = !goUp;
         isEasing = true;
 

@@ -18,11 +18,11 @@ public class UIPressButtons : MonoBehaviour {
     void Update () {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            if(startButton.enabled && !cameraTransition.IsEasing()) startButton.onClick.Invoke();
+            if(startButton.isActiveAndEnabled && !cameraTransition.IsEasing() && startButton.interactable) startButton.onClick.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(exitButton.enabled && !cameraTransition.IsEasing()) exitButton.onClick.Invoke();
+            if(exitButton.isActiveAndEnabled && !cameraTransition.IsEasing() && exitButton.interactable) exitButton.onClick.Invoke();
         }
     }
 }
