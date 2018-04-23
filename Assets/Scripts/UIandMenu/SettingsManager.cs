@@ -9,15 +9,18 @@ using UnityEngine.PostProcessing;
 public class SettingsManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
-    public PostProcessingProfile postProcessingAsset;
+    [SerializeField] PostProcessingProfile postProcessingAsset;
     public Slider basicExposure;
     public GameSettings gameSettings;
     
 
     void Start()
     {
+        postProcessingAsset = GameObject.FindWithTag("MainCamera").GetComponent<PostProcessingBehaviour>().profile;
+        audioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;  //Make this work!
         OnFullScreenOn();
     }
+
     void OnEnable()
     {
         gameSettings = new GameSettings();
