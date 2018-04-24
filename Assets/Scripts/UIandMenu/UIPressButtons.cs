@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIPressButtons : MonoBehaviour {
 
+    [Header("Buttons")]
     public Button startButton;
     public Button mainExitButton;
     public Button optionsExitButton;
@@ -13,6 +14,7 @@ public class UIPressButtons : MonoBehaviour {
     public Button controlsExitButton;
     public Button languageExitButton;
 
+    [Header("Animators")]
     public Animator optionsPanelAnimator;
     public Animator videoPanelAnimator;
     public Animator soundPanelAnimator;

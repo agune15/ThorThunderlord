@@ -17,7 +17,6 @@ public class SettingsManager : MonoBehaviour
     void Start()
     {
         postProcessingAsset = GameObject.FindWithTag("MainCamera").GetComponent<PostProcessingBehaviour>().profile;
-        audioMixer.updateMode = AudioMixerUpdateMode.UnscaledTime;  //Make this work!
         OnFullScreenOn();
     }
 
