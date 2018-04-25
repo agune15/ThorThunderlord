@@ -1,0 +1,305 @@
+fileFormatVersion: 2
+guid: 70607398b8626db4187f954858f22d17
+timeCreated: 1524689124
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: group1
+    100002: group1 1
+    100004: group2
+    100006: group2 1
+    100008: pCylinder17
+    100010: pCylinder17 1
+    100012: pCylinder18
+    100014: pCylinder18 1
+    100016: pCylinder19
+    100018: pCylinder20
+    100020: polySurface1
+    100022: polySurface10
+    100024: polySurface11
+    100026: polySurface12
+    100028: polySurface122
+    100030: polySurface122 1
+    100032: polySurface123
+    100034: polySurface123 1
+    100036: polySurface124
+    100038: polySurface124 1
+    100040: polySurface125
+    100042: polySurface125 1
+    100044: polySurface125 2
+    100046: polySurface125 3
+    100048: polySurface126
+    100050: polySurface126 1
+    100052: polySurface126 2
+    100054: polySurface126 3
+    100056: polySurface127
+    100058: polySurface127 1
+    100060: polySurface127 2
+    100062: polySurface127 3
+    100064: polySurface13
+    100066: polySurface2
+    100068: polySurface3
+    100070: polySurface4
+    100072: polySurface5
+    100074: polySurface6
+    100076: polySurface7
+    100078: polySurface8
+    100080: polySurface9
+    100082: polySurface9 1
+    100084: Railes
+    100086: Railes1
+    100088: Rotatory_Trap
+    100090: transform1
+    100092: transform10
+    100094: transform11
+    100096: transform12
+    100098: transform13
+    100100: transform2
+    100102: transform3
+    100104: transform4
+    100106: transform5
+    100108: transform6
+    100110: transform7
+    100112: transform8
+    100114: transform9
+    100116: Trap:polySurface1
+    100118: //RootNode
+    400000: group1
+    400002: group1 1
+    400004: group2
+    400006: group2 1
+    400008: pCylinder17
+    400010: pCylinder17 1
+    400012: pCylinder18
+    400014: pCylinder18 1
+    400016: pCylinder19
+    400018: pCylinder20
+    400020: polySurface1
+    400022: polySurface10
+    400024: polySurface11
+    400026: polySurface12
+    400028: polySurface122
+    400030: polySurface122 1
+    400032: polySurface123
+    400034: polySurface123 1
+    400036: polySurface124
+    400038: polySurface124 1
+    400040: polySurface125
+    400042: polySurface125 1
+    400044: polySurface125 2
+    400046: polySurface125 3
+    400048: polySurface126
+    400050: polySurface126 1
+    400052: polySurface126 2
+    400054: polySurface126 3
+    400056: polySurface127
+    400058: polySurface127 1
+    400060: polySurface127 2
+    400062: polySurface127 3
+    400064: polySurface13
+    400066: polySurface2
+    400068: polySurface3
+    400070: polySurface4
+    400072: polySurface5
+    400074: polySurface6
+    400076: polySurface7
+    400078: polySurface8
+    400080: polySurface9
+    400082: polySurface9 1
+    400084: Railes
+    400086: Railes1
+    400088: Rotatory_Trap
+    400090: transform1
+    400092: transform10
+    400094: transform11
+    400096: transform12
+    400098: transform13
+    400100: transform2
+    400102: transform3
+    400104: transform4
+    400106: transform5
+    400108: transform6
+    400110: transform7
+    400112: transform8
+    400114: transform9
+    400116: Trap:polySurface1
+    400118: //RootNode
+    2100000: lambert1
+    2100002: lambert3
+    2100004: lambert4
+    2300000: pCylinder17
+    2300002: pCylinder17 1
+    2300004: pCylinder18
+    2300006: pCylinder18 1
+    2300008: pCylinder19
+    2300010: pCylinder20
+    2300012: polySurface122
+    2300014: polySurface122 1
+    2300016: polySurface123
+    2300018: polySurface123 1
+    2300020: polySurface124
+    2300022: polySurface124 1
+    2300024: polySurface125
+    2300026: polySurface125 1
+    2300028: polySurface125 2
+    2300030: polySurface125 3
+    2300032: polySurface126
+    2300034: polySurface126 1
+    2300036: polySurface126 2
+    2300038: polySurface126 3
+    2300040: polySurface127
+    2300042: polySurface127 1
+    2300044: polySurface127 2
+    2300046: polySurface127 3
+    2300048: polySurface13
+    2300050: polySurface9
+    3300000: pCylinder17
+    3300002: pCylinder17 1
+    3300004: pCylinder18
+    3300006: pCylinder18 1
+    3300008: pCylinder19
+    3300010: pCylinder20
+    3300012: polySurface122
+    3300014: polySurface122 1
+    3300016: polySurface123
+    3300018: polySurface123 1
+    3300020: polySurface124
+    3300022: polySurface124 1
+    3300024: polySurface125
+    3300026: polySurface125 1
+    3300028: polySurface125 2
+    3300030: polySurface125 3
+    3300032: polySurface126
+    3300034: polySurface126 1
+    3300036: polySurface126 2
+    3300038: polySurface126 3
+    3300040: polySurface127
+    3300042: polySurface127 1
+    3300044: polySurface127 2
+    3300046: polySurface127 3
+    3300048: polySurface13
+    3300050: polySurface9
+    4300000: polySurface9
+    4300002: polySurface13
+    4300004: polySurface122
+    4300006: pCylinder17
+    4300008: polySurface123
+    4300010: polySurface124
+    4300012: pCylinder18
+    4300014: polySurface127
+    4300016: polySurface126
+    4300018: polySurface125
+    4300020: polySurface127
+    4300022: polySurface126
+    4300024: polySurface125
+    4300026: pCylinder19
+    4300028: pCylinder20
+    4300030: polySurface122
+    4300032: pCylinder17
+    4300034: polySurface123
+    4300036: polySurface124
+    4300038: pCylinder18
+    4300040: polySurface127
+    4300042: polySurface126
+    4300044: polySurface125
+    4300046: polySurface127
+    4300048: polySurface126
+    4300050: polySurface125
+    7400000: Animation
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 8d23faba05908554a88f616100749db9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert3
+    second: {fileID: 2100000, guid: 8d23faba05908554a88f616100749db9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert4
+    second: {fileID: 2100000, guid: 8d23faba05908554a88f616100749db9, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
