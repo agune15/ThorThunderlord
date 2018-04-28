@@ -25,9 +25,10 @@ public class HammerTrigger : MonoBehaviour {
     {
         if (other.tag == "Enemy")
         {
-            Vector3 directionToEnemy = other.transform.position - playerTransform.position;
+            Vector3 directionToTarget = this.transform.position - other.transform.position;
+            float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.DealDamage(), playerTransform.rotation);
+            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.DealDamage(), Quaternion.Euler(new Vector3(0, desiredAngle, 0)));
 
             Debug.Log("triggerEnter");
         }
