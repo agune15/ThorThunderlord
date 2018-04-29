@@ -7,7 +7,6 @@ public class HammerBehaviour : MonoBehaviour {
     [SerializeField] Transform parentBone;
     [SerializeField] Transform hammerTransform;
 
-
     Vector3 currentPosition;
     [SerializeField] Vector3 startPosition;
     [SerializeField] Vector3 endPosition;
@@ -26,8 +25,7 @@ public class HammerBehaviour : MonoBehaviour {
     //Basic Attack parameters
     bool isAttacking = false;
 
-    public float basicAttackDamage;
-    public float throwHammerDamage;
+    float throwHammerDamage;
 
     private void Start()
     {
@@ -35,9 +33,10 @@ public class HammerBehaviour : MonoBehaviour {
         hammerLPosition = hammerTransform.localPosition;
         hammerLRotation = hammerTransform.localRotation;
 
-
         parentBone = GameObject.FindWithTag("hammerParent").GetComponent<Transform>();
         hammerTransform.SetParent(parentBone, true);
+
+        throwHammerDamage = GetComponentInParent<CharacterBehaviour>().throwHammerDamage;
     }
 
     private void Update ()
@@ -54,9 +53,6 @@ public class HammerBehaviour : MonoBehaviour {
             if(hammerTransform.localPosition !=  hammerLPosition) hammerTransform.localPosition = hammerLPosition;
             if(hammerTransform.localRotation != hammerLRotation) hammerTransform.localRotation = hammerLRotation;
 
-            /*
-            if (hammerTransform.localPosition != Vector3.zero) hammerTransform.localPosition = Vector3.zero;
-            if (hammerTransform.rotation.eulerAngles != Vector3.zero) hammerTransform.localRotation = Quaternion.Euler(Vector3.zero);*/
             return;
         }
         else
@@ -93,9 +89,6 @@ public class HammerBehaviour : MonoBehaviour {
 
             if(currentTime <= 0)
             {
-                currentTime = 0;
-                comeBack = false;
-                isThrowing = false;
                 HammerIsBack();
             }
         }
@@ -120,6 +113,8 @@ public class HammerBehaviour : MonoBehaviour {
 
     void HammerIsBack()
     {
+        currentTime = 0;
+        comeBack = false;
         isThrowing = false;
         hammerTransform.SetParent(parentBone, true);
         hammerTransform.localPosition = hammerLPosition;
@@ -130,30 +125,16 @@ public class HammerBehaviour : MonoBehaviour {
 
     #region Basic Attack behaviour
 
-    public void BasicAttack(bool isAvailable)
-    {
-        isAttacking = isAvailable;
-    }
-
-    public float DealDamage()
+    public float ThrowHammerDamage()
     {
         float damageToDeal;
 
-        if(isAttacking)
-        {
-            Debug.Log("daño enemy BasicAttack");
-            damageToDeal = basicAttackDamage;
-
-            isAttacking = false;
-            return damageToDeal;
-        }
-        else if(isThrowing)
+        if(isThrowing)
         {
             Debug.Log("daño enemy Throw");
             damageToDeal = throwHammerDamage / 10;
 
             return damageToDeal;
-            //damage / 60, ya que va a ser daño por cada vez que entra al trigger
         }
         else return 0;
     }

@@ -112,7 +112,7 @@ public class EnemyStats : MonoBehaviour {
             }
         }
 
-        Debug.Log(enemyType.ToString() + " received damage");
+        //Debug.Log(enemyType.ToString() + " received damage");
 
         if (enemyHealthBar.playerAttackingTarget != null && enemyHealthBar.playerAttackingTarget == this.gameObject) enemyHealthBar.DrawEnemyHealthBar(this.gameObject, maxLife, life, enemyType.ToString());
     }

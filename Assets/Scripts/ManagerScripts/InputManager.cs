@@ -20,9 +20,6 @@ public class InputManager : MonoBehaviour {
     [SerializeField] bool controllerAvailable;
     [SerializeField] bool useController = false;
 
-    [Header("Variables")]
-    public static bool playerBeingAttacked = true;
-
 
     void Start()
     {
@@ -107,7 +104,7 @@ public class InputManager : MonoBehaviour {
 
     public void ResetStaticVariables ()
     {
-        playerBeingAttacked = true;
+
     }
 
     #endregion

@@ -15,7 +15,7 @@ public class EnemyTrigger : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            enemyBehaviour.EnemyHasAttacked();
+            enemyBehaviour.EnemyWeaponTriggerHit();
         }
     }
 }

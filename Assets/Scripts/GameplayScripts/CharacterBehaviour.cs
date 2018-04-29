@@ -8,6 +8,7 @@ public class CharacterBehaviour : MonoBehaviour {
     Transform playerTransform;
     NavMeshAgent playerAgent;
     HammerBehaviour hammerBehaviour;
+    BasicAttackTrigger basicAttackTrigger;
     Animator thorAnimator;
 
     //UI related
@@ -43,11 +44,13 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public float attackRange;
     float attackDuration;
+    public float basicAttackDamage;
 
     public bool isBeingAttacked = false;
     [SerializeField] List<string> enemiesWhoAttacked = new List<string>();
 
     Transform enemyTargetTransform;
+    EnemyStats enemyTargetStats;
 
     //Dash parameters
     [Header("Dash parameters")]
@@ -91,6 +94,7 @@ public class CharacterBehaviour : MonoBehaviour {
     Vector3 throwDestination;
     Vector3 throwTurnOrigin;
 
+    public float throwHammerDamage;
     public float throwCD;
     public float throwDistance;
     float throwTime;
@@ -101,10 +105,11 @@ public class CharacterBehaviour : MonoBehaviour {
 
     private void Start()
     {
-        playerTransform = this.GetComponent<Transform>();
-        playerAgent = this.GetComponent<NavMeshAgent>();
-        hammerBehaviour = this.GetComponentInChildren<HammerBehaviour>();
-        thorAnimator = this.GetComponentInChildren<Animator>();
+        playerTransform = GetComponent<Transform>();
+        playerAgent = GetComponent<NavMeshAgent>();
+        hammerBehaviour = GetComponentInChildren<HammerBehaviour>();
+        basicAttackTrigger = GetComponentInChildren<BasicAttackTrigger>();
+        thorAnimator = GetComponentInChildren<Animator>();
 
         foreach (AnimationClip animation in thorAnimator.runtimeAnimatorController.animationClips)
         {
@@ -294,8 +299,7 @@ public class CharacterBehaviour : MonoBehaviour {
             {
                 if (thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.5f && thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.7f)
                 {
-                    alreadyAttacked = true;
-                    hammerBehaviour.BasicAttack(true);
+                    DealBasicAttackDamage();
                 }
             }
         }
@@ -306,8 +310,19 @@ public class CharacterBehaviour : MonoBehaviour {
 
             thorAnimator.ResetTrigger("hit");
             alreadyAttacked = false;
+        }
+    }
 
-            hammerBehaviour.BasicAttack(true);
+    void DealBasicAttackDamage()
+    {
+        if (!alreadyAttacked && basicAttackTrigger.TargetIsInRange(enemyTargetStats.name))
+        {
+            Vector3 directionToTarget = playerTransform.position - enemyTargetTransform.position;
+            float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+            enemyTargetStats.SetDamage(basicAttackDamage, Quaternion.Euler(0, desiredAngle, 0));
+            
+            alreadyAttacked = true;
         }
     }
 
@@ -606,6 +621,7 @@ public class CharacterBehaviour : MonoBehaviour {
         if(isCastingArea || isThrowing || isDashing) return;
 
         enemyTargetTransform = enemyTransform;
+        enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
         isAttacking = enemyWasHit;
 
         attack = false;
@@ -613,7 +629,6 @@ public class CharacterBehaviour : MonoBehaviour {
         if (enemyTargetTransform == null && !isAttacking)
         {
             canMove = true;
-            hammerBehaviour.BasicAttack(false);
         }
     }
 

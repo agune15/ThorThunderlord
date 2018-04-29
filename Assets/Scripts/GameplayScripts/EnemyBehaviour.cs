@@ -19,8 +19,12 @@ public class EnemyBehaviour : MonoBehaviour {
     NavMeshAgent enemyAgent;
     Transform targetTransform;
     CharacterBehaviour targetBehaviour;
+    BasicAttackTrigger basicAttackTrigger;
     Animator enemyAnimator;
-    
+
+    //UI related
+    EnemyHealthBar enemyHealthBar;
+
     float life;
 
     float enemySpeed;
@@ -44,27 +48,29 @@ public class EnemyBehaviour : MonoBehaviour {
 
     bool isAttacking;
     bool alreadyAttacked = false;
-    bool hasAttacked = false;
+    bool weaponTriggerHit = false;
 
         //Skull Only
         bool isSpinning = false;
 
         //Fenrir Only
+        bool basicAttackCycleAlreadyCounted;
         int basicAttackIndex;
         int baAnimationLength;
-        int baTemporaryIndex;
+        int baAnimationTimesPlayed;
 
 
 
     void Start()
     {
-        enemyType = this.GetComponent<EnemyStats>().GetEnemyType();
+        enemyType = GetComponent<EnemyStats>().GetEnemyType();
 
-        enemyAgent = this.GetComponent<NavMeshAgent>();
+        enemyAgent = GetComponent<NavMeshAgent>();
 
         targetTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         targetBehaviour = targetTransform.gameObject.GetComponent<CharacterBehaviour>();
-        enemyAnimator = this.GetComponentInChildren<Animator>();
+        basicAttackTrigger = GetComponentInChildren<BasicAttackTrigger>();
+        enemyAnimator = GetComponentInChildren<Animator>();
 
         foreach(AnimationClip clip in enemyAnimator.runtimeAnimatorController.animationClips)
         {
@@ -87,6 +93,8 @@ public class EnemyBehaviour : MonoBehaviour {
         enemyAngularSpeed = enemyAgent.angularSpeed;
 
         if(enemyType == EnemyStats.EnemyType.Fenrir) baAnimationLength = 3;
+
+        enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
     }
 
 
@@ -95,6 +103,8 @@ public class EnemyBehaviour : MonoBehaviour {
         BehaviourUpdate();
 
         AnimatorUpdate();
+
+        Debug.Log("basicAttackIndex = " + basicAttackIndex);
     }
 
     void BehaviourUpdate()
@@ -174,7 +184,6 @@ public class EnemyBehaviour : MonoBehaviour {
         if(Vector3.Distance(transform.position, targetTransform.position) > attackRange)
         {
             SetChase();
-            InputManager.playerBeingAttacked = true;
         }
 
         switch(enemyType)
@@ -217,7 +226,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
         if (enemyType == EnemyStats.EnemyType.Skull) isSpinning = false;
         alreadyAttacked = false;
-        hasAttacked = false;
+        weaponTriggerHit = false;
 
         SetSpeed();
 
@@ -237,8 +246,9 @@ public class EnemyBehaviour : MonoBehaviour {
                 else skullAttack = SkullAttacks.SpinAttack;
                 break;
             case EnemyStats.EnemyType.Fenrir:
-                basicAttackIndex = Random.Range(0, baAnimationLength - 1);
-                baTemporaryIndex = 0;
+                Random.InitState(Random.Range(0, 300));
+                basicAttackIndex = Random.Range(0, baAnimationLength);
+                baAnimationTimesPlayed = 0;
                 break;
             default:
                 break;
@@ -271,10 +281,10 @@ public class EnemyBehaviour : MonoBehaviour {
         switch(skullAttack)
         {
             case SkullAttacks.SpinAttack:
-                SpinAttackUpdate();
+                SpinAttackUpdateS();
                 break;
             case SkullAttacks.BasicAttack:
-                BasicAttackUpdate();
+                BasicAttackUpdateS();
                 break;
             default:
                 break;
@@ -283,15 +293,18 @@ public class EnemyBehaviour : MonoBehaviour {
 
     #region Skull Attacks
 
-    void SpinAttackUpdate()
+    void SpinAttackUpdateS()
     {
         if(isSpinning)
         {
-            if(hasAttacked)
+            if(weaponTriggerHit)
             {
-                targetBehaviour.SetDamage(10, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(targetTransform.position)), 0)));
+                Vector3 directionToTarget = transform.position - targetTransform.position;
+                float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                hasAttacked = false;
+                targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+
+                weaponTriggerHit = false;
                 isSpinning = false;
 
                 enemyAgent.angularSpeed = enemyAngularSpeed;
@@ -303,17 +316,20 @@ public class EnemyBehaviour : MonoBehaviour {
         }
     }
 
-    void BasicAttackUpdate()
+    void BasicAttackUpdateS()
     {
         if(!alreadyAttacked)
         {
-            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.25f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.4f)
+            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.3f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.45f)
             {
-                if(hasAttacked)
+                if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
                 {
-                    targetBehaviour.SetDamage(4, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(targetTransform.position)), 0)));
+                    Vector3 directionToTarget = transform.position - targetTransform.position;
+                    float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+                    targetBehaviour.SetDamage(4, Quaternion.Euler(0, desiredAngle, 0));
+
                     alreadyAttacked = true;
-                    hasAttacked = false;
                 }
             }
         }
@@ -352,24 +368,77 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void BasicAttackUpdateF()
     {
-        if(baTemporaryIndex >= 3)
+        if(baAnimationTimesPlayed >= 2)
         {
             int baLastIndex = basicAttackIndex;
 
-            baTemporaryIndex = 0;
-            basicAttackIndex = Random.Range(0, baAnimationLength - 1);
-            while(baLastIndex == basicAttackIndex) basicAttackIndex = Random.Range(0, baAnimationLength - 1);
+            baAnimationTimesPlayed = 0;
+            //basicAttackIndex = (baLastIndex == baAnimationLength - 1) ? 0 : basicAttackIndex + 1;
+            basicAttackIndex = Random.Range(0, baAnimationLength);
         }
-        if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.01) baTemporaryIndex++;
+
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03)
+        {
+            if (!basicAttackCycleAlreadyCounted)
+            {
+                baAnimationTimesPlayed++;
+                basicAttackCycleAlreadyCounted = true;
+            }
+        }
+
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > 0.95f)
+        {
+            basicAttackCycleAlreadyCounted = false;
+        }
 
         if(!alreadyAttacked)
         {
-            if(hasAttacked)
+            if (basicAttackIndex == 0)
             {
-                targetBehaviour.SetDamage(9, transform.rotation);
-                alreadyAttacked = true;
-                hasAttacked = false;
+                if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.55f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.69f)
+                {
+                    if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
+                    {
+                        Vector3 directionToTarget = transform.position - targetTransform.position;
+                        float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+                        targetBehaviour.SetDamage(6, Quaternion.Euler(0, desiredAngle, 0));
+
+                        alreadyAttacked = true;
+                    }
+                }
             }
+            else if (basicAttackIndex == 1)
+            {
+                if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.25f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.3f)
+                {
+                    if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
+                    {
+                        Vector3 directionToTarget = transform.position - targetTransform.position;
+                        float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+                        targetBehaviour.SetDamage(14, Quaternion.Euler(0, desiredAngle, 0));
+
+                        alreadyAttacked = true;
+                    }
+                }
+            }
+            else if (basicAttackIndex == 2)
+            {
+                if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.5f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.56f)
+                {
+                    if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
+                    {
+                        Vector3 directionToTarget = transform.position - targetTransform.position;
+                        float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+                        targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+
+                        alreadyAttacked = true;
+                    }
+                }
+            }
+
         }
         else
         {
@@ -407,15 +476,14 @@ public class EnemyBehaviour : MonoBehaviour {
         if(!playerIsAttacking) //&& !playerIsMoving por si solo queremos hacerlo cuando el player este quieto
         {
             targetBehaviour.SetBasicAttackTransform(this.transform, true);
+            enemyHealthBar.DrawEnemyHealthBar(this.gameObject, GetComponent<EnemyStats>().GetMaxLife(), GetComponent<EnemyStats>().GetLife(), enemyType.ToString());
         }
-
-        InputManager.playerBeingAttacked = false;
     }
 
-    public void EnemyHasAttacked()
+    public void EnemyWeaponTriggerHit()
     {
-        if(enemyState == EnemyStates.Attack) hasAttacked = true;
-        else hasAttacked = false;
+        if(enemyState == EnemyStates.Attack) weaponTriggerHit = true;
+        else weaponTriggerHit = false;
     }
 
     public void SetSlow(bool slowed)
