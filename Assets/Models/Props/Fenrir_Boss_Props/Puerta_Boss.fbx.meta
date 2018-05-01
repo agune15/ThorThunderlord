@@ -77,7 +77,12 @@ ModelImporter:
     2300000: polySurface69
     3300000: polySurface69
     4300000: polySurface69
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: e44fdf71c23645a4cb3c1555cca185b9, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
