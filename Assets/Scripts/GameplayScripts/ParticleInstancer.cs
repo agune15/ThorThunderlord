@@ -7,7 +7,7 @@ public class ParticleInstancer : MonoBehaviour {
     public GameObject[] particleSystems;
     public List<ParticleAndName> particlePrefabs = new List<ParticleAndName>();
 
-    public List<ParticleAndName> particleInstances = new List<ParticleAndName>();
+    //public List<ParticleAndName> particleInstances = new List<ParticleAndName>();
 
     private void Start()
     {
