@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 54b3d0ff45d9fb84c8cd2769215743c2
-timeCreated: 1525418196
+guid: ed6262814a5af824bbd7d894ca27841b
+timeCreated: 1518295818
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -138,7 +138,7 @@ ModelImporter:
     100260: Manto_04
     100262: Manto_05
     100264: Manto_06
-    100266: Mjolnir:polySurface1
+    100266: Merged_Thor_Axe
     100268: polySurface10
     100270: polySurface11
     100272: polySurface12
@@ -293,7 +293,7 @@ ModelImporter:
     400260: Manto_04
     400262: Manto_05
     400264: Manto_06
-    400266: Mjolnir:polySurface1
+    400266: Merged_Thor_Axe
     400268: polySurface10
     400270: polySurface11
     400272: polySurface12
@@ -315,21 +315,28 @@ ModelImporter:
     400304: transform7
     400306: transform8
     400308: transform9
-    2100000: Mjolnir_initialShadingGroup1
-    2100002: lambert2
-    2300000: Mjolnir:polySurface1
-    3300000: Mjolnir:polySurface1
-    4300000: Mjolnir:polySurface1
-    4300002: polySurface9
+    4300000: polySurface9
+    4300002: Merged_Thor_Axe
     7400000: Thor
     9500000: //RootNode
-    13700000: polySurface9
-  externalObjects: {}
+    13700000: Merged_Thor_Axe
+    13700002: polySurface9
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 77b6022b968dcf843af8090ccf98dc00, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: 0ce9c9e3262d61140b034cf8a5a414f5, type: 2}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -350,7 +357,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Thor
+      takeName: Thor
+      firstFrame: -2
+      lastFrame: -1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -367,8 +402,6 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
-    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

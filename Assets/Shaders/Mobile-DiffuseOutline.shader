@@ -1,13 +1,10 @@
-// Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
-
-// Simplified Diffuse shader. Differences from regular Diffuse one:
-// - no Main Color
-// - fully supports only 1 directional light. Other lights can affect it, but it will be per-vertex/SH.
-
 Shader "Mobile/Diffuse Outline" {
 Properties {
+	[Header(Texture Maps)]
     _MainTex ("Base (RGB)", 2D) = "white" {}
-	_OutlineWidth ("Outline Width", Range(1,3)) = 1
+
+	[Header(Outline Parameters)]
+	_OutlineWidth ("Outline Width", Range(0,0.15)) = 0
 	_OutlineColor ("Outline Color", Color) = (1,1,1,1)
 }
 
@@ -18,9 +15,11 @@ SubShader {
 
 	Pass{
 		ZWrite Off
+		Cull Off
 
 		CGPROGRAM
 		#include "UnityCG.cginc"
+
 		#pragma vertex vert
 		#pragma fragment frag
 
@@ -28,6 +27,7 @@ SubShader {
 		{
 			float4 vertex : POSITION;
 			float3 normal : NORMAL;
+			float4 color : COLOR;
 		};
 
 		struct v2f
@@ -41,14 +41,14 @@ SubShader {
 
 		v2f vert(appdata v)
 		{
-			v.vertex.xyz *= _OutlineWidth;
+			v.vertex.xyz += v.normal * _OutlineWidth;
 
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
 			return o;
 		}
 
-		float4 frag(v2f i) : COLOR
+		half4 frag(v2f i) : COLOR
 		{
 			return _OutlineColor;
 		}

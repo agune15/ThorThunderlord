@@ -31,7 +31,7 @@ public class CharacterBehaviour : MonoBehaviour {
     float maxLife;
 
     //Animation related
-    [SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
+    //[SerializeField] List<AnimationClipName> animationsList = new List<AnimationClipName>();
 
     //Particle related
     ParticleInstancer particleInstancer;
@@ -88,20 +88,21 @@ public class CharacterBehaviour : MonoBehaviour {
     //Hammer Throw parameters
     [Header("Hammer Throw parameters")]
     bool isThrowing = false;
+    bool isCatching = false;
     bool hasThrown = false;
     public bool throwAvailable = true;
 
     Vector3 throwDestination;
     Vector3 throwTurnOrigin;
+    Vector3 throwTurnDestination;
 
     public float throwHammerDamage;
     public float throwCD;
     public float throwDistance;
     float throwTime;
-    public float throwDuration;
+    float throwDuration;
+    float catchDuration;
     public float throwTurnTime;
-    public float throwHammerEventTime;
-
 
     private void Start()
     {
@@ -113,11 +114,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
         foreach (AnimationClip animation in thorAnimator.runtimeAnimatorController.animationClips)
         {
-            animationsList.Add(new AnimationClipName(animation.name, animation));
+            //animationsList.Add(new AnimationClipName(animation.name, animation));
 
-            if(animation.name == "throwHammer") throwDuration = animation.length;
-            if(animation.name == "hit") attackDuration = animation.length;
-            if(animation.name == "smash") slowAreaInitDelay = animation.length;
+            if (animation.name == "throwHammer") throwDuration = animation.length / 1.2f;
+            if (animation.name == "catchHammer") catchDuration = animation.length / 1.3f;
+            if (animation.name == "hit_01") attackDuration = animation.length;
+            if (animation.name == "slowArea") slowAreaInitDelay = animation.length;
         }
 
         agentSpeed = playerAgent.speed;
@@ -195,7 +197,7 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         playerAgent.isStopped = false;
 
-        if (!isThrowing && !isDashing) SetRotation(RotationTypes.Move);
+        if (!isDashing) SetRotation(RotationTypes.Move);
 
         if(!isDashing)
         {
@@ -297,7 +299,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
             if(!alreadyAttacked)
             {
-                if (thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.5f && thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.7f)
+                if (thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.35f && thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.45f)
                 {
                     DealBasicAttackDamage();
                 }
@@ -480,62 +482,93 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if (throwAvailable && !isDashing && !isCastingArea && moveStates != MoveStates.Dead)
         {
+            isAttacking = false;
             isThrowing = true;
+            isCatching = false;
             throwAvailable = false;
+            hasThrown = false;
 
             Vector3 throwDirection = destination - transform.position;
 
-            Vector3 desiredDestination = transform.position + (throwDirection.normalized * throwDistance);
-            throwDestination = desiredDestination;
+            throwDestination = transform.position + (throwDirection.normalized * throwDistance);
+            throwTurnDestination = throwDestination;
 
             throwTurnOrigin = transform.position + (transform.forward * throwDistance);
 
             throwTime = 0;
 
             thorAnimator.SetTrigger("throwHammer");
-            thorAnimator.ResetTrigger("hit");
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         }
     }
 
+    public void CatchHammer (Vector3 hammerPosition)
+    {
+        isCatching = true;
+
+        float hammerDistance = Vector3.Distance(playerTransform.position, hammerPosition);
+
+        throwTurnOrigin = transform.position + (transform.forward * hammerDistance);
+
+        throwTurnDestination = hammerPosition;
+
+        throwTime = 0;
+
+        thorAnimator.SetTrigger("catchHammer");
+
+        playerAgent.isStopped = true;
+        canMove = false;
+    }
+
     void ThrowUpdate ()
     {
-        if (throwTime < throwDuration)
+        if (!isCatching)
         {
-            throwTime += Time.deltaTime;
-
-            SetRotation(RotationTypes.Throw);
-
-            playerAgent.isStopped = true;
-            canMove = false;
-
-            if (throwTime > throwHammerEventTime)
+            if (throwTime <= throwDuration)
             {
-                if(hasThrown) return;
-                else
+                throwTime += Time.deltaTime;
+
+                playerAgent.isStopped = true;
+                canMove = false;
+
+                SetRotation(RotationTypes.Throw);
+
+                if (throwTime >= throwDuration)
                 {
-                    hammerBehaviour.ThrowHammer(throwDestination);
-                    hasThrown = true;
+                    if (hasThrown) return;
+                    else
+                    {
+                        hammerBehaviour.ThrowHammer(throwDestination);
+                        hasThrown = true;
+                        
+                        canMove = true;
+                    }
                 }
             }
         }
         else
         {
-            isThrowing = false;
-            playerAgent.isStopped = false;
-            canMove = true;
-            hasThrown = false;
-
-            thorAnimator.ResetTrigger("throwHammer");
-
-            if (isAttacking)
+            if (throwTime <= catchDuration)
             {
-                thorAnimator.SetTrigger("hit");
-            }
+                throwTime += Time.deltaTime;
 
-            playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
-            StartCoroutine(ThrowHammerCD());
+                SetRotation(RotationTypes.Throw);
+
+                playerAgent.isStopped = true;
+                canMove = false;
+            }
+            else
+            {
+                canMove = true;
+                isThrowing = false;
+
+                thorAnimator.ResetTrigger("throwHammer");
+                thorAnimator.ResetTrigger("catchHammer");
+
+                playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
+                StartCoroutine(ThrowHammerCD());
+            }
         }
     }
 
@@ -603,6 +636,7 @@ public class CharacterBehaviour : MonoBehaviour {
                                                             Easing.CubicEaseOut(throwTime, throwTurnOrigin.y, throwTurnDestination.y, throwTurnTime),
                                                             Easing.CubicEaseOut(throwTime, throwTurnOrigin.z, throwTurnDestination.z, throwTurnTime))
                                                             : throwDestination;
+        //Vector3 throwLookAt = Vector3.SmoothDamp(throwTurnOrigin, throwTurnDestination, ref )
 
         playerTransform.LookAt(throwLookAt);
     }
@@ -625,6 +659,7 @@ public class CharacterBehaviour : MonoBehaviour {
         isAttacking = enemyWasHit;
 
         attack = false;
+        thorAnimator.ResetTrigger("hit");
 
         if (enemyTargetTransform == null && !isAttacking)
         {
