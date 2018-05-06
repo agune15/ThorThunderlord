@@ -17,8 +17,7 @@ public class CameraBehaviour : MonoBehaviour {
     public static bool playerCanMove;
 
     float wheelAxis = 0;
-
-    //float zoomAddition = 0.64f;
+    
     float yZoomAddition;
     float zZoomAddition;
 
@@ -111,13 +110,6 @@ public class CameraBehaviour : MonoBehaviour {
                     offsetPos = minOffset;
                 }
 
-                /*
-                if (offsetPos.y < minOffset.y || offsetPos.z > minOffset.z)
-                {
-                    offsetPos = minOffset;
-                }
-                */
-
                 wheelAxisStorage = zoomMinLimit;
             }
             else if (wheelAxisStorage <= zoomMaxLimit)
@@ -126,13 +118,6 @@ public class CameraBehaviour : MonoBehaviour {
                 {
                     offsetPos = maxOffset;
                 }
-
-                /*
-                if(offsetPos.y > maxOffset.y || offsetPos.z > maxOffset.z)
-                {
-                    offsetPos = maxOffset;
-                }
-                */
 
                 wheelAxisStorage = zoomMaxLimit;
             }
