@@ -98,7 +98,7 @@ public class HammerBehaviour : MonoBehaviour {
         if (forwardTimer % durationTime < durationTime * 0.75f)
         {
             //Hammer Forward Rotation
-            hammerTransform.rotation = Quaternion.RotateTowards(hammerTransform.rotation, Quaternion.Euler(0, hammerTransform.rotation.eulerAngles.y, 77), 60 * Time.deltaTime);
+            hammerTransform.rotation = Quaternion.RotateTowards(hammerTransform.rotation, Quaternion.Euler(0, hammerTransform.rotation.eulerAngles.y, 77), 5);
         }
         else
         {
@@ -138,11 +138,11 @@ public class HammerBehaviour : MonoBehaviour {
 
             hammerTransform.rotation = Quaternion.SlerpUnclamped(hammerTransform.rotation, Quaternion.Euler(180, desiredYAngle, 77), backwardTimer / 0.3f);
         }
-        else if (distanceFromPlayer <= 4.25f && distanceFromPlayer >= 1.5f)
+        else if (distanceFromPlayer <= 5f && distanceFromPlayer >= 1.5f)
         {
             //Hammer Hand Grab Rotation
             Vector3 initRotation = hammerTransform.rotation.eulerAngles;
-            Quaternion desiredRotation = Quaternion.RotateTowards(hammerTransform.rotation, Quaternion.Euler(-120, hammerTransform.rotation.eulerAngles.y, hammerTransform.rotation.eulerAngles.z), 45);
+            Quaternion desiredRotation = Quaternion.RotateTowards(hammerTransform.rotation, Quaternion.Euler(240, hammerTransform.rotation.eulerAngles.y, hammerTransform.rotation.eulerAngles.z), 20);
             hammerTransform.rotation = Quaternion.Euler(desiredRotation.eulerAngles.x, initRotation.y, initRotation.z);
 
             if (distanceFromPlayer <= 3.75f && !hammerCameBack)
@@ -201,7 +201,6 @@ public class HammerBehaviour : MonoBehaviour {
 
         if(isThrowing)
         {
-            Debug.Log("daño enemy Throw");
             damageToDeal = throwHammerDamage / 10;
 
             return damageToDeal;

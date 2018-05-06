@@ -57,13 +57,14 @@ public class CharacterBehaviour : MonoBehaviour {
     bool isDashing = false;
     public bool dashAvailable = true;
 
+    Vector3 dashOrigin;
     Vector3 dashEnd;
 
     public float dashDuration;
     public float dashCooldown;
     public float dashImpulse;
-    float dashRemainingDistance;
     public float dashDistance;
+    float dashCurrentDistance;
 
     //Slowing Area parameters
     [Header("Slowing Area parameters")]
@@ -179,7 +180,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isCastingArea", isCastingArea);
     }
 
-    #region State Updates
+    #region Movement State Updates
 
     void IdleUpdate()
     {
@@ -197,10 +198,10 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         playerAgent.isStopped = false;
 
-        if (!isDashing) SetRotation(RotationTypes.Move);
-
-        if(!isDashing)
+        if (!isDashing)
         {
+            SetRotation(RotationTypes.Move);
+
             if (isAttacking)
             {
                 if(playerAgent.destination != enemyTargetTransform.position) playerAgent.SetDestination(enemyTargetTransform.position);
@@ -209,17 +210,21 @@ public class CharacterBehaviour : MonoBehaviour {
         else
         {
             playerAgent.SetDestination(dashEnd);
+            SetRotation(RotationTypes.Dash);
 
-            /*
-            if(playerAgent.remainingDistance < dashRemainingDistance)
+            if (Vector3.Distance(dashOrigin, playerTransform.position) / dashCurrentDistance > 0.7f)
             {
-                DisableDash();
-            }*/
+                float remainingDistanceFactor = Vector3.Distance(dashOrigin, playerTransform.position) - dashCurrentDistance * 0.7f;
+                float maxDistanceFactor = dashCurrentDistance * 0.3f;
+                playerAgent.speed = Mathf.SmoothStep(agentSpeed * dashImpulse, 0, remainingDistanceFactor / maxDistanceFactor);
+            }
+
+            if (Vector3.Distance(dashOrigin, playerTransform.position) > dashCurrentDistance) DisableDash();
         }
 
         if (playerAgent.remainingDistance <= 0)
         {
-            DisableDash();
+            if (isDashing) DisableDash();
             SetIdle();
         }
     }
@@ -349,13 +354,13 @@ public class CharacterBehaviour : MonoBehaviour {
                 playerAgent.SetDestination(dashEnd);
             }
 
-            //Esto hay que aplicarlo en algun momento (limite distancia dash)
-            dashRemainingDistance = playerAgent.remainingDistance - dashDistance;
-            if(dashRemainingDistance < dashDistance) dashRemainingDistance = dashDistance;
+            dashOrigin = playerTransform.position;
+
+            dashCurrentDistance = (Vector3.Distance(dashOrigin, dashEnd) > dashDistance) ? dashDistance : Vector3.Distance(dashOrigin, dashEnd);
+
+            Debug.Log("dash distance " + dashCurrentDistance);
 
             playerAgent.speed *= dashImpulse;
-
-            SetRotation(RotationTypes.Dash);
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.E, 1);
         }

@@ -103,8 +103,6 @@ public class EnemyBehaviour : MonoBehaviour {
         BehaviourUpdate();
 
         AnimatorUpdate();
-
-        Debug.Log("basicAttackIndex = " + basicAttackIndex);
     }
 
     void BehaviourUpdate()

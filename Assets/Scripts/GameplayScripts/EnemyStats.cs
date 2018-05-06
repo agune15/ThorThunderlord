@@ -125,10 +125,10 @@ public class EnemyStats : MonoBehaviour {
             switch (enemyType)
             {
                 case EnemyType.Skull:
-                    particleInstancer.InstanciateParticleSystem("Enemy_Blood", transform.position + new Vector3(0, 1, 0), particleAngle);
+                    if (damage > 0) particleInstancer.InstanciateParticleSystem("Enemy_Blood", transform.position + new Vector3(0, 1, 0), particleAngle);
                     break;
                 case EnemyType.Fenrir:
-                    particleInstancer.InstanciateParticleSystem("Enemy_Blood", transform.position + new Vector3(0, 2, -0.5f), particleAngle);
+                    if (damage > 0) particleInstancer.InstanciateParticleSystem("Enemy_Blood", transform.position + new Vector3(0, 2, -0.5f), particleAngle);
                     break;
                 default:
                     break;

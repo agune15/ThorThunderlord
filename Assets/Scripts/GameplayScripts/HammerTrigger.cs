@@ -7,12 +7,10 @@ public class HammerTrigger : MonoBehaviour {
     EnemyStats.EnemyType enemyType;
 
     HammerBehaviour hammerBehaviour;
-    Transform playerTransform;
 
     void Start()
     {
-        hammerBehaviour = this.GetComponentInParent<HammerBehaviour>();
-        playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        hammerBehaviour = GetComponentInParent<HammerBehaviour>();
     }
 
     private void Update()
