@@ -21,10 +21,17 @@ public class ParticleInstancer : MonoBehaviour {
     public void InstanciateParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
     {
         int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
-        GameObject particleInstance = Instantiate(particlePrefabs[particlePrefabIndex].particlePrefab, particlePosition, particleRotation, this.transform);
+        GameObject particleInstance = Instantiate(particlePrefabs[particlePrefabIndex].particlePrefab, particlePosition, particleRotation, this.transform); //Se le asigna un ParentTranfsorm para que se instancie en la escena correcta
         particleInstance.transform.parent = null;
+    }
 
-        //particleInstances.Add()
+    //Overload to instanciate as a child of a certain transform
+    public void InstanciateParticleSystem(string particleName, Transform parentTransform, Vector3 particleLocalPosition, Quaternion particleLocalRotation)
+    {
+        int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
+        GameObject particleInstance = Instantiate(particlePrefabs[particlePrefabIndex].particlePrefab, parentTransform.position, parentTransform.rotation, parentTransform);
+        particleInstance.transform.localPosition = particleLocalPosition;
+        particleInstance.transform.localRotation = particleLocalRotation;
     }
 
     //Instanciate Gameobject
