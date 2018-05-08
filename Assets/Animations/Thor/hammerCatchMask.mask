@@ -7,4 +7,316 @@ AvatarMask:
   m_PrefabInternal: {fileID: 0}
   m_Name: hammerCatchMask
   m_Mask: 00000000000000000000000000000000000000000000000001000000000000000100000000000000000000000000000001000000
-  m_Elements: []
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Deformadores
+    m_Weight: 0
+  - m_Path: Deformadores/Bend_Barba
+    m_Weight: 0
+  - m_Path: Deformadores/Bend_Bigote
+    m_Weight: 0
+  - m_Path: Deformadores/Bend_Cuerda_L
+    m_Weight: 0
+  - m_Path: Deformadores/Sine_Cuerda_L
+    m_Weight: 0
+  - m_Path: GRP_CCs
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Bolsita
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_cuerda
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/CC_Head
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/CC_Head/J_Head
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/CC_Head/J_Head/JE_Head
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/CC_Shoulde_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Index_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Index_L/CC_Index_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Middle_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Middle_L/CC_Midle_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Pinki_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Pinki_L/CC_Pinki_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Ring_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Ring_L/CC_Ring_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Thub_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_L/CC_Arm_L/CC_Wrist_L/GRP_Thub_L/CC_Thub_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Axe
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Axe/transform9
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Axe/transform9/J_Axe
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Axe/transform9/J_Axe/JE_Axe
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Axe/transform9/J_Axe/JE_Axe/Mjolnir:polySurface1
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Index_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Index_R/CC_Index_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Middle_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Middle_R/CC_Midle_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Pinki_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Pinki_R/CC_Pinki_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Ring_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Ring_R/CC_Ring_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Thub_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Arm_R/CC_Arm_R/CC_Wrist_R/GRP_Thub_R/CC_Thub_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Elbow_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Elbow_L/CC_Knees_L
+      1
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Elbow_R
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Elbow_R/CC_Elbow_R
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Shoulde_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_Lumbar/CC_Back/CC_Chest/GRP_Shoulde_R/CC_Shoulde_R
+    m_Weight: 1
+  - m_Path: GRP_CCs/CC_Master/CC_COG/CC_tela
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/GRP_Knees_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_COG/GRP_Knees_R
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_Foot_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_Foot_R
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_Knees_L
+    m_Weight: 0
+  - m_Path: GRP_CCs/CC_Master/CC_Knees_R
+    m_Weight: 0
+  - m_Path: GRP_IKs
+    m_Weight: 0
+  - m_Path: GRP_IKs/IK_arm_L
+    m_Weight: 0
+  - m_Path: GRP_IKs/IK_Arm_R
+    m_Weight: 0
+  - m_Path: GRP_IKs/IK_LEG_L
+    m_Weight: 0
+  - m_Path: GRP_IKs/IK_LEG_R
+    m_Weight: 0
+  - m_Path: GRP_Js
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Bolsa
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Bolsa/Bolsa_02
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Bolsa/Bolsa_02/joint3
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L/J_Cuerda
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L/J_Cuerda/joint13
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L/J_Knee_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L/J_Knee_L/J_Toe_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L/J_Knee_L/J_Toe_L/J_Ankle_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Leg_L/J_Knee_L/J_Toe_L/J_Ankle_L/J_Intep_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Index_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Index_L/J_Index_01_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Index_L/J_Index_01_L/J_Index_02_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Middle_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Middle_L/J_Middl_01_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Middle_L/J_Middl_01_L/J_Middle_02_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Pinkie_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Pinkie_L/J_Pinkie_02_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Pinkie_L/J_Pinkie_02_L/J_Pinkie_03_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Ring_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Ring_L/J_Ring_01_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Ring_L/J_Ring_01_L/J_Ring_02_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Thumb_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Thumb_L/J_Thumb_01_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Thumb_L/J_Thumb_01_L/J_Thumb_02_L
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_L/J_Arm_L/J_Elbow_L/J_Wrist_L/J_Palm_L/J_Thumb_L/J_Thumb_01_L/J_Thumb_02_L/joint11
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Index_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Index_R/J_Index_01_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Index_R/J_Index_01_R/J_Index_02_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Middle_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Middle_R/J_Middl_01_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Middle_R/J_Middl_01_R/J_Middle_02_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Pinkie_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Pinkie_R/J_Pinkie_02_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Pinkie_R/J_Pinkie_02_R/J_Pinkie_03_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Ring_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Ring_R/J_Ring_01_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Ring_R/J_Ring_01_R/J_Ring_02_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Thumb_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Thumb_R/J_Thumb_01_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Thumb_R/J_Thumb_01_R/J_Thumb_02_R
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Lumbar/J_Back/J_Chest/J_Neck/J_Shoulder_R/J_Arm_R/J_Elbow_R/J_Wrist_R/J_Palm_R/J_Thumb_R/J_Thumb_01_R/J_Thumb_02_R/joint11
+      1
+    m_Weight: 1
+  - m_Path: GRP_Js/J_COG/J_Reg_R
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Reg_R/J_Knee_R
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Reg_R/J_Knee_R/J_Toe_R
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Reg_R/J_Knee_R/J_Toe_R/J_Ankle_R
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/J_Reg_R/J_Knee_R/J_Toe_R/J_Ankle_R/J_Intep_R
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto/Manto_01
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto/Manto_01/Manto_02
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto/Manto_01/Manto_02/Manto_03
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto/Manto_01/Manto_02/Manto_03/Manto_04
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto/Manto_01/Manto_02/Manto_03/Manto_04/Manto_05
+    m_Weight: 0
+  - m_Path: GRP_Js/J_COG/Manto/Manto_01/Manto_02/Manto_03/Manto_04/Manto_05/Manto_06
+    m_Weight: 0
+  - m_Path: Thor_GEO
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface7 1
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface7 1/transform5
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface9 1
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface9 1/transform8
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface10
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface10/polySurface11
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface10/polySurface11/transform7
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface10/polySurface12
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface10/polySurface12/transform4
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/polySurface10/transform3
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/polySurface8/transform2
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface6/transform1
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface7
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface7/transform6
+    m_Weight: 1
+  - m_Path: Thor_GEO/polySurface9
+    m_Weight: 1

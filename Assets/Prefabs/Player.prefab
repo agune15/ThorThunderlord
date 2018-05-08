@@ -4932,7 +4932,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 320
   attackRange: 2.3
-  basicAttackDamage: 14
+  basicAttackDamage: 1
   isBeingAttacked: 0
   enemiesWhoAttacked: []
   dashAvailable: 1
@@ -4951,7 +4951,7 @@ MonoBehaviour:
   throwHammerDamage: 15
   throwCD: 2
   throwDistance: 8
-  throwTurnTime: 0.2
+  throwTurnTime: 0.15
 --- !u!114 &114826120216958176
 MonoBehaviour:
   m_ObjectHideFlags: 1

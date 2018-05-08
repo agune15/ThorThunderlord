@@ -89,7 +89,6 @@ public class CharacterBehaviour : MonoBehaviour {
     //Hammer Throw parameters
     [Header("Hammer Throw parameters")]
     bool isThrowing = false;
-    bool isCatching = false;
     bool hasThrown = false;
     public bool throwAvailable = true;
 
@@ -489,7 +488,6 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             isAttacking = false;
             isThrowing = true;
-            isCatching = false;
             throwAvailable = false;
             hasThrown = false;
 
@@ -503,32 +501,24 @@ public class CharacterBehaviour : MonoBehaviour {
             throwTime = 0;
 
             thorAnimator.SetTrigger("throwHammer");
+            thorAnimator.ResetTrigger("catchHammer");
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         }
     }
 
-    public void CatchHammer (Vector3 hammerPosition)
+    public void CatchHammer ()
     {
-        isCatching = true;
-
-        float hammerDistance = Vector3.Distance(playerTransform.position, hammerPosition);
-
-        throwTurnOrigin = transform.position + (transform.forward * hammerDistance);
-
-        throwTurnDestination = hammerPosition;
-
-        throwTime = 0;
+        isThrowing = false;
 
         thorAnimator.SetTrigger("catchHammer");
-
-        playerAgent.isStopped = true;
-        canMove = false;
+        
+        StartCoroutine(ThrowHammerCD());
     }
 
     void ThrowUpdate ()
     {
-        if (!isCatching)
+        if (!hasThrown)
         {
             if (throwTime <= throwDuration)
             {
@@ -546,33 +536,12 @@ public class CharacterBehaviour : MonoBehaviour {
                     {
                         hammerBehaviour.ThrowHammer(throwDestination);
                         hasThrown = true;
-                        
+
+                        thorAnimator.ResetTrigger("throwHammer");
+
                         canMove = true;
                     }
                 }
-            }
-        }
-        else
-        {
-            if (throwTime <= catchDuration)
-            {
-                throwTime += Time.deltaTime;
-
-                SetRotation(RotationTypes.Throw);
-
-                playerAgent.isStopped = true;
-                canMove = false;
-            }
-            else
-            {
-                canMove = true;
-                isThrowing = false;
-
-                thorAnimator.ResetTrigger("throwHammer");
-                thorAnimator.ResetTrigger("catchHammer");
-
-                playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
-                StartCoroutine(ThrowHammerCD());
             }
         }
     }
@@ -635,13 +604,10 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void ThrowRotation()
     {
-        Vector3 throwTurnDestination = throwDestination - throwTurnOrigin;
-
         Vector3 throwLookAt = (throwTime <= throwTurnTime) ? new Vector3(Easing.CubicEaseOut(throwTime, throwTurnOrigin.x, throwTurnDestination.x, throwTurnTime),
                                                             Easing.CubicEaseOut(throwTime, throwTurnOrigin.y, throwTurnDestination.y, throwTurnTime),
                                                             Easing.CubicEaseOut(throwTime, throwTurnOrigin.z, throwTurnDestination.z, throwTurnTime))
                                                             : throwDestination;
-        //Vector3 throwLookAt = Vector3.SmoothDamp(throwTurnOrigin, throwTurnDestination, ref )
 
         playerTransform.LookAt(throwLookAt);
     }
@@ -737,16 +703,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #region Others
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        if(playerAgent != null)
-        {
-            Gizmos.DrawCube(playerAgent.destination, new Vector3(0.5f, 0.5f, 0.5f));
-            if (isSlowingArea && slowAreaDelay < 0) Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaRange);
-        }
-    }
-
     IEnumerator DashCD()
     {
         yield return new WaitForSeconds(dashCooldown);
@@ -761,7 +717,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
     IEnumerator ThrowHammerCD()
     {
-        playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
         yield return new WaitForSeconds(throwCD);
         throwAvailable = true;
@@ -771,6 +726,25 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.1f);
         playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
+    }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if (playerAgent != null)
+        {
+            Gizmos.DrawCube(playerAgent.destination, new Vector3(0.5f, 0.5f, 0.5f));
+            if (isSlowingArea && slowAreaDelay < 0) Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaRange);
+        }
+        if (isThrowing)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawCube(throwTurnOrigin, new Vector3(0.5f, 0.5f, 0.5f));
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawCube(throwTurnDestination, new Vector3(0.5f, 0.5f, 0.5f));
+        }
+        
+
     }
 
     #endregion

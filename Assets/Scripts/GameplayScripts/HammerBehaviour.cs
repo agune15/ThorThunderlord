@@ -124,34 +124,44 @@ public class HammerBehaviour : MonoBehaviour {
         }
         else backwardSpeed = forwardSpeed;
 
-        //Hammer Position
-        Vector3 targetPosition = new Vector3(playerTransform.position.x, hammerTransform.position.y, playerTransform.position.z);
-        hammerTransform.position = Vector3.MoveTowards(hammerTransform.position, targetPosition, backwardSpeed * Time.deltaTime);
-
         float distanceFromPlayer = Vector3.Distance(hammerTransform.position, playerTransform.position);
 
-        if (distanceFromPlayer > 4.25f)
+        if (distanceFromPlayer > 4f)
         {
+            //Hammer Position coming back
+            Vector3 targetPosition = new Vector3(playerTransform.position.x, hammerTransform.position.y, playerTransform.position.z);
+            hammerTransform.position = Vector3.MoveTowards(hammerTransform.position, targetPosition, backwardSpeed * Time.deltaTime);
+
             //Hammer Flip Rotation
             Vector3 directionFromPlayer = hammerTransform.position - playerTransform.position;
             float desiredYAngle = Mathf.Atan2(directionFromPlayer.x, directionFromPlayer.z) * Mathf.Rad2Deg;
 
             hammerTransform.rotation = Quaternion.SlerpUnclamped(hammerTransform.rotation, Quaternion.Euler(180, desiredYAngle, 77), backwardTimer / 0.3f);
         }
-        else if (distanceFromPlayer <= 5f && distanceFromPlayer >= 1.5f)
+        else if (distanceFromPlayer <= 4f && distanceFromPlayer >= 1f)
         {
-            //Hammer Hand Grab Rotation
-            Vector3 initRotation = hammerTransform.rotation.eulerAngles;
-            Quaternion desiredRotation = Quaternion.RotateTowards(hammerTransform.rotation, Quaternion.Euler(240, hammerTransform.rotation.eulerAngles.y, hammerTransform.rotation.eulerAngles.z), 20);
-            hammerTransform.rotation = Quaternion.Euler(desiredRotation.eulerAngles.x, initRotation.y, initRotation.z);
+            //Hammer Position towards parent transform
+            hammerTransform.position = Vector3.MoveTowards(hammerTransform.position, parentBone.position, backwardSpeed * Time.deltaTime);
 
-            if (distanceFromPlayer <= 3.75f && !hammerCameBack)
+            if (!hammerCameBack)
             {
-                playerBehaviour.CatchHammer(hammerTransform.position);
+                playerBehaviour.CatchHammer();
                 hammerCameBack = true;
+                StartCoroutine(HammerBackAssurance(0.3f));
+            }
+            else
+            {
+                //Hammer Hand Grab Rotation
+                Vector3 directionFromPlayer = hammerTransform.position - playerTransform.position;
+                float desiredYAngle = Mathf.Atan2(directionFromPlayer.x, directionFromPlayer.z) * Mathf.Rad2Deg;
+
+                Vector3 initRotation = hammerTransform.rotation.eulerAngles;
+                hammerTransform.rotation = Quaternion.RotateTowards(hammerTransform.rotation, parentBone.rotation * Quaternion.Inverse(hammerLRotation), 20); //Quaternion.Euler(270, desiredYAngle, initRotation.z)
+
+                if (Vector3.Distance(hammerTransform.position, parentBone.position) < 0.25f) HammerIsBack();
             }
         }
-        else if (Vector3.Distance(hammerTransform.position, playerTransform.position) < 1.5f)
+        else
         {
             HammerIsBack();
         }
@@ -159,11 +169,6 @@ public class HammerBehaviour : MonoBehaviour {
 
     void HammerIsBack()
     {
-        /*
-        forwardTimer = 0; //Prescindible?
-        backwardTimer = 0; //Prescindible?
-        */
-
         isThrowing = false;
         hammerCameBack = false;
 
@@ -189,6 +194,16 @@ public class HammerBehaviour : MonoBehaviour {
 
         isThrowing = true;
         goForward = true;
+    }
+
+    IEnumerator HammerBackAssurance(float cdTime)
+    {
+        if (isThrowing)
+        {
+            yield return new WaitForSeconds(cdTime);
+            HammerIsBack();
+        }
+        else yield return null;
     }
 
     #endregion
