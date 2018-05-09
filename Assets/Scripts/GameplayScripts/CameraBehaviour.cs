@@ -21,13 +21,14 @@ public class CameraBehaviour : MonoBehaviour {
     float yZoomAddition;
     float zZoomAddition;
 
-    float zoomMinLimit = 0.8f;
+    float zoomMinLimit = 9f;
     float zoomMaxLimit = 0;
 
     Vector3 minOffset;
     Vector3 maxOffset;
 
     float wheelAxisStorage = 0;
+    float lastWheelAxisStorage;
 
     public float smoothTime;
     float timeCounter = 0;
@@ -60,72 +61,80 @@ public class CameraBehaviour : MonoBehaviour {
 
         minOffset = new Vector3(0, yZoomAddition * 2, zZoomAddition * 2);
         maxOffset = offsetPos;
+
+        Debug.Log("minOffset " + minOffset);
+        Debug.Log("maxOffset " + maxOffset);
     }
 
     private void LateUpdate()
     {
         if(!playerTransform) return;
 
-        //Camera Offset Position
-        relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
+        Debug.Log("wheelAxisStorage " + wheelAxisStorage);
 
         //Initial Transition
         if(timeCounter <= smoothTime)
         {
             timeCounter += Time.deltaTime;
 
-            //Camera Start Position
+            //Camera Offset Position
+            relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
+
+            //Camera Start Position Set
             cameraTransform.position = Vector3.Lerp(startPos, relativePos, Mathf.SmoothStep(0, 1, timeCounter / smoothTime));
 
-            //Camera Start Rotation
+            //Camera Start Rotation Set
             Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - cameraTransform.position + new Vector3(0, heightOffset, 0));
 
             cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
         }
         else
         {
-            smoothTime = 0.25f;
-            playerCanMove = true;   //Permitir mover el player
-
-            //Camera Position
-            cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, relativePos, ref velocity, smoothTime);
-
-            //Camera Rotation
-            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, heightOffset, 0));
-
-            cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
+            if (smoothTime != 0.25f) smoothTime = 0.25f;
+            if (!playerCanMove) playerCanMove = true;   //Permitir mover el player
 
             //Camera Zoom
-            wheelAxisStorage += wheelAxis;
-            
-            if (wheelAxisStorage <= zoomMinLimit && wheelAxisStorage >= zoomMaxLimit)
+            if (wheelAxisStorage <= zoomMinLimit && wheelAxisStorage >= zoomMaxLimit && lastWheelAxisStorage != wheelAxisStorage)
             {
-                offsetPos.y -= wheelAxis * 10 * yZoomAddition;
-                offsetPos.z -= wheelAxis * 10 * zZoomAddition;
-            }
-            else if (wheelAxisStorage >= zoomMinLimit)
-            {
-                if (offsetPos.magnitude < minOffset.magnitude)
+                offsetPos.y -= wheelAxis * yZoomAddition;
+                offsetPos.z -= wheelAxis * zZoomAddition;
+
+                if (offsetPos.sqrMagnitude < minOffset.sqrMagnitude)
                 {
                     offsetPos = minOffset;
                 }
-
-                wheelAxisStorage = zoomMinLimit;
-            }
-            else if (wheelAxisStorage <= zoomMaxLimit)
-            {
-                if (offsetPos.magnitude > maxOffset.magnitude)
+                else if (offsetPos.sqrMagnitude > maxOffset.sqrMagnitude)
                 {
                     offsetPos = maxOffset;
                 }
-
-                wheelAxisStorage = zoomMaxLimit;
             }
+
+            //Camera Offset Position
+            relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
+
+            //Camera Position Set
+            cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, relativePos, ref velocity, smoothTime);
+
+            //Camera Rotation Set
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, heightOffset, 0));
+
+            cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
         }
     }
 
     public void SetMouseWheel(float mouseWheel)
     {
-        wheelAxis = mouseWheel;
+        lastWheelAxisStorage = wheelAxisStorage;
+        wheelAxisStorage += Mathf.Round(mouseWheel * 10);
+        wheelAxis = Mathf.Round(mouseWheel * 10);
+
+        if (wheelAxisStorage > zoomMinLimit)
+        {
+            wheelAxisStorage = zoomMinLimit;
+        }
+        else if (wheelAxisStorage < zoomMaxLimit)
+        {
+            wheelAxisStorage = zoomMaxLimit;
+        }
     }
 }

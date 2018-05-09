@@ -65,8 +65,6 @@ public class HammerBehaviour : MonoBehaviour {
         {
             if(hammerTransform.localPosition !=  hammerLPosition) hammerTransform.localPosition = hammerLPosition;
             if(hammerTransform.localRotation != hammerLRotation) hammerTransform.localRotation = hammerLRotation;
-
-            return;
         }
         else
         {
@@ -156,7 +154,7 @@ public class HammerBehaviour : MonoBehaviour {
                 float desiredYAngle = Mathf.Atan2(directionFromPlayer.x, directionFromPlayer.z) * Mathf.Rad2Deg;
 
                 Vector3 initRotation = hammerTransform.rotation.eulerAngles;
-                hammerTransform.rotation = Quaternion.RotateTowards(hammerTransform.rotation, parentBone.rotation * Quaternion.Inverse(hammerLRotation), 20); //Quaternion.Euler(270, desiredYAngle, initRotation.z)
+                hammerTransform.rotation = Quaternion.RotateTowards(hammerTransform.rotation, parentBone.rotation * Quaternion.Inverse(hammerLRotation), 20);
 
                 if (Vector3.Distance(hammerTransform.position, parentBone.position) < 0.25f) HammerIsBack();
             }
@@ -169,6 +167,8 @@ public class HammerBehaviour : MonoBehaviour {
 
     void HammerIsBack()
     {
+        playerBehaviour.HammerWasCaught();
+
         isThrowing = false;
         hammerCameBack = false;
 

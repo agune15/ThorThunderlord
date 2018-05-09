@@ -57,7 +57,7 @@ public class InputManager : MonoBehaviour {
 
         if (!pauseGameplay.isGamePaused)
         {
-            playerCamBehaviour.SetMouseWheel(Input.GetAxis("Mouse ScrollWheel"));
+            playerCamBehaviour.SetMouseWheel(Input.GetAxisRaw("Mouse ScrollWheel"));
 
             if(CameraBehaviour.playerCanMove)
             {

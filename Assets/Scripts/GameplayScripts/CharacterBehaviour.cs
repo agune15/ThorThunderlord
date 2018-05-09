@@ -101,7 +101,6 @@ public class CharacterBehaviour : MonoBehaviour {
     public float throwDistance;
     float throwTime;
     float throwDuration;
-    float catchDuration;
     public float throwTurnTime;
 
     private void Start()
@@ -117,7 +116,6 @@ public class CharacterBehaviour : MonoBehaviour {
             //animationsList.Add(new AnimationClipName(animation.name, animation));
 
             if (animation.name == "throwHammer") throwDuration = animation.length / 1.2f;
-            if (animation.name == "catchHammer") catchDuration = animation.length / 1.3f;
             if (animation.name == "hit_01") attackDuration = animation.length;
             if (animation.name == "slowArea") slowAreaInitDelay = animation.length;
         }
@@ -509,10 +507,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void CatchHammer ()
     {
-        isThrowing = false;
-
         thorAnimator.SetTrigger("catchHammer");
-        
+    }
+
+    public void HammerWasCaught ()
+    {
+        isThrowing = false;
         StartCoroutine(ThrowHammerCD());
     }
 
@@ -604,10 +604,12 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void ThrowRotation()
     {
-        Vector3 throwLookAt = (throwTime <= throwTurnTime) ? new Vector3(Easing.CubicEaseOut(throwTime, throwTurnOrigin.x, throwTurnDestination.x, throwTurnTime),
+        /*Vector3 throwLookAt = (throwTime <= throwTurnTime) ? new Vector3(Easing.CubicEaseOut(throwTime, throwTurnOrigin.x, throwTurnDestination.x, throwTurnTime),
                                                             Easing.CubicEaseOut(throwTime, throwTurnOrigin.y, throwTurnDestination.y, throwTurnTime),
                                                             Easing.CubicEaseOut(throwTime, throwTurnOrigin.z, throwTurnDestination.z, throwTurnTime))
-                                                            : throwDestination;
+                                                            : throwDestination;*/
+
+        Vector3 throwLookAt = (throwTime <= throwTurnTime) ? Vector3.Slerp(throwTurnOrigin, throwTurnDestination, Mathf.SmoothStep(0, 1, throwTime / throwTurnTime)) : throwDestination;
 
         playerTransform.LookAt(throwLookAt);
     }
