@@ -61,16 +61,12 @@ public class CameraBehaviour : MonoBehaviour {
 
         minOffset = new Vector3(0, yZoomAddition * 2, zZoomAddition * 2);
         maxOffset = offsetPos;
-
-        Debug.Log("minOffset " + minOffset);
-        Debug.Log("maxOffset " + maxOffset);
     }
 
     private void LateUpdate()
     {
         if(!playerTransform) return;
-
-        Debug.Log("wheelAxisStorage " + wheelAxisStorage);
+        
 
         //Initial Transition
         if(timeCounter <= smoothTime)

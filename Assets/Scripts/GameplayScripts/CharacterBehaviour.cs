@@ -56,6 +56,7 @@ public class CharacterBehaviour : MonoBehaviour {
     [Header("Dash parameters")]
     bool isDashing = false;
     public bool dashAvailable = true;
+    bool hasDashedOut = false;
 
     Vector3 dashOrigin;
     Vector3 dashEnd;
@@ -175,6 +176,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
+        thorAnimator.SetBool("isDashing", isDashing);
     }
 
     #region Movement State Updates
@@ -206,14 +208,19 @@ public class CharacterBehaviour : MonoBehaviour {
         }
         else
         {
-            playerAgent.SetDestination(dashEnd);
             SetRotation(RotationTypes.Dash);
 
-            if (Vector3.Distance(dashOrigin, playerTransform.position) / dashCurrentDistance > 0.7f)
+            if (Vector3.Distance(dashOrigin, playerTransform.position) / dashCurrentDistance > 0.6f)
             {
-                float remainingDistanceFactor = Vector3.Distance(dashOrigin, playerTransform.position) - dashCurrentDistance * 0.7f;
-                float maxDistanceFactor = dashCurrentDistance * 0.3f;
+                float remainingDistanceFactor = Vector3.Distance(dashOrigin, playerTransform.position) - dashCurrentDistance * 0.6f;
+                float maxDistanceFactor = dashCurrentDistance * 0.4f;
                 playerAgent.speed = Mathf.SmoothStep(agentSpeed * dashImpulse, 0, remainingDistanceFactor / maxDistanceFactor);
+
+                if (!hasDashedOut)
+                {
+                    thorAnimator.SetTrigger("dashOut");
+                    hasDashedOut = true;
+                }
             }
 
             if (Vector3.Distance(dashOrigin, playerTransform.position) > dashCurrentDistance) DisableDash();
@@ -340,6 +347,7 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             isDashing = true;
             dashAvailable = false;
+            hasDashedOut = false;
             canMove = false;
 
             NavMeshPath path = new NavMeshPath();
@@ -355,9 +363,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
             dashCurrentDistance = (Vector3.Distance(dashOrigin, dashEnd) > dashDistance) ? dashDistance : Vector3.Distance(dashOrigin, dashEnd);
 
-            Debug.Log("dash distance " + dashCurrentDistance);
-
             playerAgent.speed *= dashImpulse;
+
+            thorAnimator.SetTrigger("dash");
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.E, 1);
         }
@@ -369,9 +377,11 @@ public class CharacterBehaviour : MonoBehaviour {
         canMove = true;
 
         playerAgent.speed = agentSpeed;
-        playerAgent.SetDestination(playerTransform.position);
+        SetDestination(playerTransform.position);
 
-        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.E);
+        thorAnimator.ResetTrigger("dash");
+        thorAnimator.ResetTrigger("dashOut");
+
         StartCoroutine(DashCD());
     }
 
@@ -457,7 +467,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
                 enemyList.Clear();
 
-                playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.W);
                 StartCoroutine(SlowAreaCD());
             }
         }
@@ -499,7 +508,6 @@ public class CharacterBehaviour : MonoBehaviour {
             throwTime = 0;
 
             thorAnimator.SetTrigger("throwHammer");
-            thorAnimator.ResetTrigger("catchHammer");
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         }
@@ -512,6 +520,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void HammerWasCaught ()
     {
+        thorAnimator.ResetTrigger("throwHammer");
+        thorAnimator.ResetTrigger("catchHammer");
+
         isThrowing = false;
         StartCoroutine(ThrowHammerCD());
     }
@@ -536,8 +547,6 @@ public class CharacterBehaviour : MonoBehaviour {
                     {
                         hammerBehaviour.ThrowHammer(throwDestination);
                         hasThrown = true;
-
-                        thorAnimator.ResetTrigger("throwHammer");
 
                         canMove = true;
                     }
@@ -688,6 +697,11 @@ public class CharacterBehaviour : MonoBehaviour {
         playerIsMoving = !playerAgent.isStopped;
     }
 
+    public bool IsPlayerDashing()
+    {
+        return isDashing;
+    }
+
     //Value storage
     public float GetLife ()
     {
@@ -707,12 +721,14 @@ public class CharacterBehaviour : MonoBehaviour {
 
     IEnumerator DashCD()
     {
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.E);
         yield return new WaitForSeconds(dashCooldown);
         dashAvailable = true;
     }
 
     IEnumerator SlowAreaCD()
     {
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.W);
         yield return new WaitForSeconds(slowAreaCD);
         slowAreaAvailable = true;
     }

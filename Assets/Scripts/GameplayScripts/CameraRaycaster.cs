@@ -68,6 +68,8 @@ public class CameraRaycaster : MonoBehaviour {
 
     void MoveRayInput ()
     {
+        if (playerBehaviour.IsPlayerDashing()) return;
+
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
