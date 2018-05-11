@@ -3978,7 +3978,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Soudns
+  m_Text: Sounds
 --- !u!114 &114267034084658404
 MonoBehaviour:
   m_ObjectHideFlags: 1
