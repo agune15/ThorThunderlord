@@ -74,7 +74,7 @@ public class CharacterBehaviour : MonoBehaviour {
     Vector3 slowAreaOrigin;
 
     bool isSlowingArea = false;
-    bool slowAreaAvailable = true;
+    public bool slowAreaAvailable = true;
     bool isCastingArea = false;
     bool castedAreaFX = false;
 
@@ -116,7 +116,7 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             //animationsList.Add(new AnimationClipName(animation.name, animation));
 
-            if (animation.name == "throwHammer") throwDuration = animation.length / 1.2f;
+            if (animation.name == "throwHammer") throwDuration = animation.length / 1.4f;
             if (animation.name == "hit_01") attackDuration = animation.length;
             if (animation.name == "slowArea") slowAreaInitDelay = animation.length;
         }
@@ -177,6 +177,9 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
         thorAnimator.SetBool("isDashing", isDashing);
+        thorAnimator.SetBool("hasThrown", hasThrown);   //Necesario o mejor SetTrigger?
+
+        Debug.Log("throwAvailable " + throwAvailable);
     }
 
     #region Movement State Updates
