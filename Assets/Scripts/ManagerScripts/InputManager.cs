@@ -62,9 +62,9 @@ public class InputManager : MonoBehaviour {
             if(CameraBehaviour.playerCanMove)
             {
                 if(Input.GetButtonDown("Move") || Input.GetButton("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
-                if(Input.GetButtonDown("Dash") && playerBehaviour.dashAvailable) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
-                if(Input.GetButtonDown("SlowArea") && playerBehaviour.slowAreaAvailable) playerBehaviour.SlowArea();
-                if(Input.GetButtonDown("ThrowHammer") && playerBehaviour.throwAvailable) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.ThrowHammer);
+                if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
+                if(Input.GetButtonDown("SlowArea")) playerBehaviour.SlowArea();
+                if(Input.GetButtonDown("ThrowHammer")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.ThrowHammer);
             }
         }
     }
@@ -88,7 +88,7 @@ public class InputManager : MonoBehaviour {
         {
             player = GameObject.Find("Player");
             playerBehaviour = player.GetComponent<CharacterBehaviour>();
-            playerCamBehaviour = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraBehaviour>();
+            playerCamBehaviour = GameObject.FindGameObjectWithTag("CameraController").GetComponentInChildren<CameraBehaviour>();
             playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
             pauseGameplay = GameObject.Find("GameplayUI").GetComponent<PauseGameplay>();
         }

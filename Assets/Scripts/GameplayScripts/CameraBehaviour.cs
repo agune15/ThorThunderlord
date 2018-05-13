@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraBehaviour : MonoBehaviour {
 
     Transform playerTransform;
+    Transform cameraControllerTransform;
     Transform cameraTransform;
 
     Vector3 startPos;
@@ -33,12 +34,28 @@ public class CameraBehaviour : MonoBehaviour {
     public float smoothTime;
     float timeCounter = 0;
 
+    //Camera Shake Parameters
+    bool isCameraShaking = false;
+    
+    int shakePositionIndex = 0;
+    public int shakePositionsAmount;
+
+    Vector3[] shakePositions;
+    Vector3 shakeVelocity = Vector3.zero;
+
+    public float shakeAmount;
+
+    public float shakeSmoothTime;
+    public float shakeLastSmoothTime;
+
+
     private void Start()
     {
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        cameraTransform = this.transform;
+        cameraControllerTransform = transform;
+        cameraTransform = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
 
-        startPos = cameraTransform.position;
+        startPos = cameraControllerTransform.position;
         relativePos = playerTransform.position + offsetPos;
 
         playerCanMove = false;
@@ -61,12 +78,20 @@ public class CameraBehaviour : MonoBehaviour {
 
         minOffset = new Vector3(0, yZoomAddition * 2, zZoomAddition * 2);
         maxOffset = offsetPos;
+
+        shakePositions = new Vector3[shakePositionsAmount];
     }
 
     private void LateUpdate()
     {
         if(!playerTransform) return;
-        
+
+        if (Input.GetKeyDown(KeyCode.M)) CameraShake();   //Testing Only
+
+        if (isCameraShaking)
+        {
+            CameraShakeUpdate();
+        }
 
         //Initial Transition
         if(timeCounter <= smoothTime)
@@ -77,12 +102,12 @@ public class CameraBehaviour : MonoBehaviour {
             relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
 
             //Camera Start Position Set
-            cameraTransform.position = Vector3.Lerp(startPos, relativePos, Mathf.SmoothStep(0, 1, timeCounter / smoothTime));
+            cameraControllerTransform.position = Vector3.Lerp(startPos, relativePos, Mathf.SmoothStep(0, 1, timeCounter / smoothTime));
 
             //Camera Start Rotation Set
-            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - cameraTransform.position + new Vector3(0, heightOffset, 0));
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - cameraControllerTransform.position + new Vector3(0, heightOffset, 0));
 
-            cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
+            cameraControllerTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
         }
         else
         {
@@ -109,12 +134,12 @@ public class CameraBehaviour : MonoBehaviour {
             relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
 
             //Camera Position Set
-            cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, relativePos, ref velocity, smoothTime);
+            cameraControllerTransform.position = Vector3.SmoothDamp(cameraControllerTransform.position, relativePos, ref velocity, smoothTime);
 
             //Camera Rotation Set
             Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, heightOffset, 0));
 
-            cameraTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
+            cameraControllerTransform.rotation = Quaternion.Euler(lookRotation.eulerAngles.x, 0, 0);
         }
     }
 
@@ -132,5 +157,37 @@ public class CameraBehaviour : MonoBehaviour {
         {
             wheelAxisStorage = zoomMaxLimit;
         }
+    }
+
+    public void CameraShake ()
+    {
+        if (!isCameraShaking)
+        {
+            isCameraShaking = true;
+            shakePositionIndex = 0;
+
+            for (int i = 0; i < shakePositions.Length - 1; i++)
+            {
+                shakePositions[i] = cameraTransform.localPosition + (cameraTransform.up * Random.Range(-shakeAmount, shakeAmount) + cameraTransform.right * Random.Range(-shakeAmount, shakeAmount));
+                shakePositions[i].z = 0;
+            }
+            shakePositions[shakePositions.Length - 1] = Vector3.zero;
+        }
+    }
+
+    void CameraShakeUpdate ()
+    {
+        if (cameraTransform.localPosition != shakePositions[shakePositionIndex])
+        {
+            if (shakePositionIndex != shakePositions.Length - 1) cameraTransform.localPosition = Vector3.SmoothDamp(cameraTransform.localPosition, shakePositions[shakePositionIndex], ref shakeVelocity, shakeSmoothTime);
+            else cameraTransform.localPosition = Vector3.SmoothDamp(cameraTransform.localPosition, shakePositions[shakePositionIndex], ref shakeVelocity, shakeLastSmoothTime);
+
+            if (cameraTransform.localPosition == shakePositions[shakePositions.Length - 1] && shakePositionIndex == shakePositions.Length - 1)
+            {
+                cameraTransform.localPosition = Vector3.zero;
+                isCameraShaking = false;
+            }
+        }
+        else shakePositionIndex++;
     }
 }

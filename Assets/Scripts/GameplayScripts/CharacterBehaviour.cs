@@ -92,6 +92,7 @@ public class CharacterBehaviour : MonoBehaviour {
     bool isThrowing = false;
     bool hasThrown = false;
     public bool throwAvailable = true;
+    bool throwOnCooldown = false;
 
     Vector3 throwDestination;
     Vector3 throwTurnOrigin;
@@ -99,6 +100,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public float throwHammerDamage;
     public float throwCD;
+    float throwCurrentCD;
     public float throwDistance;
     float throwTime;
     float throwDuration;
@@ -118,7 +120,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
             if (animation.name == "throwHammer") throwDuration = animation.length / 1.4f;
             if (animation.name == "hit_01") attackDuration = animation.length;
-            if (animation.name == "slowArea") slowAreaInitDelay = animation.length;
+            if (animation.name == "slowArea") slowAreaInitDelay = animation.length / 1.3f;
         }
 
         agentSpeed = playerAgent.speed;
@@ -171,15 +173,15 @@ public class CharacterBehaviour : MonoBehaviour {
             ThrowUpdate();
         }
 
+        //cooldown Updates
+        CooldownUpdate();
+
         //Animations
         thorAnimator.SetBool("isThrowing", isThrowing);
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
         thorAnimator.SetBool("isDashing", isDashing);
-        thorAnimator.SetBool("hasThrown", hasThrown);   //Necesario o mejor SetTrigger?
-
-        Debug.Log("throwAvailable " + throwAvailable);
     }
 
     #region Movement State Updates
@@ -527,7 +529,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.ResetTrigger("catchHammer");
 
         isThrowing = false;
-        StartCoroutine(ThrowHammerCD());
+        ThrowHammerCD();
     }
 
     void ThrowUpdate ()
@@ -722,6 +724,14 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #region Others
 
+    void CooldownUpdate()
+    {
+        if (throwOnCooldown)
+        {
+            ThrowHammerCooldownUpdate();
+        }
+    }
+
     IEnumerator DashCD()
     {
         playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.E);
@@ -736,17 +746,37 @@ public class CharacterBehaviour : MonoBehaviour {
         slowAreaAvailable = true;
     }
 
-    IEnumerator ThrowHammerCD()
+    /*IEnumerator ThrowHammerCD()
     {
         playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
         yield return new WaitForSeconds(throwCD);
         throwAvailable = true;
-    }
+    }*/
 
     IEnumerator SetInitLife()
     {
         yield return new WaitForSeconds(0.1f);
         playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
+    }
+
+    void ThrowHammerCD()
+    {
+        throwOnCooldown = true;
+        throwCurrentCD = 0;
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
+    }
+
+    void ThrowHammerCooldownUpdate()
+    {
+        if (throwCurrentCD < throwCD)
+        {
+            throwCurrentCD += Time.deltaTime;
+        }
+        else
+        {
+            throwAvailable = true;
+            throwOnCooldown = false;
+        }
     }
     
     private void OnDrawGizmos()
