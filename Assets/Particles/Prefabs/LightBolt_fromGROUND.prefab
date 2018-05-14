@@ -174,7 +174,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 956088612
+  randomSeed: -315513921
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3586,7 +3586,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -49824048
+  randomSeed: 301836410
   InitialModule:
     serializedVersion: 3
     enabled: 1
