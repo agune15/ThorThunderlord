@@ -62,7 +62,7 @@ GraphicsSettings:
       prefer32BitShadowMaps: 0
       enableLPPV: 1
       useDitherMaskForAlphaBlendedShadows: 1
-    m_Automatic: 1
+    m_Automatic: 0
   - serializedVersion: 5
     m_BuildTarget: 1
     m_Tier: 1
@@ -79,7 +79,7 @@ GraphicsSettings:
       prefer32BitShadowMaps: 0
       enableLPPV: 1
       useDitherMaskForAlphaBlendedShadows: 1
-    m_Automatic: 1
+    m_Automatic: 0
   - serializedVersion: 5
     m_BuildTarget: 1
     m_Tier: 2
@@ -96,7 +96,7 @@ GraphicsSettings:
       prefer32BitShadowMaps: 0
       enableLPPV: 1
       useDitherMaskForAlphaBlendedShadows: 1
-    m_Automatic: 1
+    m_Automatic: 0
   m_LightmapStripping: 0
   m_FogStripping: 0
   m_InstancingStripping: 0

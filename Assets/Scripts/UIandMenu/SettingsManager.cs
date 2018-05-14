@@ -52,22 +52,22 @@ public class SettingsManager : MonoBehaviour
 
     public void ChangeQualityFast()
     {
-        QualitySettings.SetQualityLevel(2, true);
+        QualitySettings.SetQualityLevel(1, true);
     }
 
     public void ChangeQualityGood()
     {
-        QualitySettings.SetQualityLevel(3, true);
+        QualitySettings.SetQualityLevel(2, true);
     }
 
     public void ChangeQualityFantastic()
     {
-        QualitySettings.SetQualityLevel(4, true);
+        QualitySettings.SetQualityLevel(3, true);
     }
 
     public void ChangeQualityUltra()
     {
-        QualitySettings.SetQualityLevel(5, true);
+        QualitySettings.SetQualityLevel(4, true);
     }
 
     public void SetMasterVolume(float volume)
