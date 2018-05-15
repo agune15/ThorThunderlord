@@ -618,11 +618,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void ThrowRotation()
     {
-        /*Vector3 throwLookAt = (throwTime <= throwTurnTime) ? new Vector3(Easing.CubicEaseOut(throwTime, throwTurnOrigin.x, throwTurnDestination.x, throwTurnTime),
-                                                            Easing.CubicEaseOut(throwTime, throwTurnOrigin.y, throwTurnDestination.y, throwTurnTime),
-                                                            Easing.CubicEaseOut(throwTime, throwTurnOrigin.z, throwTurnDestination.z, throwTurnTime))
-                                                            : throwDestination;*/
-
         Vector3 throwLookAt = (throwTime <= throwTurnTime) ? Vector3.Slerp(throwTurnOrigin, throwTurnDestination, Mathf.SmoothStep(0, 1, throwTime / throwTurnTime)) : throwDestination;
 
         playerTransform.LookAt(throwLookAt);
@@ -794,8 +789,11 @@ public class CharacterBehaviour : MonoBehaviour {
             Gizmos.color = Color.yellow;
             Gizmos.DrawCube(throwTurnDestination, new Vector3(0.5f, 0.5f, 0.5f));
         }
-        
-
+        if (isDashing)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawCube(dashEnd, new Vector3(0.5f, 0.5f, 0.5f));
+        }
     }
 
     #endregion
