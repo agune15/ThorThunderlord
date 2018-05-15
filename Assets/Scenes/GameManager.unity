@@ -113,7 +113,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 22d29ecbc87f62342b372a7bcca5b12e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 642b9e42af125ae4fbdd74305a0a0934, type: 2}
 --- !u!1 &962826718
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +320,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 119
   m_IsActive: 1
 --- !u!224 &1642547372
 RectTransform:

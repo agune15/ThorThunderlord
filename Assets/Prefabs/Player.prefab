@@ -2078,6 +2078,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1858791870974536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4350367221770472}
+  - component: {fileID: 119018056426389598}
+  m_Layer: 9
+  m_Name: uiProjector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1860379730412466
 GameObject:
   m_ObjectHideFlags: 1
@@ -3243,6 +3259,19 @@ Transform:
   m_Father: {fileID: 4177105805120740}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 10.345607, y: 20.879019, z: 65.15509}
+--- !u!4 &4350367221770472
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858791870974536}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4851633840533534}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4357929600458302
 Transform:
   m_ObjectHideFlags: 1
@@ -4401,6 +4430,7 @@ Transform:
   m_Children:
   - {fileID: 4298162932424638}
   - {fileID: 4200429957052556}
+  - {fileID: 4350367221770472}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 49.02, z: 0}
@@ -4939,8 +4969,9 @@ MonoBehaviour:
   dashDuration: 1
   dashCooldown: 3
   dashImpulse: 4
-  dashDistance: 12
+  dashDistance: 14
   enemyList: []
+  slowAreaAvailable: 1
   slowAreaRange: 5
   slowAreaDuration: 3
   slowAreaDelay: 0
@@ -4963,6 +4994,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9033484515790094c9098a319ccc0e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!119 &119018056426389598
+Projector:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858791870974536}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_NearClipPlane: 0.1
+  m_FarClipPlane: 30
+  m_FieldOfView: 60
+  m_AspectRatio: 1
+  m_Orthographic: 0
+  m_OrthographicSize: 10
+  m_Material: {fileID: 0}
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 3584
 --- !u!136 &136710896468485770
 CapsuleCollider:
   m_ObjectHideFlags: 1

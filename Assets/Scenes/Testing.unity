@@ -311,53 +311,6 @@ Camera:
   m_PrefabParentObject: {fileID: 20112147624461556, guid: c2ca4dd359d1ff94ebdfdafa938ee7eb,
     type: 2}
   m_PrefabInternal: {fileID: 1410602379}
---- !u!1 &267979948
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 267979949}
-  - component: {fileID: 267979950}
-  m_Layer: 9
-  m_Name: uiProjector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &267979949
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 267979948}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1180969995}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!119 &267979950
-Projector:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 267979948}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_NearClipPlane: 0.1
-  m_FarClipPlane: 30
-  m_FieldOfView: 60
-  m_AspectRatio: 1
-  m_Orthographic: 0
-  m_OrthographicSize: 10
-  m_Material: {fileID: 2100000, guid: c43641f26ae747f41886741dff365f60, type: 2}
-  m_IgnoreLayers:
-    serializedVersion: 2
-    m_Bits: 3584
 --- !u!1 &320526869
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +499,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 119018056426389598, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: c43641f26ae747f41886741dff365f60, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c, type: 2}
   m_IsPrefabParent: 0
@@ -776,11 +734,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b7c6c5e52db750148bff024f051e7223, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &1180969995 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4851633840533534, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c,
-    type: 2}
-  m_PrefabInternal: {fileID: 573374978}
 --- !u!1 &1314261692
 GameObject:
   m_ObjectHideFlags: 0

@@ -190,12 +190,12 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         playerAgent.isStopped = true;
 
-        //play idle animation
-
-        if (playerAgent.remainingDistance > 0)
+        if (playerAgent.remainingDistance > 0 || isDashing)
         {
             SetMove();
         }
+
+        Debug.Log("eyee");
     }
 
     void MoveUpdate()
@@ -215,6 +215,8 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             SetRotation(RotationTypes.Dash);
 
+            playerAgent.SetDestination(dashEnd);
+
             if (Vector3.Distance(dashOrigin, playerTransform.position) / dashCurrentDistance > 0.6f)
             {
                 float remainingDistanceFactor = Vector3.Distance(dashOrigin, playerTransform.position) - dashCurrentDistance * 0.6f;
@@ -226,6 +228,8 @@ public class CharacterBehaviour : MonoBehaviour {
                     thorAnimator.SetTrigger("dashOut");
                     hasDashedOut = true;
                 }
+
+                if (playerAgent.speed <= 0) DisableDash();
             }
 
             if (Vector3.Distance(dashOrigin, playerTransform.position) > dashCurrentDistance) DisableDash();
@@ -356,13 +360,23 @@ public class CharacterBehaviour : MonoBehaviour {
             canMove = false;
 
             NavMeshPath path = new NavMeshPath();
+            Vector3 lastDashEnd = dashEnd;
 
             if(NavMesh.CalculatePath(playerTransform.position, destination, NavMesh.AllAreas, path))
             {
-                dashEnd = path.corners[1];
+                for (int i = 0; i < path.corners.Length; i++)
+                {
+                    if (Vector3.Distance(path.corners[i], playerTransform.position) > 0 && dashEnd != path.corners[i])
+                    {
+                        dashEnd = path.corners[i];
+                        break;
+                    }
+                }
 
                 playerAgent.SetDestination(dashEnd);
             }
+
+            if (dashEnd == lastDashEnd) dashEnd = destination; //Da problemas?
 
             dashOrigin = playerTransform.position;
 
