@@ -194,8 +194,6 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             SetMove();
         }
-
-        Debug.Log("eyee");
     }
 
     void MoveUpdate()
@@ -229,7 +227,7 @@ public class CharacterBehaviour : MonoBehaviour {
                     hasDashedOut = true;
                 }
 
-                if (playerAgent.speed <= 0) DisableDash();
+                if (playerAgent.speed <= 0.1f) DisableDash();
             }
 
             if (Vector3.Distance(dashOrigin, playerTransform.position) > dashCurrentDistance) DisableDash();
