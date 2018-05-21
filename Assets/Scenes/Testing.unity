@@ -601,9 +601,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 328508606495628964, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+    - target: {fileID: 223628831160801518, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
         type: 2}
-      propertyPath: m_TargetCamera
+      propertyPath: m_Camera
       value: 
       objectReference: {fileID: 259788168}
     - target: {fileID: 328153618367790774, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
@@ -611,11 +611,17 @@ Prefab:
       propertyPath: m_TargetCamera
       value: 
       objectReference: {fileID: 259788168}
-    - target: {fileID: 223628831160801518, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+    - target: {fileID: 328508606495628964, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
         type: 2}
-      propertyPath: m_Camera
+      propertyPath: m_TargetCamera
       value: 
       objectReference: {fileID: 259788168}
+    - target: {fileID: 114065082131231004, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+        type: 2}
+      propertyPath: particleSystems.Array.data[3]
+      value: 
+      objectReference: {fileID: 1748113643828226, guid: 571d7dc06a2a9514996b2536cba9b6a4,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80c89b9130c36364ea8ca147ad6cb6bd, type: 2}
   m_IsPrefabParent: 0
@@ -1690,6 +1696,11 @@ Prefab:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: c43641f26ae747f41886741dff365f60, type: 2}
+    - target: {fileID: 114531980090702760, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c,
+        type: 2}
+      propertyPath: slowAreaFXTime
+      value: 1.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c, type: 2}
   m_IsPrefabParent: 0
@@ -4338,6 +4349,16 @@ Prefab:
     - target: {fileID: 4010542148992702, guid: c2ca4dd359d1ff94ebdfdafa938ee7eb, type: 2}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 114621212598436786, guid: c2ca4dd359d1ff94ebdfdafa938ee7eb,
+        type: 2}
+      propertyPath: shakeAmount
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114621212598436786, guid: c2ca4dd359d1ff94ebdfdafa938ee7eb,
+        type: 2}
+      propertyPath: shakePositionsAmount
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c2ca4dd359d1ff94ebdfdafa938ee7eb, type: 2}

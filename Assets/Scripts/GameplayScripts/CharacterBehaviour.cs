@@ -69,23 +69,23 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //Slowing Area parameters
     [Header("Slowing Area parameters")]
-    public List<EnemyStatsTransform> enemyList = new List<EnemyStatsTransform>();
+    public List<EnemyStatsTransform> enemySlowAreaList = new List<EnemyStatsTransform>();
 
     Vector3 slowAreaOrigin;
 
     bool isSlowingArea = false;
     public bool slowAreaAvailable = true;
     bool isCastingArea = false;
-    bool castedAreaFX = false;
+    bool slowAreaDealedDamage = false;
 
+    public float slowAreaDamage;
     public float slowAreaRange;
-    public float slowAreaDuration;
     float slowAreaInitDelay;
     [SerializeField] float slowAreaDelay;
-    public float slowAreaFadeTime;
+    public float slowAreaFXTime;
     public float slowAreaCD;
 
-    [SerializeField] float slowAreaCount = 0;
+    [SerializeField] float slowAreaTimer = 0;
 
     //Hammer Throw parameters
     [Header("Hammer Throw parameters")]
@@ -106,6 +106,9 @@ public class CharacterBehaviour : MonoBehaviour {
     float throwDuration;
     public float throwTurnTime;
 
+    //Lightning Rain parameters
+    //[Header("Lightning Rain parameters")]
+
     private void Start()
     {
         playerTransform = GetComponent<Transform>();
@@ -125,7 +128,6 @@ public class CharacterBehaviour : MonoBehaviour {
 
         agentSpeed = playerAgent.speed;
 
-        slowAreaFadeTime += slowAreaDuration;
         slowAreaDelay = slowAreaInitDelay;
 
         maxLife = life;
@@ -182,6 +184,9 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
         thorAnimator.SetBool("isDashing", isDashing);
+
+        Debug.Log("player.isStopped " + playerAgent.isStopped);
+        Debug.Log("canMove " + canMove);
     }
 
     #region Movement State Updates
@@ -413,36 +418,39 @@ public class CharacterBehaviour : MonoBehaviour {
             isSlowingArea = true;
             slowAreaAvailable = false;
             isCastingArea = true;
-            castedAreaFX = false;
+            slowAreaDealedDamage = false;
             slowAreaDelay = slowAreaInitDelay;
 
             thorAnimator.SetTrigger("castArea");
             thorAnimator.ResetTrigger("hit");
 
-            slowAreaCount = 0;
+            slowAreaTimer = 0;
 
             slowAreaOrigin = playerTransform.position;
 
             foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
             {
-                if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange * 8)  //Ajustar!
+                if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange * 6)  //Ajustar!
                 {
-                    enemyList.Add(new EnemyStatsTransform(enemy.transform, enemy.GetComponent<EnemyStats>()));
+                    enemySlowAreaList.Add(new EnemyStatsTransform(enemy.transform, enemy.GetComponent<EnemyStats>()));
                 }
             }
+
+            particleInstancer.InstanciateParticleSystem("Area_W_v2", slowAreaOrigin + new Vector3(0, 0.1f, 0), Quaternion.identity);
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.W, 1);
         }
     }
 
-    void SlowAreaUpdate()
+    void CastSlowAreaUpdate()
     {
         if(slowAreaDelay > 0)
         {
             slowAreaDelay -= Time.deltaTime;
             playerAgent.isStopped = true;
             canMove = false;
-            return;
+
+            Debug.Log("delay");
         }
         else
         {
@@ -450,55 +458,56 @@ public class CharacterBehaviour : MonoBehaviour {
             canMove = true;
             if (isCastingArea && isAttacking) thorAnimator.SetTrigger("hit");
             isCastingArea = false;
+
+            Debug.Log("no delay");
         }
+    }
 
-        if(slowAreaCount <= slowAreaDuration)
+    void SlowAreaUpdate()
+    {
+        CastSlowAreaUpdate();
+
+        if (slowAreaTimer <= slowAreaFXTime)
         {
-            if (!castedAreaFX)
-            {
-                particleInstancer.InstanciateParticleSystem("Area_Thor", playerTransform.position, Quaternion.identity);
-                castedAreaFX = true;
-            }
+            slowAreaTimer += Time.deltaTime;
 
-            slowAreaCount += Time.deltaTime;
+            if (slowAreaTimer >= 0.4f)
+            {
+                foreach (EnemyStatsTransform enemy in enemySlowAreaList)
+                {
+                    if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange)
+                    {
+                        if (!enemy.stats.isSlowed) enemy.stats.SetSlowSpeed();
+                    }
+                    else
+                    {
+                        if (enemy.stats.isSlowed) enemy.stats.SetInitSpeed();
+                    }
+                }
+
+                if (!slowAreaDealedDamage && slowAreaTimer >= 0.5f)
+                {
+                    foreach (EnemyStatsTransform enemy in enemySlowAreaList)
+                    {
+                        if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange) enemy.stats.SetDamage(slowAreaDamage);
+                    }
+                    slowAreaDealedDamage = true;
+                }
+            }
         }
         else
         {
-            if (slowAreaCount <= slowAreaFadeTime)
+            isSlowingArea = false;
+            thorAnimator.ResetTrigger("castArea");
+
+            foreach (EnemyStatsTransform enemy in enemySlowAreaList)
             {
-                slowAreaCount += Time.deltaTime;
-
-                //easing desvanecimiento del area (shader)
-
+                if (enemy.stats.isSlowed) enemy.stats.SetInitSpeed();
             }
-            else
-            {
-                //alpha del shader a 0
-                isSlowingArea = false;
-                thorAnimator.ResetTrigger("castArea");
 
-                foreach(EnemyStatsTransform enemy in enemyList)
-                {
-                    if(enemy.stats.isSlowed) enemy.stats.SetInitSpeed();
-                }
+            enemySlowAreaList.Clear();
 
-                enemyList.Clear();
-
-                StartCoroutine(SlowAreaCD());
-            }
-        }
-
-        foreach(EnemyStatsTransform enemy in enemyList)
-        {
-            if(Vector3.Distance(slowAreaOrigin, enemy.transform.position) < slowAreaRange)
-            {
-                enemy.stats.SetDamage(0.02f);
-                if (!enemy.stats.isSlowed) enemy.stats.SetSlowSpeed();
-            }
-            else
-            {
-                if(enemy.stats.isSlowed) enemy.stats.SetInitSpeed();
-            }
+            StartCoroutine(SlowAreaCD());
         }
     }
 
@@ -792,7 +801,7 @@ public class CharacterBehaviour : MonoBehaviour {
         if (playerAgent != null)
         {
             Gizmos.DrawCube(playerAgent.destination, new Vector3(0.5f, 0.5f, 0.5f));
-            if (isSlowingArea && slowAreaDelay < 0) Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaRange);
+            if (isSlowingArea && slowAreaTimer >= 0.4f) Gizmos.DrawWireSphere(slowAreaOrigin, slowAreaRange);
         }
         if (isThrowing)
         {

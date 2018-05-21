@@ -77,40 +77,40 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-					fixed4 col = tex2D(_DissolveTex, i.uv3);
-					fixed x = col.r;
-					fixed progress = i.color.a;
+				fixed4 col = tex2D(_DissolveTex, i.uv3);
+				fixed x = col.r;
+				fixed progress = i.color.a;
 	
-					//Edge
-					fixed edge = lerp( x + _Edge, x - _Edge, progress);
-					fixed alpha = smoothstep(  progress + _Edge, progress - _Edge, edge);
+				//Edge
+				fixed edge = lerp( x + _Edge, x - _Edge, progress);
+				fixed alpha = smoothstep(  progress + _Edge, progress - _Edge, edge);
 					
-					#ifdef EDGE_COLOR
-						//Edge Around Factor
-						fixed edgearound = lerp( x + _EdgeAround, x - _EdgeAround, progress);
-						edgearound = smoothstep( progress + _EdgeAround, progress - _EdgeAround, edgearound);
-						edgearound = pow(edgearound, _EdgeAroundPower);
+				#ifdef EDGE_COLOR
+					//Edge Around Factor
+					fixed edgearound = lerp( x + _EdgeAround, x - _EdgeAround, progress);
+					edgearound = smoothstep( progress + _EdgeAround, progress - _EdgeAround, edgearound);
+					edgearound = pow(edgearound, _EdgeAroundPower);
 
-						//Edge Around Distortion
-						fixed avoid = 0.15f;
-						fixed distort = edgearound*alpha*avoid;
-						float2 cuv = lerp( i.uv, i.uv + distort - avoid, progress * _EdgeDistortion);
-						col = tex2D(_MainTex, cuv);
-						col.rgb *= i.color.rgb;
+					//Edge Around Distortion
+					fixed avoid = 0.15f;
+					fixed distort = edgearound*alpha*avoid;
+					float2 cuv = lerp( i.uv, i.uv + distort - avoid, progress * _EdgeDistortion);
+					col = tex2D(_MainTex, cuv);
+					col.rgb *= i.color.rgb;
 
-						//Edge Around Color
-						fixed3 ca = tex2D(_EdgeAroundRamp, fixed2(1-edgearound, 0)).rgb;
-						ca = (col.rgb + ca)*ca*_EdgeAroundHDR;
-						col.rgb = lerp( ca, col.rgb, edgearound);
-					#else
-						col = tex2D(_MainTex, i.uv);
-						col.rgb *= i.color.rgb;
-					#endif
+					//Edge Around Color
+					fixed3 ca = tex2D(_EdgeAroundRamp, fixed2(1-edgearound, 0)).rgb;
+					ca = (col.rgb + ca)*ca*_EdgeAroundHDR;
+					col.rgb = lerp( ca, col.rgb, edgearound);
+				#else
+					col = tex2D(_MainTex, i.uv);
+					col.rgb *= i.color.rgb;
+				#endif
 
-					col.a *= alpha;
+				col.a *= alpha;
 					
 
-					return col;
+				return col;
 			}
 			ENDCG
 		}

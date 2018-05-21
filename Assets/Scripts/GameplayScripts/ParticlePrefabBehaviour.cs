@@ -9,6 +9,7 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
 
     private void Start()
     {
+        if (GetComponent<ParticleSystem>() != null) particleSystems.Add(GetComponent<ParticleSystem>());
         particleSystems.AddRange(GetComponentsInChildren<ParticleSystem>());
     }
 

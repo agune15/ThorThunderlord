@@ -40,6 +40,7 @@ public class CameraBehaviour : MonoBehaviour {
     int shakePositionIndex = 0;
     public int shakePositionsAmount;
 
+    //List<Vector3> shakePositions = new List<Vector3>();
     Vector3[] shakePositions;
     Vector3 shakeVelocity = Vector3.zero;
 
@@ -48,6 +49,9 @@ public class CameraBehaviour : MonoBehaviour {
     public float shakeSmoothTime;
     public float shakeLastSmoothTime;
 
+    //hacer enum con distintos los distintos shakes
+    //segun el enum con el que se llama al metodo de CameraShake, usa unos valores u otros
+    //cambiar array de shakePositions por una lista
 
     private void Start()
     {

@@ -1,4 +1,4 @@
-Shader "Mobile/Diffuse Outline" {
+Shader "Custom/Mobile Diffuse Outline" {
 Properties {
 	[Header(Texture Maps)]
     _MainTex ("Base (RGB)", 2D) = "white" {}

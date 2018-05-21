@@ -4425,7 +4425,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452153351595302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.379999, y: 4.1, z: -8.77}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4298162932424638}
@@ -4970,14 +4970,15 @@ MonoBehaviour:
   dashCooldown: 3
   dashImpulse: 4
   dashDistance: 14
-  enemyList: []
+  enemySlowAreaList: []
   slowAreaAvailable: 1
+  slowAreaDamage: 9
   slowAreaRange: 5
   slowAreaDuration: 3
   slowAreaDelay: 0
-  slowAreaFadeTime: 0
-  slowAreaCD: 2
-  slowAreaCount: 0
+  slowAreaFXTime: 0
+  slowAreaCD: 3
+  slowAreaTimer: 0
   throwAvailable: 1
   throwHammerDamage: 15
   throwCD: 2
