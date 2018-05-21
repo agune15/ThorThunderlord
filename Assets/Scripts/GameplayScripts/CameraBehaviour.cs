@@ -38,13 +38,9 @@ public class CameraBehaviour : MonoBehaviour {
     bool isCameraShaking = false;
     
     int shakePositionIndex = 0;
-    public int shakePositionsAmount;
 
-    //List<Vector3> shakePositions = new List<Vector3>();
-    Vector3[] shakePositions;
+    List<Vector3> shakePositions = new List<Vector3>();
     Vector3 shakeVelocity = Vector3.zero;
-
-    public float shakeAmount;
 
     public float shakeSmoothTime;
     public float shakeLastSmoothTime;
@@ -82,15 +78,13 @@ public class CameraBehaviour : MonoBehaviour {
 
         minOffset = new Vector3(0, yZoomAddition * 2, zZoomAddition * 2);
         maxOffset = offsetPos;
-
-        shakePositions = new Vector3[shakePositionsAmount];
     }
 
     private void LateUpdate()
     {
         if(!playerTransform) return;
 
-        if (Input.GetKeyDown(KeyCode.M)) CameraShake();   //Testing Only
+        if (Input.GetKeyDown(KeyCode.M)) CameraShake(10, 1);   //Testing Only
 
         if (isCameraShaking)
         {
@@ -163,19 +157,19 @@ public class CameraBehaviour : MonoBehaviour {
         }
     }
 
-    public void CameraShake ()
+    public void CameraShake (int shakePositionsAmount, float shakeAmount)
     {
         if (!isCameraShaking)
         {
             isCameraShaking = true;
             shakePositionIndex = 0;
 
-            for (int i = 0; i < shakePositions.Length - 1; i++)
+            for (int i = 0; i < shakePositionsAmount - 1; i++)
             {
-                shakePositions[i] = cameraTransform.localPosition + (cameraTransform.up * Random.Range(-shakeAmount, shakeAmount) + cameraTransform.right * Random.Range(-shakeAmount, shakeAmount));
-                shakePositions[i].z = 0;
+                shakePositions.Add(cameraTransform.localPosition + (cameraTransform.up * Random.Range(-shakeAmount, shakeAmount) + cameraTransform.right * Random.Range(-shakeAmount, shakeAmount)));
+                shakePositions[i] = new Vector3(shakePositions[i].x, shakePositions[i].y, 0);
             }
-            shakePositions[shakePositions.Length - 1] = Vector3.zero;
+            shakePositions[shakePositions.Count - 1] = Vector3.zero;
         }
     }
 
@@ -183,13 +177,14 @@ public class CameraBehaviour : MonoBehaviour {
     {
         if (cameraTransform.localPosition != shakePositions[shakePositionIndex])
         {
-            if (shakePositionIndex != shakePositions.Length - 1) cameraTransform.localPosition = Vector3.SmoothDamp(cameraTransform.localPosition, shakePositions[shakePositionIndex], ref shakeVelocity, shakeSmoothTime);
+            if (shakePositionIndex != shakePositions.Count - 1) cameraTransform.localPosition = Vector3.SmoothDamp(cameraTransform.localPosition, shakePositions[shakePositionIndex], ref shakeVelocity, shakeSmoothTime);
             else cameraTransform.localPosition = Vector3.SmoothDamp(cameraTransform.localPosition, shakePositions[shakePositionIndex], ref shakeVelocity, shakeLastSmoothTime);
 
-            if (cameraTransform.localPosition == shakePositions[shakePositions.Length - 1] && shakePositionIndex == shakePositions.Length - 1)
+            if (cameraTransform.localPosition == shakePositions[shakePositions.Count - 1] && shakePositionIndex == shakePositions.Count - 1)
             {
                 cameraTransform.localPosition = Vector3.zero;
                 isCameraShaking = false;
+                shakePositions.Clear();
             }
         }
         else shakePositionIndex++;

@@ -21,12 +21,12 @@ GameObject:
   - component: {fileID: 4966722479139926}
   - component: {fileID: 33364055928682638}
   - component: {fileID: 23142471011516288}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: pCube17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 119
   m_IsActive: 1
 --- !u!4 &4966722479139926
 Transform:
@@ -34,13 +34,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1121749593107452}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 126.82, y: 0.22746, z: 0.76777}
-  m_LocalScale: {x: 1, y: 1, z: 2}
+  m_LocalRotation: {x: -0.0020279624, y: -0.70710397, z: -0.0020279605, w: -0.70710385}
+  m_LocalPosition: {x: 93.098, y: 9.056, z: 20.537}
+  m_LocalScale: {x: 1.0000005, y: 1, z: 1.3022405}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -270, z: 0.32900003}
 --- !u!23 &23142471011516288
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -55,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
+  - {fileID: 2100000, guid: 496f25a8554ec244c9cecc2ae0b29906, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

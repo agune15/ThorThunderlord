@@ -9,6 +9,7 @@ public class CharacterBehaviour : MonoBehaviour {
     NavMeshAgent playerAgent;
     HammerBehaviour hammerBehaviour;
     BasicAttackTrigger basicAttackTrigger;
+    CameraBehaviour cameraBehaviour;
     Animator thorAnimator;
 
     //UI related
@@ -77,12 +78,13 @@ public class CharacterBehaviour : MonoBehaviour {
     public bool slowAreaAvailable = true;
     bool isCastingArea = false;
     bool slowAreaDealedDamage = false;
+    bool slowAreaCastedCameraShake = false;
 
     public float slowAreaDamage;
     public float slowAreaRange;
     float slowAreaInitDelay;
     [SerializeField] float slowAreaDelay;
-    public float slowAreaFXTime;
+    public float slowAreaFXTime;    //Tiene que ser mayor que slowAreaInitDelay
     public float slowAreaCD;
 
     [SerializeField] float slowAreaTimer = 0;
@@ -115,6 +117,7 @@ public class CharacterBehaviour : MonoBehaviour {
         playerAgent = GetComponent<NavMeshAgent>();
         hammerBehaviour = GetComponentInChildren<HammerBehaviour>();
         basicAttackTrigger = GetComponentInChildren<BasicAttackTrigger>();
+        cameraBehaviour = GameObject.FindWithTag("CameraController").GetComponent<CameraBehaviour>();
         thorAnimator = GetComponentInChildren<Animator>();
 
         foreach (AnimationClip animation in thorAnimator.runtimeAnimatorController.animationClips)
@@ -184,9 +187,6 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
         thorAnimator.SetBool("isDashing", isDashing);
-
-        Debug.Log("player.isStopped " + playerAgent.isStopped);
-        Debug.Log("canMove " + canMove);
     }
 
     #region Movement State Updates
@@ -419,6 +419,7 @@ public class CharacterBehaviour : MonoBehaviour {
             slowAreaAvailable = false;
             isCastingArea = true;
             slowAreaDealedDamage = false;
+            slowAreaCastedCameraShake = false;
             slowAreaDelay = slowAreaInitDelay;
 
             thorAnimator.SetTrigger("castArea");
@@ -449,8 +450,6 @@ public class CharacterBehaviour : MonoBehaviour {
             slowAreaDelay -= Time.deltaTime;
             playerAgent.isStopped = true;
             canMove = false;
-
-            Debug.Log("delay");
         }
         else
         {
@@ -458,8 +457,6 @@ public class CharacterBehaviour : MonoBehaviour {
             canMove = true;
             if (isCastingArea && isAttacking) thorAnimator.SetTrigger("hit");
             isCastingArea = false;
-
-            Debug.Log("no delay");
         }
     }
 
@@ -473,6 +470,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
             if (slowAreaTimer >= 0.4f)
             {
+
                 foreach (EnemyStatsTransform enemy in enemySlowAreaList)
                 {
                     if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange)
@@ -485,13 +483,22 @@ public class CharacterBehaviour : MonoBehaviour {
                     }
                 }
 
-                if (!slowAreaDealedDamage && slowAreaTimer >= 0.5f)
+                if (slowAreaTimer >= 0.5f)
                 {
-                    foreach (EnemyStatsTransform enemy in enemySlowAreaList)
+                    if (!slowAreaDealedDamage)
                     {
-                        if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange) enemy.stats.SetDamage(slowAreaDamage);
+                        foreach (EnemyStatsTransform enemy in enemySlowAreaList)
+                        {
+                            if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange) enemy.stats.SetDamage(slowAreaDamage);
+                        }
+                        slowAreaDealedDamage = true;
                     }
-                    slowAreaDealedDamage = true;
+
+                    if (!slowAreaCastedCameraShake)
+                    {
+                        cameraBehaviour.CameraShake(6, 0.5f);
+                        slowAreaCastedCameraShake = true;
+                    }
                 }
             }
         }

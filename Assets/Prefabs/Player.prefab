@@ -4974,9 +4974,8 @@ MonoBehaviour:
   slowAreaAvailable: 1
   slowAreaDamage: 9
   slowAreaRange: 5
-  slowAreaDuration: 3
   slowAreaDelay: 0
-  slowAreaFXTime: 0
+  slowAreaFXTime: 1.6
   slowAreaCD: 3
   slowAreaTimer: 0
   throwAvailable: 1
