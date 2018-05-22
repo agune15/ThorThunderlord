@@ -110,6 +110,21 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //Lightning Rain parameters
     //[Header("Lightning Rain parameters")]
+    bool isLightRaining = false;
+    [SerializeField] bool lRainAvailable = true;
+    bool isCastingLightRain = false;
+    bool hasLightRained = false;
+
+    Vector3 lightRainOrigin;
+
+    public float lightRainDamage;
+    public float lightRainRange;
+    public float lightRainCD;
+    float lightRainCastDuration;
+    float lightRainCastInitDuration;
+    public float lightRainLightningFallTime;    //Time until light rain falls (anim time + x)
+    float lightRainTimer;
+    
 
     private void Start()
     {
@@ -127,11 +142,10 @@ public class CharacterBehaviour : MonoBehaviour {
             if (animation.name == "throwHammer") throwDuration = animation.length / 1.4f;
             if (animation.name == "hit_01") attackDuration = animation.length;
             if (animation.name == "slowArea") slowAreaInitDelay = animation.length / 1.3f;
+            if (animation.name == "lightboltRain") lightRainCastInitDuration = animation.length;
         }
 
         agentSpeed = playerAgent.speed;
-
-        slowAreaDelay = slowAreaInitDelay;
 
         maxLife = life;
         playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
@@ -178,7 +192,13 @@ public class CharacterBehaviour : MonoBehaviour {
             ThrowUpdate();
         }
 
-        //cooldown Updates
+        //Light Rain Area Update
+        if (isLightRaining)
+        {
+            LightRainUpdate();
+        }
+
+        //Cooldown Updates
         CooldownUpdate();
 
         //Animations
@@ -186,6 +206,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isStopped", playerAgent.isStopped);
         thorAnimator.SetBool("isAttacking", isAttacking);
         thorAnimator.SetBool("isCastingArea", isCastingArea);
+        thorAnimator.SetBool("isCastingRain", isCastingLightRain);
         thorAnimator.SetBool("isDashing", isDashing);
     }
 
@@ -291,7 +312,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     void BasicAttackUpdate()
     {
-        if(isDashing || isThrowing || isCastingArea || moveStates == MoveStates.Dead) return;
+        if(isDashing || isThrowing || isCastingArea || isCastingLightRain || moveStates == MoveStates.Dead) return;
 
         SetRotation(RotationTypes.BasicAttack);
 
@@ -355,7 +376,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void Dash(Vector3 destination)
     {
-        if(dashAvailable && !isThrowing && !isCastingArea && moveStates != MoveStates.Dead)
+        if(dashAvailable && !isThrowing && !isCastingArea && !isCastingLightRain && moveStates != MoveStates.Dead)
         {
             isDashing = true;
             dashAvailable = false;
@@ -413,18 +434,18 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void SlowArea()
     {
-        if(slowAreaAvailable && !isDashing && !isThrowing && moveStates != MoveStates.Dead)
+        if(slowAreaAvailable && !isDashing && !isThrowing && !isCastingLightRain && moveStates != MoveStates.Dead)
         {
             isSlowingArea = true;
             slowAreaAvailable = false;
             isCastingArea = true;
             slowAreaDealedDamage = false;
             slowAreaCastedCameraShake = false;
-            slowAreaDelay = slowAreaInitDelay;
 
             thorAnimator.SetTrigger("castArea");
             thorAnimator.ResetTrigger("hit");
 
+            slowAreaDelay = slowAreaInitDelay;
             slowAreaTimer = 0;
 
             slowAreaOrigin = playerTransform.position;
@@ -470,8 +491,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
             if (slowAreaTimer >= 0.4f)
             {
-
-                foreach (EnemyStatsTransform enemy in enemySlowAreaList)
+                foreach (EnemyStatsTransform enemy in enemySlowAreaList)    //Apply / Remove slow speed on enemies
                 {
                     if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange)
                     {
@@ -487,7 +507,7 @@ public class CharacterBehaviour : MonoBehaviour {
                 {
                     if (!slowAreaDealedDamage)
                     {
-                        foreach (EnemyStatsTransform enemy in enemySlowAreaList)
+                        foreach (EnemyStatsTransform enemy in enemySlowAreaList)    //Apply slowAreaDamage on enemies
                         {
                             if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange) enemy.stats.SetDamage(slowAreaDamage);
                         }
@@ -524,7 +544,7 @@ public class CharacterBehaviour : MonoBehaviour {
     
     public void ThrowHammer (Vector3 destination)
     {
-        if (throwAvailable && !isDashing && !isCastingArea && moveStates != MoveStates.Dead)
+        if (throwAvailable && !isDashing && !isCastingArea && !isCastingLightRain && moveStates != MoveStates.Dead)
         {
             isAttacking = false;
             isThrowing = true;
@@ -584,6 +604,88 @@ public class CharacterBehaviour : MonoBehaviour {
                         canMove = true;
                     }
                 }
+            }
+        }
+    }
+
+    #endregion
+
+    #region Light Rain behaviour
+
+    public void LightRain ()
+    {
+        if (lRainAvailable && !isDashing && !isCastingArea && !isThrowing && moveStates != MoveStates.Dead)
+        {
+            lRainAvailable = false;
+            isLightRaining = true;
+            isCastingLightRain = true;
+            hasLightRained = false;
+
+            thorAnimator.SetTrigger("castRain");
+            thorAnimator.ResetTrigger("hit");
+
+            lightRainCastDuration = lightRainCastInitDuration;
+            lightRainTimer = 0;
+
+            lightRainOrigin = playerTransform.position;
+        }
+    }
+
+    void LightRainUpdate ()
+    {
+        if (lightRainCastDuration > 0)
+        {
+            lightRainCastDuration -= Time.deltaTime;
+            playerAgent.isStopped = true;
+            canMove = false;
+            return;
+        }
+        else
+        {
+            if (playerAgent.destination != playerTransform.position) playerAgent.isStopped = false;
+            canMove = true;
+            if (isCastingArea && isAttacking) thorAnimator.SetTrigger("hit");
+            isCastingLightRain = false;
+        }
+
+        lightRainTimer += Time.deltaTime;
+        
+        if (lightRainTimer >= lightRainLightningFallTime)
+        {
+            if (!hasLightRained)
+            {
+                //instanciar particulas
+                for (int i = 0; i < 30; i++)
+                {
+                    Vector3 generatedRandomPosition = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y) * lightRainRange;
+                    Vector3 particlePosition = generatedRandomPosition + lightRainOrigin;
+                    particleInstancer.InstanciateParticleSystem("LightBolt_fromSKY_noLight", particlePosition, Quaternion.identity);
+                }
+                particleInstancer.InstanciateParticleSystem("LightBolt_light", lightRainOrigin, Quaternion.identity);
+                particleInstancer.InstanciateParticleSystem("LightBolt_light", lightRainOrigin, Quaternion.identity);
+
+                cameraBehaviour.CameraShake(10, 0.8f);
+                hasLightRained = true;
+            }
+
+            if (lightRainTimer >= lightRainLightningFallTime + 0.1f)
+            {
+                //daño
+                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                {
+                    if (Vector3.Distance(enemy.transform.position, lightRainOrigin) <= lightRainRange)
+                    {
+                        enemy.GetComponent<EnemyStats>().SetDamage(lightRainDamage);
+                    }
+                }
+
+                     //vibracion camara (amount = 0.8f, cantidad 10)
+                //pequeña stun a enemies?
+
+                thorAnimator.ResetTrigger("castRain");
+
+                isLightRaining = false;
+                StartCoroutine(LightRainCD());
             }
         }
     }
@@ -662,7 +764,7 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if(enemyTargetTransform == enemyTransform && attack) return;
 
-        if(isCastingArea || isThrowing || isDashing) return;
+        if(isCastingArea || isThrowing || isDashing || isCastingLightRain) return;
 
         enemyTargetTransform = enemyTransform;
         enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
@@ -747,7 +849,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #region Others
 
-    void CooldownUpdate()
+    void CooldownUpdate()   //Update CDs that aren't coroutines
     {
         if (throwOnCooldown)
         {
@@ -769,12 +871,12 @@ public class CharacterBehaviour : MonoBehaviour {
         slowAreaAvailable = true;
     }
 
-    /*IEnumerator ThrowHammerCD()
+    IEnumerator LightRainCD()
     {
-        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Q);
-        yield return new WaitForSeconds(throwCD);
-        throwAvailable = true;
-    }*/
+        //playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.W);
+        yield return new WaitForSeconds(lightRainCD);
+        lRainAvailable = true;
+    }
 
     IEnumerator SetInitLife()
     {
@@ -830,7 +932,7 @@ public class CharacterBehaviour : MonoBehaviour {
 }
 
 [System.Serializable]
-public class AnimationClipName 
+public class AnimationClipName      //Store AnimationName (string) + AnimationClip
 {
     public string animationName;
     public AnimationClip animationClip;
@@ -843,7 +945,7 @@ public class AnimationClipName
 }
 
 [System.Serializable]
-public class EnemyStatsTransform
+public class EnemyStatsTransform    //Store Transform + EnemyStats
 {
     public Transform transform;
     public EnemyStats stats;

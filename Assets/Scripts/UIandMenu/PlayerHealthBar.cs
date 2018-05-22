@@ -127,9 +127,4 @@ public class PlayerHealthBar : MonoBehaviour {
                 return 0;
         }
     }
-
-    #region Corroutines
-
-
-    #endregion
 }

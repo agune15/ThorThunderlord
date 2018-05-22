@@ -4983,6 +4983,11 @@ MonoBehaviour:
   throwCD: 2
   throwDistance: 8
   throwTurnTime: 0.15
+  lRainAvailable: 1
+  lightRainDamage: 35
+  lightRainRange: 10
+  lightRainCD: 3
+  lightRainLightningFallTime: 0.5
 --- !u!114 &114826120216958176
 MonoBehaviour:
   m_ObjectHideFlags: 1
