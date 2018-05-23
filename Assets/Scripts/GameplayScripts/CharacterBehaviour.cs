@@ -657,8 +657,26 @@ public class CharacterBehaviour : MonoBehaviour {
                 //instanciar particulas
                 for (int i = 0; i < 30; i++)
                 {
+                    float rangeFromOrigin = 0;
+                    float angleFromOrigin = (float)i / 6 * 360 + (int)i / 6 * 30;
+                    
+                    if (i < 30 / 5) rangeFromOrigin = lightRainRange / 5;
+                    else if (i >= 30 / 5 && i < 30 / 5 * 2) rangeFromOrigin = lightRainRange / 5 * 2;
+                    else if (i >= 30 / 5 * 2 && i < 30 / 5 * 3) rangeFromOrigin = lightRainRange / 5 * 3;
+                    else if (i >= 30 / 5 * 3 && i < 30 / 5 * 4) rangeFromOrigin = lightRainRange / 5 * 4;
+                    else if (i >= 30 / 5 * 4) rangeFromOrigin = lightRainRange / 5 * 5;
+
+
+                    float xPosition = lightRainOrigin.x + rangeFromOrigin * Mathf.Cos(angleFromOrigin * Mathf.Deg2Rad);
+                    float zPosition = lightRainOrigin.z + rangeFromOrigin * Mathf.Sin(angleFromOrigin * Mathf.Deg2Rad);
+
+                    /*
                     Vector3 generatedRandomPosition = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y) * lightRainRange;
                     Vector3 particlePosition = generatedRandomPosition + lightRainOrigin;
+                    */
+
+                    Vector3 particlePosition = new Vector3(xPosition, lightRainOrigin.y, zPosition);
+
                     particleInstancer.InstanciateParticleSystem("LightBolt_fromSKY_noLight", particlePosition, Quaternion.identity);
                 }
                 particleInstancer.InstanciateParticleSystem("LightBolt_light", lightRainOrigin, Quaternion.identity);
@@ -670,17 +688,13 @@ public class CharacterBehaviour : MonoBehaviour {
 
             if (lightRainTimer >= lightRainLightningFallTime + 0.1f)
             {
-                //daño
-                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))    //Damage to enemies within the lightRainRange
                 {
                     if (Vector3.Distance(enemy.transform.position, lightRainOrigin) <= lightRainRange)
                     {
                         enemy.GetComponent<EnemyStats>().SetDamage(lightRainDamage);
                     }
                 }
-
-                     //vibracion camara (amount = 0.8f, cantidad 10)
-                //pequeña stun a enemies?
 
                 thorAnimator.ResetTrigger("castRain");
 

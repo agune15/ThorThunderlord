@@ -5,47 +5,47 @@ using UnityEngine;
 public class ParticleInstancer : MonoBehaviour {
 
     public GameObject[] particleSystems;
-    public List<ParticleAndName> particlePrefabs = new List<ParticleAndName>();
+    public List<ParticleAndQuantity> particleSystemsToPool;
 
-    //public List<ParticleAndName> particleInstances = new List<ParticleAndName>();
+    public Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
+    public Dictionary<string, GameObject> particlePrefabsToPool = new Dictionary<string, GameObject>();
+
+    //public Dictionary<string, Queue<GameObject>> particlePoolDictionary;
 
     private void Start()
     {
-        foreach (GameObject particleSystem in particleSystems)
+        foreach (GameObject particle in particleSystems)
         {
-            ParticleAndName particle = new ParticleAndName(particleSystem.name, particleSystem);
-            particlePrefabs.Add(particle);
+            particlePrefabs.Add(particle.name, particle);
         }
     }
 
     public void InstanciateParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
     {
-        int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
-        GameObject particleInstance = Instantiate(particlePrefabs[particlePrefabIndex].particlePrefab, particlePosition, particleRotation, this.transform); //Se le asigna un ParentTranfsorm para que se instancie en la escena correcta
+        //int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
+        GameObject particleInstance = Instantiate(particlePrefabs[particleName], particlePosition, particleRotation, this.transform); //Se le asigna un ParentTranfsorm para que se instancie en la escena correcta
         particleInstance.transform.parent = null;
     }
 
     //Overload to instanciate as a child of a certain transform
     public void InstanciateParticleSystem(string particleName, Transform parentTransform, Vector3 particleLocalPosition, Quaternion particleLocalRotation)
     {
-        int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
-        GameObject particleInstance = Instantiate(particlePrefabs[particlePrefabIndex].particlePrefab, parentTransform.position, parentTransform.rotation, parentTransform);
+        //int particlePrefabIndex = particleSystems.FindIndex(particle => particle.particleName == particleName);
+        GameObject particleInstance = Instantiate(particlePrefabs[particleName].gameObject, parentTransform.position, parentTransform.rotation, parentTransform);
         particleInstance.transform.localPosition = particleLocalPosition;
         particleInstance.transform.localRotation = particleLocalRotation;
     }
-
-    //Instanciate Gameobject
-    //DestroyGameobject
 }
 
-public class ParticleAndName
+[System.Serializable]
+public class ParticleAndQuantity
 {
-    public string particleName;
-    public GameObject particlePrefab;
+    public GameObject prefab;
+    public int quantity;
 
-    public ParticleAndName (string name, GameObject prefab)
+    public ParticleAndQuantity (GameObject particlePrefab, int particleQuantity)
     {
-        particleName = name;
-        particlePrefab = prefab;
+        prefab = particlePrefab;
+        quantity = particleQuantity;
     }
 }

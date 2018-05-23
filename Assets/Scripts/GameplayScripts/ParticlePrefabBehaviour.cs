@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ParticlePrefabBehaviour : MonoBehaviour {
 
+    public enum ParticleEndAction { Destroy, Deactivate }
+    public ParticleEndAction particleEndAction;
+
     [SerializeField] List<ParticleSystem> particleSystems = new List<ParticleSystem>();
     float activeCount;
 
@@ -22,6 +25,28 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
             if (particle.IsAlive()) activeCount++;
         }
 
-        if (activeCount < 1) Destroy(this.gameObject);
+        if (activeCount < 1)
+        {
+            switch (particleEndAction)
+            {
+                case ParticleEndAction.Destroy:
+                    Destroy(this.gameObject);
+                    break;
+                case ParticleEndAction.Deactivate:
+                    this.gameObject.SetActive(false);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void ResetParticleSystem ()
+    {
+        foreach (ParticleSystem particle in particleSystems)
+        {
+            particle.Clear();
+            particle.Play();
+        }
     }
 }

@@ -45,9 +45,6 @@ public class CameraBehaviour : MonoBehaviour {
     public float shakeSmoothTime;
     public float shakeLastSmoothTime;
 
-    //hacer enum con distintos los distintos shakes
-    //segun el enum con el que se llama al metodo de CameraShake, usa unos valores u otros
-    //cambiar array de shakePositions por una lista
 
     private void Start()
     {
