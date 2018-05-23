@@ -167,6 +167,7 @@ public class HammerBehaviour : MonoBehaviour {
 
     void HammerIsBack()
     {
+        if (!isThrowing && !hammerCameBack) return;
         playerBehaviour.HammerWasCaught();
 
         isThrowing = false;

@@ -503,7 +503,7 @@ public class CharacterBehaviour : MonoBehaviour {
                     }
                 }
 
-                if (slowAreaTimer >= 0.5f)
+                if (slowAreaTimer >= 0.6f)
                 {
                     if (!slowAreaDealedDamage)
                     {
@@ -514,7 +514,7 @@ public class CharacterBehaviour : MonoBehaviour {
                         slowAreaDealedDamage = true;
                     }
 
-                    if (!slowAreaCastedCameraShake)
+                    if (!slowAreaCastedCameraShake)     //Apply camera shake
                     {
                         cameraBehaviour.CameraShake(6, 0.5f);
                         slowAreaCastedCameraShake = true;
@@ -628,6 +628,8 @@ public class CharacterBehaviour : MonoBehaviour {
             lightRainTimer = 0;
 
             lightRainOrigin = playerTransform.position;
+
+            playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.R, 1);
         }
     }
 
@@ -654,7 +656,7 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             if (!hasLightRained)
             {
-                //instanciar particulas
+                //instanciar particulas (deberia ser object pooling)
                 for (int i = 0; i < 30; i++)
                 {
                     float rangeFromOrigin = 0;
@@ -670,19 +672,13 @@ public class CharacterBehaviour : MonoBehaviour {
                     float xPosition = lightRainOrigin.x + rangeFromOrigin * Mathf.Cos(angleFromOrigin * Mathf.Deg2Rad);
                     float zPosition = lightRainOrigin.z + rangeFromOrigin * Mathf.Sin(angleFromOrigin * Mathf.Deg2Rad);
 
-                    /*
-                    Vector3 generatedRandomPosition = new Vector3(Random.insideUnitCircle.x, 0, Random.insideUnitCircle.y) * lightRainRange;
-                    Vector3 particlePosition = generatedRandomPosition + lightRainOrigin;
-                    */
-
                     Vector3 particlePosition = new Vector3(xPosition, lightRainOrigin.y, zPosition);
 
                     particleInstancer.InstanciateParticleSystem("LightBolt_fromSKY_noLight", particlePosition, Quaternion.identity);
                 }
                 particleInstancer.InstanciateParticleSystem("LightBolt_light", lightRainOrigin, Quaternion.identity);
-                particleInstancer.InstanciateParticleSystem("LightBolt_light", lightRainOrigin, Quaternion.identity);
 
-                cameraBehaviour.CameraShake(10, 0.8f);
+                cameraBehaviour.CameraShake(7, 1f);
                 hasLightRained = true;
             }
 
@@ -852,11 +848,12 @@ public class CharacterBehaviour : MonoBehaviour {
         return life;
     }
 
-    public void GetAbilityCooldowns (out float qCooldown, out float wCooldown, out float eCooldown)
+    public void GetAbilityCooldowns (out float qCooldown, out float wCooldown, out float eCooldown, out float rCooldown)
     {
         qCooldown = throwCD;
         wCooldown = slowAreaCD;
         eCooldown = dashCooldown;
+        rCooldown = lightRainCD;
     }
 
     #endregion
@@ -887,7 +884,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     IEnumerator LightRainCD()
     {
-        //playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.W);
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.R);
         yield return new WaitForSeconds(lightRainCD);
         lRainAvailable = true;
     }

@@ -15,6 +15,7 @@ public class PlayerHealthBar : MonoBehaviour {
     Image qIcon;
     Image wIcon;
     Image eIcon;
+    Image rIcon;
 
     //Cooldowns
     float passiveFillAmount;
@@ -31,9 +32,10 @@ public class PlayerHealthBar : MonoBehaviour {
         qIcon = GameObject.Find("qGreyUIicon").GetComponent<Image>();
         wIcon = GameObject.Find("wGreyUIicon").GetComponent<Image>();
         eIcon = GameObject.Find("eGreyUIicon").GetComponent<Image>();
+        rIcon = GameObject.Find("rGreyUIicon").GetComponent<Image>();
 
         playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
-        playerBehaviour.GetAbilityCooldowns(out qCd, out wCd, out eCd);
+        playerBehaviour.GetAbilityCooldowns(out qCd, out wCd, out eCd, out rCd);
 
         SetIconsInitFillAmount();
     }
@@ -48,6 +50,7 @@ public class PlayerHealthBar : MonoBehaviour {
         qIcon.fillAmount = 0;
         wIcon.fillAmount = 0;
         eIcon.fillAmount = 0;
+        rIcon.fillAmount = 0;
     }
 
     public void SetIconFillAmount (Icons iconToFill, float iconFillAmount)
@@ -66,6 +69,7 @@ public class PlayerHealthBar : MonoBehaviour {
                 eIcon.fillAmount = iconFillAmount;
                 break;
             case Icons.R:
+                rIcon.fillAmount = iconFillAmount;
                 break;
             default:
                 break;
@@ -91,6 +95,7 @@ public class PlayerHealthBar : MonoBehaviour {
                 case Icons.Passive:
                     break;
                 case Icons.Q:
+                    Debug.Log("emptygrey");
                     yield return qIcon.fillAmount = timer / desiredCd;
                     break;
                 case Icons.W:
@@ -100,6 +105,7 @@ public class PlayerHealthBar : MonoBehaviour {
                     yield return eIcon.fillAmount = timer / desiredCd;
                     break;
                 case Icons.R:
+                    yield return rIcon.fillAmount = timer / desiredCd;
                     break;
                 default:
                     break;
@@ -122,7 +128,7 @@ public class PlayerHealthBar : MonoBehaviour {
             case Icons.E:
                 return eCd;
             case Icons.R:
-                return 0;
+                return rCd;
             default:
                 return 0;
         }

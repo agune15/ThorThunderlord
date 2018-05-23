@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c02a4bbabbd8846b78565bf3c86f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleEndAction: 0
   particleSystems: []
 --- !u!198 &198099308751573826
 ParticleSystem:
@@ -7106,7 +7107,7 @@ ParticleSystem:
     enabled: 1
     startLifetime:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 1.5
       minScalar: 1
       maxCurve:
@@ -8239,7 +8240,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -1
+      scalar: -1.09
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -9626,7 +9627,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 0
     maxKillSpeed: 1000
-    radiusScale: 1
+    radiusScale: 0.4
     collidesWith:
       serializedVersion: 2
       m_Bits: 256
