@@ -7,13 +7,19 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
     public enum ParticleEndAction { Destroy, Deactivate }
     public ParticleEndAction particleEndAction;
 
+    private ParticleInstancer particleInstancer = null;
+
+    [HideInInspector] public string particleTag;
+
     [SerializeField] List<ParticleSystem> particleSystems = new List<ParticleSystem>();
     float activeCount;
 
     private void Start()
     {
         if (GetComponent<ParticleSystem>() != null) particleSystems.Add(GetComponent<ParticleSystem>());
-        particleSystems.AddRange(GetComponentsInChildren<ParticleSystem>());
+        if (GetComponentsInChildren<ParticleSystem>().Length > 0) particleSystems.AddRange(GetComponentsInChildren<ParticleSystem>());
+
+        if (particleEndAction == ParticleEndAction.Deactivate) particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
     }
 
     private void Update()
@@ -33,7 +39,7 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
                     Destroy(this.gameObject);
                     break;
                 case ParticleEndAction.Deactivate:
-                    this.gameObject.SetActive(false);
+                    particleInstancer.UnpoolParticleSystem(particleTag, gameObject);
                     break;
                 default:
                     break;
@@ -48,5 +54,10 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
             particle.Clear();
             particle.Play();
         }
+    }
+
+    private void OnEnable()
+    {
+        ResetParticleSystem();
     }
 }

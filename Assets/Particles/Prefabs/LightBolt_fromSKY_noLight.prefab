@@ -113,7 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c02a4bbabbd8846b78565bf3c86f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleEndAction: 0
+  particleEndAction: 1
+  particleTag: 
   particleSystems: []
 --- !u!198 &198291157660554956
 ParticleSystem:
@@ -3587,7 +3588,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -684066880
+  randomSeed: -1464922153
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3983,7 +3984,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 30
+    maxNumParticles: 5
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -4233,7 +4234,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 10
+        scalar: 1
         minScalar: 0
         maxCurve:
           serializedVersion: 2

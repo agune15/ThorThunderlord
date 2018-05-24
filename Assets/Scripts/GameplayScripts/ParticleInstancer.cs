@@ -7,8 +7,8 @@ public class ParticleInstancer : MonoBehaviour {
     public GameObject[] particleSystems;
     public List<ParticleAndQuantity> particleSystemsToPool;
 
-    public Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
-    public Dictionary<string, GameObject> particlePrefabsToPool = new Dictionary<string, GameObject>();
+    Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
+    Dictionary<string, Queue<GameObject>> particlePrefabsToPool = new Dictionary<string, Queue<GameObject>>();
 
     //public Dictionary<string, Queue<GameObject>> particlePoolDictionary;
 
@@ -17,6 +17,21 @@ public class ParticleInstancer : MonoBehaviour {
         foreach (GameObject particle in particleSystems)
         {
             particlePrefabs.Add(particle.name, particle);
+        }
+
+        foreach (ParticleAndQuantity particle in particleSystemsToPool)
+        {
+            Queue<GameObject> particlePool = new Queue<GameObject>();
+
+            for (int i = 0; i < particle.quantity; i++)
+            {
+                GameObject particleInstance = Instantiate(particle.prefab);
+                particleInstance.GetComponent<ParticlePrefabBehaviour>().particleTag = particle.prefab.name;
+                particleInstance.SetActive(false);
+                particlePool.Enqueue(particleInstance);
+            }
+
+            particlePrefabsToPool.Add(particle.prefab.name, particlePool);
         }
     }
 
@@ -34,6 +49,20 @@ public class ParticleInstancer : MonoBehaviour {
         GameObject particleInstance = Instantiate(particlePrefabs[particleName].gameObject, parentTransform.position, parentTransform.rotation, parentTransform);
         particleInstance.transform.localPosition = particleLocalPosition;
         particleInstance.transform.localRotation = particleLocalRotation;
+    }
+
+    public void PoolParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
+    {
+        GameObject particleToPool = particlePrefabsToPool[particleName].Dequeue();
+        particleToPool.SetActive(true);
+        particleToPool.transform.position = particlePosition;
+        particleToPool.transform.rotation = particleRotation;
+    }
+
+    public void UnpoolParticleSystem (string particleTag, GameObject particleObject)
+    {
+        particlePrefabsToPool[particleTag].Enqueue(particleObject);
+        particleObject.SetActive(false);
     }
 }
 

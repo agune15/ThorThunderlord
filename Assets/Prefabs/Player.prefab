@@ -4985,7 +4985,7 @@ MonoBehaviour:
   throwTurnTime: 0.15
   lRainAvailable: 1
   lightRainDamage: 35
-  lightRainRange: 10
+  lightRainRange: 10.5
   lightRainCD: 3
   lightRainLightningFallTime: 0.2
 --- !u!114 &114826120216958176

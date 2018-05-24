@@ -2146,7 +2146,6 @@ GameObject:
   - component: {fileID: 114619468458055810}
   - component: {fileID: 114692612330538836}
   - component: {fileID: 114460188294712114}
-  - component: {fileID: 114065082131231004}
   - component: {fileID: 114308698475482726}
   m_Layer: 0
   m_Name: GameplayUI
@@ -2901,26 +2900,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114065082131231004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1843479609840768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92560439bf1466a4e86f049170737730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particleSystems:
-  - {fileID: 1949388230887188, guid: 8c39b34ffe92b1443a892d5b5860969f, type: 2}
-  - {fileID: 1844858604122052, guid: 6c58cfaebf27d2b42b2639b1eb5d2f3e, type: 2}
-  - {fileID: 1748113643828226, guid: 571d7dc06a2a9514996b2536cba9b6a4, type: 2}
-  - {fileID: 1362361637020000, guid: d9927dcc47478ee4b9d016ab51e2de68, type: 2}
-  - {fileID: 1678425225584406, guid: 226b2c83111e7814babce7400b209a4e, type: 2}
-  particleSystemsToPool:
-  - prefab: {fileID: 1362361637020000, guid: d9927dcc47478ee4b9d016ab51e2de68, type: 2}
-    quantity: 30
 --- !u!114 &114070863637337466
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -151,7 +151,7 @@ public class CharacterBehaviour : MonoBehaviour {
         playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
         StartCoroutine(SetInitLife());
 
-        particleInstancer = playerHealthBar.gameObject.GetComponent<ParticleInstancer>();
+        particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
     }
 
     private void Update()
@@ -674,7 +674,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
                     Vector3 particlePosition = new Vector3(xPosition, lightRainOrigin.y, zPosition);
 
-                    particleInstancer.InstanciateParticleSystem("LightBolt_fromSKY_noLight", particlePosition, Quaternion.identity);
+                    particleInstancer.PoolParticleSystem("LightBolt_fromSKY_noLight", particlePosition, Quaternion.identity);
                 }
                 particleInstancer.InstanciateParticleSystem("LightBolt_light", lightRainOrigin, Quaternion.identity);
 

@@ -95,7 +95,6 @@ public class PlayerHealthBar : MonoBehaviour {
                 case Icons.Passive:
                     break;
                 case Icons.Q:
-                    Debug.Log("emptygrey");
                     yield return qIcon.fillAmount = timer / desiredCd;
                     break;
                 case Icons.W:

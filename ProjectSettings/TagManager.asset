@@ -9,6 +9,7 @@ TagManager:
   - hammerParent
   - currentTarget
   - CameraController
+  - ParticleInstancer
   layers:
   - Default
   - TransparentFX

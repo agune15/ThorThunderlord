@@ -28,7 +28,7 @@ public class EnemyStats : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        particleInstancer = GameObject.Find("GameplayUI").GetComponent<ParticleInstancer>();
+        particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
 
         enemyRenderer = this.GetComponentInChildren<Renderer>();
         enemyCollider = this.GetComponent<Collider>();
