@@ -8,7 +8,7 @@ public class CharacterBehaviour : MonoBehaviour {
     Transform playerTransform;
     NavMeshAgent playerAgent;
     HammerBehaviour hammerBehaviour;
-    BasicAttackTrigger basicAttackTrigger;
+    AttackTrigger basicAttackTrigger;
     CameraBehaviour cameraBehaviour;
     Animator thorAnimator;
 
@@ -131,7 +131,7 @@ public class CharacterBehaviour : MonoBehaviour {
         playerTransform = GetComponent<Transform>();
         playerAgent = GetComponent<NavMeshAgent>();
         hammerBehaviour = GetComponentInChildren<HammerBehaviour>();
-        basicAttackTrigger = GetComponentInChildren<BasicAttackTrigger>();
+        basicAttackTrigger = GetComponentInChildren<AttackTrigger>();
         cameraBehaviour = GameObject.FindWithTag("CameraController").GetComponent<CameraBehaviour>();
         thorAnimator = GetComponentInChildren<Animator>();
 
