@@ -42,7 +42,7 @@ Portfolio: [Artstation Jon Cervellera](https://www.artstation.com/joncervellera)
 
 #### Alex Nebot:
 
-Correo / _e-mail_: joon_1012@hotmail.com
+Correo / _e-mail_: alex.nebot.sds@gmail.com
 
 Portfolio: [Github Alex Nebot](https://github.com/agune15)
 
