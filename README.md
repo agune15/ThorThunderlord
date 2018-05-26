@@ -19,7 +19,7 @@ _Welcome to a 3D game about nordic mythology, with a Hack and Slash style and a 
 
 Hola a todos, somos Victor Castejon y Jon Cervellera, un grupo de estudiantes de diseño de animación 2D y 3D de videojuegos. Este es nuestro proyecto final, una aventura que sólo acaba de empezar y que estamos realmente motivados a cumplir. 
 
-_Hi everybody, we are Joel Bertran, Victor Castejon and Jon Cervellera and we formed a group of students of 2D and 3D animation game design. This is our final project, an adventure that just has started and that we are really motivated to achieve._
+_Hi everybody, we are Alex Nebot, Victor Castejon and Jon Cervellera and we formed a group of students of 2D and 3D animation game design. This is our final project, an adventure that just has started and that we are really motivated to achieve._
 
 Bienvenidos a un juego 3D sobre la mitología nórdica! _Welcome to a 3D game about nordic mithology!_
 
@@ -32,13 +32,19 @@ Más información en la wiki del proyecto, esperamos que os guste. _More at the 
 
 Correo / _e-mail_: Caste.castejon@gmail.com
 
-Instagram: [Instagram Victor Castejon](https://www.instagram.com/elcaste98/)
+Portfolio: [Artstation Victor Castejon](https://www.artstation.com/caste)
 
 #### Jon Cervellera:
 
 Correo / _e-mail_: joon_1012@hotmail.com
 
-Instagram: [Instagram Jon Cervellera](https://www.instagram.com/joncervelleradominguez/)
+Portfolio: [Artstation Jon Cervellera](https://www.artstation.com/joncervellera)
+
+#### Alex Nebot:
+
+Correo / _e-mail_: joon_1012@hotmail.com
+
+Portfolio: [Github Alex Nebot](https://github.com/agune15)
 
 ###### Our greetings, Crosby Games. 
 
