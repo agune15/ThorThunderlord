@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerHealthBar : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class PlayerHealthBar : MonoBehaviour {
 
     //UI elements
     [SerializeField] Image healthBar;
+
 
     Image qIcon;
     Image wIcon;
@@ -25,6 +27,11 @@ public class PlayerHealthBar : MonoBehaviour {
     float eCd;
     float rCd;
 
+    //Pop-Ups
+    Animator enableDisablePopUpsAnimator;
+
+    bool eventSystemEnabled = true;
+
     private void Start()
     {
         healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
@@ -33,6 +40,9 @@ public class PlayerHealthBar : MonoBehaviour {
         wIcon = GameObject.Find("wGreyUIicon").GetComponent<Image>();
         eIcon = GameObject.Find("eGreyUIicon").GetComponent<Image>();
         rIcon = GameObject.Find("rGreyUIicon").GetComponent<Image>();
+
+        enableDisablePopUpsAnimator = GameObject.Find("enableDisablePopUps").GetComponent<Animator>();
+        enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
 
         playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
         playerBehaviour.GetAbilityCooldowns(out qCd, out wCd, out eCd, out rCd);
@@ -130,6 +140,32 @@ public class PlayerHealthBar : MonoBehaviour {
                 return rCd;
             default:
                 return 0;
+        }
+    }
+
+    public void SetPopUpsAvailability ()
+    {
+        if (eventSystemEnabled)
+        {
+            qIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
+            wIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
+            eIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
+            rIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
+
+            eventSystemEnabled = false;
+
+            enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
+        }
+        else
+        {
+            qIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
+            wIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
+            eIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
+            rIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
+
+            eventSystemEnabled = true;
+
+            enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
         }
     }
 }
