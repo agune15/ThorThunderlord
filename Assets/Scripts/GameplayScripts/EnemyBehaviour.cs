@@ -19,7 +19,7 @@ public class EnemyBehaviour : MonoBehaviour {
     NavMeshAgent enemyAgent;
     Transform targetTransform;
     CharacterBehaviour targetBehaviour;
-    BasicAttackTrigger basicAttackTrigger;
+    AttackTrigger basicAttackTrigger;
     Animator enemyAnimator;
 
     //UI related
@@ -50,14 +50,31 @@ public class EnemyBehaviour : MonoBehaviour {
     bool alreadyAttacked = false;
     bool weaponTriggerHit = false;
 
-        //Skull Only
+        //SKULL ONLY
         bool isSpinning = false;
 
-        //Fenrir Only
+        //FENRIR ONLY
         bool basicAttackCycleAlreadyCounted;
         int basicAttackIndex;
         int baAnimationLength;
         int baAnimationTimesPlayed;
+
+        //Jump parameters
+        //AttackTrigger jumpAttackTrigger;
+
+        bool isJumping = false;
+        bool isJumpingIn = false;
+        bool jumpAvailable = true;
+
+        float jumpDelayTime;
+        float jumpInitDelayTime;
+        public float jumpRange;
+        public float jumpMinDistance;
+        public float jumpMaxDistance;
+        float jumpCurrentDistance;
+        public float jumpCD;
+
+        Vector3 jumpEndPosition;
 
 
 
@@ -69,7 +86,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
         targetTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         targetBehaviour = targetTransform.gameObject.GetComponent<CharacterBehaviour>();
-        basicAttackTrigger = GetComponentInChildren<BasicAttackTrigger>();
+        basicAttackTrigger = GetComponentInChildren<AttackTrigger>();
         enemyAnimator = GetComponentInChildren<Animator>();
 
         foreach(AnimationClip clip in enemyAnimator.runtimeAnimatorController.animationClips)
@@ -81,6 +98,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
                     break;
                 case EnemyStats.EnemyType.Fenrir:
+                    if (clip.name == "jumpIn") jumpInitDelayTime = clip.length;
+
                     break;
                 default:
                     break;
@@ -157,15 +176,17 @@ public class EnemyBehaviour : MonoBehaviour {
             //Ataque giratorio!!
             if(!isSpinning)
             {
-                skullAttack = SkullAttacks.SpinAttack;
-
                 enemyAgent.angularSpeed = enemyAngularSpeed / 2;
-
-                //Trigger ataque giratorio
 
                 isSpinning = true;
                 SetSpeed();
             }
+        }
+
+        if (enemyAgent.remainingDistance >= jumpRange && enemyAgent.remainingDistance <= jumpRange + 3 && jumpAvailable && enemyType == EnemyStats.EnemyType.Fenrir)
+        {
+            isJumping = true;
+            SetAttack();
         }
 
         if(enemyAgent.remainingDistance < attackRange)
@@ -176,8 +197,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void AttackUpdate()
     {
-        enemyAgent.isStopped = true;
-        SetRotation();
+        if (enemyType == EnemyStats.EnemyType.Fenrir && !isJumpingIn) enemyAgent.isStopped = true;
+        if (enemyType == EnemyStats.EnemyType.Fenrir && isJumping) SetRotation();
 
         if(Vector3.Distance(transform.position, targetTransform.position) > attackRange)
         {
@@ -223,6 +244,8 @@ public class EnemyBehaviour : MonoBehaviour {
         enemyAgent.angularSpeed = enemyAngularSpeed;
 
         if (enemyType == EnemyStats.EnemyType.Skull) isSpinning = false;
+        if (enemyType == EnemyStats.EnemyType.Fenrir) isJumping = false;
+
         alreadyAttacked = false;
         weaponTriggerHit = false;
 
@@ -244,9 +267,20 @@ public class EnemyBehaviour : MonoBehaviour {
                 else skullAttack = SkullAttacks.SpinAttack;
                 break;
             case EnemyStats.EnemyType.Fenrir:
-                Random.InitState(Random.Range(0, 300));
-                basicAttackIndex = Random.Range(0, baAnimationLength);
-                baAnimationTimesPlayed = 0;
+                if (!isJumping)
+                {
+                    Random.InitState(Random.Range(0, 300));
+                    basicAttackIndex = Random.Range(0, baAnimationLength);
+                    baAnimationTimesPlayed = 0;
+                }
+                else
+                {
+                    isJumpingIn = true;
+                    jumpAvailable = false;
+
+                    jumpDelayTime = jumpInitDelayTime;
+                    fenrirAttack = FenrirAttacks.JumpAttack;
+                }
                 break;
             default:
                 break;
@@ -361,7 +395,35 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void JumpAttackUpdate()
     {
-        return; //Do nothing, de momento
+        if (isJumpingIn)
+        {
+            if (jumpDelayTime > 0)
+            {
+                jumpDelayTime -= Time.deltaTime;
+
+                enemyAgent.isStopped = true;
+                SetRotation();
+
+                return;
+            }
+            else
+            {
+                enemyAgent.speed = enemySpeed * 3;
+                enemyAgent.isStopped = false;
+                isJumpingIn = false;
+
+                jumpEndPosition = targetTransform.position;
+                enemyAgent.destination = jumpEndPosition;
+
+                if (Vector3.Distance(jumpEndPosition, transform.position) >= jumpMaxDistance) jumpCurrentDistance = jumpMaxDistance;
+                else if (Vector3.Distance(jumpEndPosition, transform.position) <= jumpMinDistance) jumpCurrentDistance = jumpMinDistance;
+                else jumpCurrentDistance = Vector3.Distance(jumpEndPosition, transform.position);
+            }
+        }
+
+        //if () si la distancia al destino es x porcentaje sobre la total, empieza a slowear
+        //si es mas pequeña que 0,1 empieza a atacar
+        
     }
 
     void BasicAttackUpdateF()
