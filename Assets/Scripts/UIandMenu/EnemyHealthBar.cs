@@ -15,7 +15,7 @@ public class EnemyHealthBar : MonoBehaviour {
     Text enemyName;
 
     //Enemy related variables
-    public GameObject playerAttackingTarget = null;
+    [HideInInspector] public GameObject playerAttackingTarget = null;
 
 
     private void Start()
