@@ -334,9 +334,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 1748637269899732, guid: 3aefdb6508f36d64885480488c7047a7, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 114917295818217402, guid: 3aefdb6508f36d64885480488c7047a7,
+        type: 2}
+      propertyPath: jumpImpulse
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 195637715045258622, guid: 3aefdb6508f36d64885480488c7047a7,
+        type: 2}
+      propertyPath: m_Acceleration
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3aefdb6508f36d64885480488c7047a7, type: 2}

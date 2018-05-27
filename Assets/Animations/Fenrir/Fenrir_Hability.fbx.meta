@@ -437,8 +437,8 @@ ModelImporter:
     - serializedVersion: 16
       name: jump
       takeName: Hability
-      firstFrame: 14
-      lastFrame: 35
+      firstFrame: 16
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -465,7 +465,7 @@ ModelImporter:
     - serializedVersion: 16
       name: jumpAttack
       takeName: Hability
-      firstFrame: 36
+      firstFrame: 37
       lastFrame: 48
       wrapMode: 0
       orientationOffsetY: 0
