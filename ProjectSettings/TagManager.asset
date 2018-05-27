@@ -10,6 +10,8 @@ TagManager:
   - currentTarget
   - CameraController
   - ParticleInstancer
+  - AOEIndicator
+  - GameplayUI
   layers:
   - Default
   - TransparentFX

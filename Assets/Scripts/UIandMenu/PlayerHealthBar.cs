@@ -12,8 +12,7 @@ public class PlayerHealthBar : MonoBehaviour {
 
     //UI elements
     [SerializeField] Image healthBar;
-
-
+    
     Image qIcon;
     Image wIcon;
     Image eIcon;
@@ -29,8 +28,20 @@ public class PlayerHealthBar : MonoBehaviour {
 
     //Pop-Ups
     Animator enableDisablePopUpsAnimator;
+    public List<TagAndTexture> indicatorTextures = new List<TagAndTexture>();
 
     bool eventSystemEnabled = true;
+
+    //AOE Indicator
+    Transform indicatorTransform;
+    Projector indicatorProjector;
+
+    Material indicatorMaterial;
+
+    float qRange;
+    float wRange;
+    float eRange;
+    float rRange;
 
     private void Start()
     {
@@ -44,8 +55,15 @@ public class PlayerHealthBar : MonoBehaviour {
         enableDisablePopUpsAnimator = GameObject.Find("enableDisablePopUps").GetComponent<Animator>();
         enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
 
+        indicatorTransform = GameObject.FindWithTag("AOEIndicator").transform;
+        indicatorProjector = indicatorTransform.gameObject.GetComponent<Projector>();
+        indicatorMaterial = indicatorProjector.material;
+
+        AOEInidicator ("none");
+
         playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
         playerBehaviour.GetAbilityCooldowns(out qCd, out wCd, out eCd, out rCd);
+        playerBehaviour.GetAbilityRanges(out qRange, out wRange, out eRange, out rRange);
 
         SetIconsInitFillAmount();
     }
@@ -153,8 +171,6 @@ public class PlayerHealthBar : MonoBehaviour {
             rIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
 
             eventSystemEnabled = false;
-
-            enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
         }
         else
         {
@@ -164,8 +180,69 @@ public class PlayerHealthBar : MonoBehaviour {
             rIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
 
             eventSystemEnabled = true;
-
-            enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
         }
+
+        enableDisablePopUpsAnimator.SetBool("popUpsEnabled", eventSystemEnabled);
+    }
+
+    public void AOEInidicator (string abilityKey)
+    {
+        if (abilityKey == "q")
+        {
+            indicatorTransform.gameObject.SetActive(true);
+
+            indicatorTransform.localPosition = new Vector3(0, 10, qRange / 2);
+            indicatorProjector.orthographicSize = qRange / 2;
+
+            int textureIndex = indicatorTextures.FindIndex(texture => texture.tag == abilityKey);
+            indicatorMaterial.SetTexture("_ShadowTex", indicatorTextures[textureIndex].texture);
+        }
+        else if (abilityKey == "w")
+        {
+            indicatorTransform.gameObject.SetActive(true);
+
+            indicatorTransform.localPosition = new Vector3(0, 10, 0);
+            indicatorProjector.orthographicSize = wRange;
+
+            int textureIndex = indicatorTextures.FindIndex(texture => texture.tag == abilityKey);
+            indicatorMaterial.SetTexture("_ShadowTex", indicatorTextures[textureIndex].texture);
+        }
+        else if (abilityKey == "e")
+        {
+            indicatorTransform.gameObject.SetActive(true);
+
+            indicatorTransform.localPosition = new Vector3(0, 10, eRange / 2);
+            indicatorProjector.orthographicSize = eRange / 2;
+
+            int textureIndex = indicatorTextures.FindIndex(texture => texture.tag == abilityKey);
+            indicatorMaterial.SetTexture("_ShadowTex", indicatorTextures[textureIndex].texture);
+        }
+        else if (abilityKey == "r")
+        {
+            indicatorTransform.gameObject.SetActive(true);
+
+            indicatorTransform.localPosition = new Vector3(0, 10, 0);
+            indicatorProjector.orthographicSize = rRange;
+
+            int textureIndex = indicatorTextures.FindIndex(texture => texture.tag == abilityKey);
+            indicatorMaterial.SetTexture("_ShadowTex", indicatorTextures[textureIndex].texture);
+        }
+        else
+        {
+            indicatorTransform.gameObject.SetActive(false);
+        }
+    }
+}
+
+[System.Serializable]
+public class TagAndTexture
+{
+    public string tag;
+    public Texture2D texture;
+
+    public TagAndTexture (string textureTag, Texture2D textureInput)
+    {
+        tag = textureTag;
+        texture = textureInput;
     }
 }

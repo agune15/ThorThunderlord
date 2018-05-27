@@ -61,12 +61,14 @@ public class EnemyBehaviour : MonoBehaviour {
         int baAnimationTimesPlayed;
 
         //Jump parameters
-        //AttackTrigger jumpAttackTrigger;
+        //AttackTrigger jumpAttackTrigger;   De momento usamos el baAttackTrigger
 
         bool isJumping = false;
         bool isJumpingIn = false;
         bool jumpAttacking = false;
-        bool jumpAvailable = true;
+        bool hasStartedJumpAttack = false;
+        bool hasJumpAttacked = false;   //Animation Trigger Only
+        bool jumpAvailable = false;
 
         public float jumpImpulse;
         float jumpDelayTime;
@@ -74,7 +76,6 @@ public class EnemyBehaviour : MonoBehaviour {
         float jumpAttackTime;
         float jumpAttackInitTime;
         public float jumpRange;
-        public float jumpMinDistance;
         public float jumpMaxDistance;
         float jumpCurrentDistance;
         public float jumpCD;
@@ -119,7 +120,7 @@ public class EnemyBehaviour : MonoBehaviour {
         enemyAngularSpeed = enemyAgent.angularSpeed;
         enemyAcceleration = enemyAgent.acceleration;
 
-        if (enemyType == EnemyStats.EnemyType.Fenrir) baAnimationLength = 3;
+        if (enemyType == EnemyStats.EnemyType.Fenrir) baAnimationLength = 5;
 
         enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
     }
@@ -131,8 +132,12 @@ public class EnemyBehaviour : MonoBehaviour {
 
         AnimatorUpdate();
         
-        Debug.Log("isStopped = " + enemyAgent.isStopped);
+        /*
+        //Debug.Log("isStopped = " + enemyAgent.isStopped);
         Debug.Log("isJumping = " + isJumping);
+        Debug.Log("isJumpingIn = " + isJumpingIn);
+        Debug.Log("jumpAttacking = " + jumpAttacking);
+        //Debug.Log("jumpInDelayTime = " + jumpDelayTime);*/
     }
 
     void BehaviourUpdate()
@@ -168,6 +173,7 @@ public class EnemyBehaviour : MonoBehaviour {
         {
             //Un sonido de chase
             SetChase();
+            StartCoroutine(FenrirJumpCD());
         }
     }
 
@@ -211,7 +217,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if (!isJumpingIn && !jumpAttacking) enemyAgent.isStopped = false;
         else enemyAgent.isStopped = true;
 
-        if (!isJumpingIn && !jumpAttacking) SetRotation();
+        if (!isJumpingIn && !isJumping) SetRotation();
 
         if(Vector3.Distance(transform.position, targetTransform.position) > attackRange && !isJumping)
         {
@@ -286,16 +292,24 @@ public class EnemyBehaviour : MonoBehaviour {
             case EnemyStats.EnemyType.Fenrir:
                 if (!isJumping)
                 {
+                    enemyAgent.SetDestination(transform.position);
+
                     Random.InitState(Random.Range(0, 300));
                     basicAttackIndex = Random.Range(0, baAnimationLength);
                     baAnimationTimesPlayed = 0;
+
+                    fenrirAttack = FenrirAttacks.BasicAttack;
                 }
                 else
                 {
                     isJumpingIn = true;
                     jumpAttacking = false;
                     jumpAvailable = false;
+                    hasStartedJumpAttack = false;
+                    hasJumpAttacked = false;
                     alreadyAttacked = false;
+
+                    Debug.Log("heee");
 
                     jumpDelayTime = jumpInitDelayTime;
                     jumpAttackTime = jumpAttackInitTime;
@@ -401,7 +415,7 @@ public class EnemyBehaviour : MonoBehaviour {
         switch(fenrirAttack)
         {
             case FenrirAttacks.JumpAttack:
-                JumpAttackUpdate();
+                JumpAttackUpdateF();
                 break;
             case FenrirAttacks.BasicAttack:
                 BasicAttackUpdateF();
@@ -413,11 +427,14 @@ public class EnemyBehaviour : MonoBehaviour {
 
     #region Fenrir Attacks
 
-    void JumpAttackUpdate()
+    void JumpAttackUpdateF()
     {
+        //Debug.Log("jump remaining distance = " + enemyAgent.remainingDistance);
+        Debug.Log("jumpeen");
+
         if (isJumpingIn)
         {
-            if (jumpDelayTime > 0)
+            if (jumpDelayTime >= 0)
             {
                 jumpDelayTime -= Time.deltaTime;
 
@@ -430,34 +447,41 @@ public class EnemyBehaviour : MonoBehaviour {
             else
             {
                 enemyAgent.speed = enemySpeed * jumpImpulse;
-                enemyAgent.acceleration = enemyAgent.speed * 10;
+                enemyAgent.acceleration = enemyAgent.speed * 30;
 
                 isJumpingIn = false;
 
                 jumpEndPosition = targetTransform.position;
                 enemyAgent.SetDestination(jumpEndPosition);
-
+                
                 jumpOrigin = transform.position;
 
                 if (Vector3.Distance(jumpEndPosition, transform.position) >= jumpMaxDistance) jumpCurrentDistance = jumpMaxDistance;
-                else if (Vector3.Distance(jumpEndPosition, transform.position) <= jumpMinDistance) jumpCurrentDistance = jumpMinDistance;
                 else jumpCurrentDistance = Vector3.Distance(jumpEndPosition, transform.position);
             }
         }
 
         if (!jumpAttacking)
         {
-            if (Vector3.Distance(transform.position, jumpOrigin) / jumpCurrentDistance >= 0.6f)
+            if (Vector3.Distance(transform.position, jumpOrigin) / jumpCurrentDistance >= 0.8f)
             {
-                float remainingDistanceFactor = Vector3.Distance(transform.position, jumpOrigin) - jumpCurrentDistance * 0.6f;
-                float currentDistanceFactor = jumpCurrentDistance * 0.4f;
-                enemyAgent.speed = Mathf.SmoothStep(enemySpeed * jumpImpulse, 0, remainingDistanceFactor / currentDistanceFactor);
+                if (!hasStartedJumpAttack)
+                {
+                    hasStartedJumpAttack = true;
+                    enemyAnimator.SetTrigger("jumpAttack");
+                }
 
-                if (enemyAgent.speed < 0.1f || Vector3.Distance(transform.position, jumpOrigin) / jumpCurrentDistance >= 0.95f)
+                if (Vector3.Distance(transform.position, targetTransform.position) <= attackRange || basicAttackTrigger.TargetIsInRange(targetBehaviour.name))
                 {
                     jumpAttacking = true;
                     enemyAgent.SetDestination(transform.position);
                 }
+            }
+
+            if (Vector3.Distance(transform.position, jumpOrigin) / jumpCurrentDistance >= 1f)
+            {
+                jumpAttacking = true;
+                enemyAgent.SetDestination(transform.position);
             }
         }
         else
@@ -465,25 +489,50 @@ public class EnemyBehaviour : MonoBehaviour {
             if (jumpAttackTime >= 0)
             {
                 jumpAttackTime -= Time.deltaTime;
-
-                // if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 )
-                // if jumpAttackTrigger.TargetIsInRange(targetTransform.name) playerBehaviour.setdamage(x);
             }
             else
             {
-                DisableJump();
+                DisableJumpF();
+            }
+        }
+
+        JumpAttackDamageDealF();
+    }
+
+    void JumpAttackDamageDealF ()
+    {
+        if (hasStartedJumpAttack || !jumpAttacking)
+        {
+            if (!hasJumpAttacked)
+            {
+                if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.05f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.35f)
+                {
+                    if (basicAttackTrigger.TargetIsInRange(targetTransform.name) || Vector3.Distance(transform.position, targetTransform.position) <= attackRange)
+                    {
+                        Vector3 directionToTarget = transform.position - targetTransform.position;
+                        float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+                        targetBehaviour.SetDamage(30, Quaternion.Euler(0, desiredAngle, 0));
+
+                        hasJumpAttacked = true;
+                    }
+                }
             }
         }
     }
 
-    void DisableJump ()
+    void DisableJumpF()
     {
         enemyAgent.speed = enemySpeed;
         enemyAgent.acceleration = enemyAcceleration;
         isJumping = false;
 
-        if (Vector3.Distance(targetTransform.position, transform.position) <= attackRange) SetAttack();
+        enemyAnimator.ResetTrigger("jumpAttack");
+
+        if (basicAttackTrigger.TargetIsInRange(targetTransform.name)) SetAttack();
         else SetChase();
+
+        StartCoroutine(FenrirJumpCD());
     }
 
     void BasicAttackUpdateF()
@@ -497,7 +546,7 @@ public class EnemyBehaviour : MonoBehaviour {
             basicAttackIndex = Random.Range(0, baAnimationLength);
         }
 
-        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03)
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.1f)
         {
             if (!basicAttackCycleAlreadyCounted)
             {
@@ -506,7 +555,7 @@ public class EnemyBehaviour : MonoBehaviour {
             }
         }
 
-        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > 0.95f)
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > 0.9)
         {
             basicAttackCycleAlreadyCounted = false;
         }
@@ -558,7 +607,36 @@ public class EnemyBehaviour : MonoBehaviour {
                     }
                 }
             }
+            else if (basicAttackIndex == 3)
+            {
+                if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.4f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.52f)
+                {
+                    if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
+                    {
+                        Vector3 directionToTarget = transform.position - targetTransform.position;
+                        float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
+                        targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+
+                        alreadyAttacked = true;
+                    }
+                }
+            }
+            else if (basicAttackIndex == 4)
+            {
+                if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.35f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.5f)
+                {
+                    if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
+                    {
+                        Vector3 directionToTarget = transform.position - targetTransform.position;
+                        float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+
+                        targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+
+                        alreadyAttacked = true;
+                    }
+                }
+            }
         }
         else
         {
@@ -596,7 +674,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if(!playerIsAttacking) //&& !playerIsMoving por si solo queremos hacerlo cuando el player este quieto
         {
             if (!isJumping) targetBehaviour.SetBasicAttackTransform(this.transform, true);
-            enemyHealthBar.DrawEnemyHealthBar(this.gameObject, GetComponent<EnemyStats>().GetMaxLife(), GetComponent<EnemyStats>().GetLife(), enemyType.ToString());
+            if (Vector3.Distance(transform.position, targetTransform.position) <= attackRange || basicAttackTrigger.TargetIsInRange(targetTransform.name)) enemyHealthBar.DrawEnemyHealthBar(this.gameObject, GetComponent<EnemyStats>().GetMaxLife(), GetComponent<EnemyStats>().GetLife(), enemyType.ToString());
         }
     }
 
@@ -637,6 +715,12 @@ public class EnemyBehaviour : MonoBehaviour {
     void FenrirSpeedSet()
     {
         enemyAgent.speed = (isSlowed) ? enemySpeed / 2 : enemySpeed;
+    }
+
+    IEnumerator FenrirJumpCD ()
+    {
+        yield return new WaitForSeconds(jumpCD);
+        jumpAvailable = true;
     }
 
     #endregion

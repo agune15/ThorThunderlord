@@ -399,9 +399,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
                 playerAgent.SetDestination(dashEnd);
             }
-
-            if (dashEnd == lastDashEnd) dashEnd = destination; //Da problemas?
-
+            
             dashOrigin = playerTransform.position;
 
             dashCurrentDistance = (Vector3.Distance(dashOrigin, dashEnd) > dashDistance) ? dashDistance : Vector3.Distance(dashOrigin, dashEnd);
@@ -856,6 +854,14 @@ public class CharacterBehaviour : MonoBehaviour {
         rCooldown = lightRainCD;
     }
 
+    public void GetAbilityRanges (out float qRange, out float wRange, out float eRange, out float rRange)
+    {
+        qRange = throwDistance;
+        wRange = slowAreaRange;
+        eRange = dashDistance;
+        rRange = lightRainRange;
+    }
+
     #endregion
 
     #region Others
@@ -934,6 +940,8 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawCube(dashEnd, new Vector3(0.5f, 0.5f, 0.5f));
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(playerTransform.position, dashDistance * 2);
         }
     }
 

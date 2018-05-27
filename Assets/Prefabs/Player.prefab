@@ -2089,7 +2089,7 @@ GameObject:
   - component: {fileID: 119018056426389598}
   m_Layer: 9
   m_Name: abilityAOEProjector
-  m_TagString: Untagged
+  m_TagString: AOEIndicator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

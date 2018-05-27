@@ -150,7 +150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1182956107457570
 GameObject:
   m_ObjectHideFlags: 1
@@ -668,7 +668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1575404528214966
 GameObject:
   m_ObjectHideFlags: 1
@@ -1185,7 +1185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1981328394449504
 GameObject:
   m_ObjectHideFlags: 1
@@ -2540,6 +2540,10 @@ MonoBehaviour:
   unfreezeTime: 1
   chaseRange: 12
   attackRange: 1.6
+  jumpImpulse: 0
+  jumpRange: 0
+  jumpMaxDistance: 0
+  jumpCD: 0
 --- !u!114 &114758649706867924
 MonoBehaviour:
   m_ObjectHideFlags: 1
