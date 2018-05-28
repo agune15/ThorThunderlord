@@ -114,6 +114,7 @@ public class CharacterBehaviour : MonoBehaviour {
     [SerializeField] bool lRainAvailable = true;
     bool isCastingLightRain = false;
     bool hasLightRained = false;
+    bool castedHammerLightBolt = false;
 
     Vector3 lightRainOrigin;
 
@@ -623,6 +624,7 @@ public class CharacterBehaviour : MonoBehaviour {
             isLightRaining = true;
             isCastingLightRain = true;
             hasLightRained = false;
+            castedHammerLightBolt = false;
 
             thorAnimator.SetTrigger("castRain");
             thorAnimator.ResetTrigger("hit");
@@ -643,6 +645,13 @@ public class CharacterBehaviour : MonoBehaviour {
             lightRainCastDuration -= Time.deltaTime;
             playerAgent.isStopped = true;
             canMove = false;
+
+            if (lightRainCastDuration / lightRainCastInitDuration < 0.5f & !castedHammerLightBolt)
+            {
+                particleInstancer.InstanciateParticleSystem("LightBolt_fromHAMMER", playerTransform, new Vector3(0.25f, 2.75f, 0), Quaternion.identity);
+                castedHammerLightBolt = true;
+            }
+
             return;
         }
         else

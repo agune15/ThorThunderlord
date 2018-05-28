@@ -36,6 +36,13 @@ public class ParticleInstancer : MonoBehaviour {
         }
     }
 
+    private void Update()
+    {
+        Debug.Log(instanciatedParticleSystems.Count);
+
+        //Debug.Log(instanciatedParticleSystems.Values.ToString());
+    }
+
     public void InstanciateParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
     {
         //int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
@@ -72,22 +79,23 @@ public class ParticleInstancer : MonoBehaviour {
 
     public void DestroyParticleSystem (string particleName)
     {
-        if (instanciatedParticleSystems.ContainsKey(particleName))
-        {
-            Destroy(instanciatedParticleSystems[particleName]);
-            instanciatedParticleSystems.Remove(particleName);
-        }
+        GameObject particleReference = instanciatedParticleSystems[particleName];
+
+        if (instanciatedParticleSystems.ContainsValue(particleReference)) instanciatedParticleSystems.Remove(particleName);
+        if (instanciatedParticleSystems.ContainsKey(particleName)) instanciatedParticleSystems.Remove(particleName);
+
+        Destroy(particleReference);
     }
 
     //Overload to destroy particle instance with GameObject as input value
     public void DestroyParticleSystem (GameObject particleInstance)
     {
-        if (instanciatedParticleSystems.ContainsValue(particleInstance))
-        {
-            Destroy(particleInstance);
-            instanciatedParticleSystems.Remove(particleInstance.name);
-        }
-        
+        GameObject particleReference = particleInstance;
+
+        if (instanciatedParticleSystems.ContainsValue(particleReference)) instanciatedParticleSystems.Remove(particleInstance.name);
+        if (instanciatedParticleSystems.ContainsValue(particleInstance)) instanciatedParticleSystems.Remove(particleInstance.name);
+
+        Destroy(particleReference);
     }
 }
 

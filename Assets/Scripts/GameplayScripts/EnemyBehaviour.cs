@@ -386,7 +386,7 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         if(!alreadyAttacked)
         {
-            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.3f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.45f)
+            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 >= 0.25f && enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.40f)
             {
                 if (basicAttackTrigger.TargetIsInRange(targetTransform.name))
                 {

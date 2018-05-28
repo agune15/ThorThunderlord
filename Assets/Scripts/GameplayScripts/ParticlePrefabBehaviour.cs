@@ -37,6 +37,7 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
             {
                 case ParticleEndAction.Destroy:
                     particleInstancer.DestroyParticleSystem(gameObject);
+                    Debug.Log("yeee");
                     break;
                 case ParticleEndAction.Deactivate:
                     particleInstancer.UnpoolParticleSystem(particleTag, gameObject);
