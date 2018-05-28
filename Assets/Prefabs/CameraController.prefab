@@ -52,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1480439567597618}
   m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: 0, y: 6.74, z: -15.76}
+  m_LocalPosition: {x: -9.81, y: 19.54, z: -33.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4057231750442450}
@@ -140,8 +140,6 @@ MonoBehaviour:
   offsetPos: {x: 0, y: 11, z: -11}
   heightOffset: 1.2
   smoothTime: 1
-  shakePositionsAmount: 10
-  shakeAmount: 1
   shakeSmoothTime: 0.005
   shakeLastSmoothTime: 0.02
 --- !u!114 &114860976702343220

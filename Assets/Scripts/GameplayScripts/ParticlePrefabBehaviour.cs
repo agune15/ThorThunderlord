@@ -19,7 +19,7 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
         if (GetComponent<ParticleSystem>() != null) particleSystems.Add(GetComponent<ParticleSystem>());
         if (GetComponentsInChildren<ParticleSystem>().Length > 0) particleSystems.AddRange(GetComponentsInChildren<ParticleSystem>());
 
-        if (particleEndAction == ParticleEndAction.Deactivate) particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
+        particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
     }
 
     private void Update()
@@ -36,7 +36,7 @@ public class ParticlePrefabBehaviour : MonoBehaviour {
             switch (particleEndAction)
             {
                 case ParticleEndAction.Destroy:
-                    Destroy(this.gameObject);
+                    particleInstancer.DestroyParticleSystem(gameObject);
                     break;
                 case ParticleEndAction.Deactivate:
                     particleInstancer.UnpoolParticleSystem(particleTag, gameObject);

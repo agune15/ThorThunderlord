@@ -81,8 +81,6 @@ public class CameraBehaviour : MonoBehaviour {
     {
         if(!playerTransform) return;
 
-        if (Input.GetKeyDown(KeyCode.M)) CameraShake(10, 1);   //Testing Only
-
         if (isCameraShaking)
         {
             CameraShakeUpdate();

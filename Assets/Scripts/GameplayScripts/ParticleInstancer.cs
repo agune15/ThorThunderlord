@@ -10,7 +10,8 @@ public class ParticleInstancer : MonoBehaviour {
     Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
     Dictionary<string, Queue<GameObject>> particlePrefabsToPool = new Dictionary<string, Queue<GameObject>>();
 
-    //public Dictionary<string, Queue<GameObject>> particlePoolDictionary;
+	Dictionary<string, GameObject> instanciatedParticleSystems = new Dictionary<string, GameObject>();
+
 
     private void Start()
     {
@@ -40,6 +41,8 @@ public class ParticleInstancer : MonoBehaviour {
         //int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
         GameObject particleInstance = Instantiate(particlePrefabs[particleName], particlePosition, particleRotation, this.transform); //Se le asigna un ParentTranfsorm para que se instancie en la escena correcta
         particleInstance.transform.parent = null;
+
+        if (!instanciatedParticleSystems.ContainsKey(particleName)) instanciatedParticleSystems.Add(particleName, particleInstance);
     }
 
     //Overload to instanciate as a child of a certain transform
@@ -49,6 +52,8 @@ public class ParticleInstancer : MonoBehaviour {
         GameObject particleInstance = Instantiate(particlePrefabs[particleName].gameObject, parentTransform.position, parentTransform.rotation, parentTransform);
         particleInstance.transform.localPosition = particleLocalPosition;
         particleInstance.transform.localRotation = particleLocalRotation;
+
+        if (!instanciatedParticleSystems.ContainsKey(particleName)) instanciatedParticleSystems.Add(particleName, particleInstance);
     }
 
     public void PoolParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
@@ -63,6 +68,26 @@ public class ParticleInstancer : MonoBehaviour {
     {
         particlePrefabsToPool[particleTag].Enqueue(particleObject);
         particleObject.SetActive(false);
+    }
+
+    public void DestroyParticleSystem (string particleName)
+    {
+        if (instanciatedParticleSystems.ContainsKey(particleName))
+        {
+            Destroy(instanciatedParticleSystems[particleName]);
+            instanciatedParticleSystems.Remove(particleName);
+        }
+    }
+
+    //Overload to destroy particle instance with GameObject as input value
+    public void DestroyParticleSystem (GameObject particleInstance)
+    {
+        if (instanciatedParticleSystems.ContainsValue(particleInstance))
+        {
+            Destroy(particleInstance);
+            instanciatedParticleSystems.Remove(particleInstance.name);
+        }
+        
     }
 }
 

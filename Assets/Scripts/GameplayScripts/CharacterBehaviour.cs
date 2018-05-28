@@ -399,7 +399,9 @@ public class CharacterBehaviour : MonoBehaviour {
 
                 playerAgent.SetDestination(dashEnd);
             }
-            
+
+            if (lastDashEnd == dashEnd) dashEnd = destination;   //Da problemas?
+
             dashOrigin = playerTransform.position;
 
             dashCurrentDistance = (Vector3.Distance(dashOrigin, dashEnd) > dashDistance) ? dashDistance : Vector3.Distance(dashOrigin, dashEnd);
@@ -409,6 +411,7 @@ public class CharacterBehaviour : MonoBehaviour {
             thorAnimator.SetTrigger("dash");
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.E, 1);
+            particleInstancer.InstanciateParticleSystem("Dash", playerTransform, new Vector3(0, 1, 2f), Quaternion.Euler(0, 180, 0));
         }
     }
 
@@ -422,6 +425,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
         thorAnimator.ResetTrigger("dash");
         thorAnimator.ResetTrigger("dashOut");
+
+        particleInstancer.DestroyParticleSystem("Dash");
 
         StartCoroutine(DashCD());
     }
