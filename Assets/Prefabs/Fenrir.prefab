@@ -501,7 +501,7 @@ GameObject:
   - component: {fileID: 4648813480823156}
   m_Layer: 10
   m_Name: J_Palm_R
-  m_TagString: Untagged
+  m_TagString: FenrirPalmR
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2043,7 +2043,7 @@ GameObject:
   - component: {fileID: 4406885894364966}
   m_Layer: 10
   m_Name: J_Palm_L
-  m_TagString: Untagged
+  m_TagString: FenrirPalmL
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

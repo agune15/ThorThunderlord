@@ -9,8 +9,8 @@ public class ParticleInstancer : MonoBehaviour {
 
     Dictionary<string, GameObject> particlePrefabs = new Dictionary<string, GameObject>();
     Dictionary<string, Queue<GameObject>> particlePrefabsToPool = new Dictionary<string, Queue<GameObject>>();
-
-	Dictionary<string, GameObject> instanciatedParticleSystems = new Dictionary<string, GameObject>();
+    
+    [SerializeField] List<ParticleAndName> instanciatedParticleSystems = new List<ParticleAndName>();
 
 
     private void Start()
@@ -36,31 +36,22 @@ public class ParticleInstancer : MonoBehaviour {
         }
     }
 
-    private void Update()
-    {
-        Debug.Log(instanciatedParticleSystems.Count);
-
-        //Debug.Log(instanciatedParticleSystems.Values.ToString());
-    }
-
     public void InstanciateParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
     {
-        //int particlePrefabIndex = particlePrefabs.FindIndex(particle => particle.particleName == particleName);
         GameObject particleInstance = Instantiate(particlePrefabs[particleName], particlePosition, particleRotation, this.transform); //Se le asigna un ParentTranfsorm para que se instancie en la escena correcta
         particleInstance.transform.parent = null;
-
-        if (!instanciatedParticleSystems.ContainsKey(particleName)) instanciatedParticleSystems.Add(particleName, particleInstance);
+        
+        instanciatedParticleSystems.Add(new ParticleAndName(particleInstance, particleInstance.name));
     }
 
     //Overload to instanciate as a child of a certain transform
     public void InstanciateParticleSystem(string particleName, Transform parentTransform, Vector3 particleLocalPosition, Quaternion particleLocalRotation)
     {
-        //int particlePrefabIndex = particleSystems.FindIndex(particle => particle.particleName == particleName);
         GameObject particleInstance = Instantiate(particlePrefabs[particleName].gameObject, parentTransform.position, parentTransform.rotation, parentTransform);
         particleInstance.transform.localPosition = particleLocalPosition;
         particleInstance.transform.localRotation = particleLocalRotation;
-
-        if (!instanciatedParticleSystems.ContainsKey(particleName)) instanciatedParticleSystems.Add(particleName, particleInstance);
+        
+        instanciatedParticleSystems.Add(new ParticleAndName(particleInstance, particleInstance.name));
     }
 
     public void PoolParticleSystem (string particleName, Vector3 particlePosition, Quaternion particleRotation)
@@ -79,21 +70,23 @@ public class ParticleInstancer : MonoBehaviour {
 
     public void DestroyParticleSystem (string particleName)
     {
-        GameObject particleReference = instanciatedParticleSystems[particleName];
+        int particleIndex = instanciatedParticleSystems.FindIndex(particle => particle.name == particleName);
 
-        if (instanciatedParticleSystems.ContainsValue(particleReference)) instanciatedParticleSystems.Remove(particleName);
-        if (instanciatedParticleSystems.ContainsKey(particleName)) instanciatedParticleSystems.Remove(particleName);
+        GameObject particleReference = instanciatedParticleSystems[particleIndex].particle;
 
+        instanciatedParticleSystems.Remove(instanciatedParticleSystems[particleIndex]);
+        
         Destroy(particleReference);
     }
 
     //Overload to destroy particle instance with GameObject as input value
     public void DestroyParticleSystem (GameObject particleInstance)
     {
-        GameObject particleReference = particleInstance;
+        int particleIndex = instanciatedParticleSystems.FindIndex(particle => particle.particle == particleInstance);
 
-        if (instanciatedParticleSystems.ContainsValue(particleReference)) instanciatedParticleSystems.Remove(particleInstance.name);
-        if (instanciatedParticleSystems.ContainsValue(particleInstance)) instanciatedParticleSystems.Remove(particleInstance.name);
+        GameObject particleReference = instanciatedParticleSystems[particleIndex].particle;
+
+        instanciatedParticleSystems.Remove(instanciatedParticleSystems[particleIndex]);
 
         Destroy(particleReference);
     }
@@ -109,5 +102,18 @@ public class ParticleAndQuantity
     {
         prefab = particlePrefab;
         quantity = particleQuantity;
+    }
+}
+
+[System.Serializable]
+public class ParticleAndName
+{
+    public string name;
+    public GameObject particle;
+
+    public ParticleAndName (GameObject particleObject, string particleName)
+    {
+        name = particleName;
+        particle = particleObject;
     }
 }

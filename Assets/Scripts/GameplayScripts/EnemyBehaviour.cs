@@ -21,6 +21,7 @@ public class EnemyBehaviour : MonoBehaviour {
     CharacterBehaviour targetBehaviour;
     AttackTrigger basicAttackTrigger;
     Animator enemyAnimator;
+    ParticleInstancer particleInstancer;
 
     //UI related
     EnemyHealthBar enemyHealthBar;
@@ -95,6 +96,7 @@ public class EnemyBehaviour : MonoBehaviour {
         targetBehaviour = targetTransform.gameObject.GetComponent<CharacterBehaviour>();
         basicAttackTrigger = GetComponentInChildren<AttackTrigger>();
         enemyAnimator = GetComponentInChildren<Animator>();
+        particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
 
         foreach(AnimationClip clip in enemyAnimator.runtimeAnimatorController.animationClips)
         {
@@ -131,13 +133,6 @@ public class EnemyBehaviour : MonoBehaviour {
         BehaviourUpdate();
 
         AnimatorUpdate();
-        
-        /*
-        //Debug.Log("isStopped = " + enemyAgent.isStopped);
-        Debug.Log("isJumping = " + isJumping);
-        Debug.Log("isJumpingIn = " + isJumpingIn);
-        Debug.Log("jumpAttacking = " + jumpAttacking);
-        //Debug.Log("jumpInDelayTime = " + jumpDelayTime);*/
     }
 
     void BehaviourUpdate()
@@ -216,6 +211,8 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         if (!isJumpingIn && !jumpAttacking) enemyAgent.isStopped = false;
         else enemyAgent.isStopped = true;
+
+        if (!isJumping) enemyAgent.SetDestination(transform.position);
 
         if (!isJumpingIn && !isJumping) SetRotation();
 
@@ -308,8 +305,6 @@ public class EnemyBehaviour : MonoBehaviour {
                     hasStartedJumpAttack = false;
                     hasJumpAttacked = false;
                     alreadyAttacked = false;
-
-                    Debug.Log("heee");
 
                     jumpDelayTime = jumpInitDelayTime;
                     jumpAttackTime = jumpAttackInitTime;
@@ -429,9 +424,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void JumpAttackUpdateF()
     {
-        //Debug.Log("jump remaining distance = " + enemyAgent.remainingDistance);
-        Debug.Log("jumpeen");
-
         if (isJumpingIn)
         {
             if (jumpDelayTime >= 0)
@@ -458,6 +450,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
                 if (Vector3.Distance(jumpEndPosition, transform.position) >= jumpMaxDistance) jumpCurrentDistance = jumpMaxDistance;
                 else jumpCurrentDistance = Vector3.Distance(jumpEndPosition, transform.position);
+
+                particleInstancer.InstanciateParticleSystem("Fenrir_mist", GameObject.FindWithTag("FenrirPalmR").transform, Vector3.zero, Quaternion.identity);
             }
         }
 
@@ -473,6 +467,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
                 if (Vector3.Distance(transform.position, targetTransform.position) <= attackRange || basicAttackTrigger.TargetIsInRange(targetBehaviour.name))
                 {
+
+
                     jumpAttacking = true;
                     enemyAgent.SetDestination(transform.position);
                 }
@@ -528,6 +524,8 @@ public class EnemyBehaviour : MonoBehaviour {
         isJumping = false;
 
         enemyAnimator.ResetTrigger("jumpAttack");
+
+        particleInstancer.DestroyParticleSystem("Fenrir_mist(Clone)");
 
         if (basicAttackTrigger.TargetIsInRange(targetTransform.name)) SetAttack();
         else SetChase();

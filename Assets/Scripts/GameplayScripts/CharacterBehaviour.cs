@@ -28,6 +28,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     bool canMove = true;
 
+    //Health Bar related
     public float life;
     float maxLife;
 
@@ -36,6 +37,20 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //Particle related
     ParticleInstancer particleInstancer;
+
+    //Passive parameters
+    [Header("Passive parameters")]
+    bool isUsingPassive = false;
+    bool passiveLoadable = true;
+
+    float passiveCharge = 0;
+    public float passivePerChargePercentage;
+    float passiveInitDuration;
+    public float passiveUnloadTime;
+    public float passiveDuration;
+    public float passiveCD;
+    public float passiveMultiplierFactor;
+    float passiveMultiplier = 1;
 
     //Basic Attack parameters
     [Header("Basic Attack parameters")]
@@ -152,6 +167,8 @@ public class CharacterBehaviour : MonoBehaviour {
         playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
         StartCoroutine(SetInitLife());
 
+        passiveInitDuration = passiveDuration;
+        
         particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
     }
 
@@ -199,6 +216,9 @@ public class CharacterBehaviour : MonoBehaviour {
             LightRainUpdate();
         }
 
+        //Passive Update
+        PassiveUpdate();
+
         //Cooldown Updates
         CooldownUpdate();
 
@@ -209,6 +229,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isCastingArea", isCastingArea);
         thorAnimator.SetBool("isCastingRain", isCastingLightRain);
         thorAnimator.SetBool("isDashing", isDashing);
+        thorAnimator.SetFloat("passiveMultiplier", 1 * passiveMultiplier);
     }
 
     #region Movement State Updates
@@ -309,6 +330,60 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
+    #region Passive behaviour
+    
+    void PassiveUpdate ()
+    {
+        if (isUsingPassive)
+        {
+            if (passiveInitDuration >= 0)
+            {
+                passiveInitDuration -= Time.deltaTime;
+            }
+            else DisablePassive();
+        }
+        else
+        {
+            if (passiveCharge <= 0) return;
+
+            passiveCharge -= 100 * Time.deltaTime / passiveUnloadTime;
+            playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Passive, passiveCharge / 100);
+        }
+    }
+
+    void ChargePassive (float chargeAmount)
+    {
+        if (passiveLoadable)
+        {
+            passiveCharge += chargeAmount;
+            if (passiveCharge >= 100)
+            {
+                passiveCharge = 0;
+
+                passiveDuration = passiveInitDuration;
+                passiveMultiplier = passiveMultiplierFactor;
+                isUsingPassive = true;
+                passiveLoadable = false;
+
+                playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Passive, 1);
+                
+                return;
+            }
+
+            playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Passive, passiveCharge / 100);
+        }
+    }
+
+    void DisablePassive ()
+    {
+        passiveMultiplier = 1;
+        isUsingPassive = false;
+
+        StartCoroutine(PassiveCD());
+    }
+    
+    #endregion
+
     #region Basic Attack behaviour
 
     void BasicAttackUpdate()
@@ -366,6 +441,7 @@ public class CharacterBehaviour : MonoBehaviour {
             float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
             enemyTargetStats.SetDamage(basicAttackDamage, Quaternion.Euler(0, desiredAngle, 0));
+            ChargePassive(passivePerChargePercentage);
             
             alreadyAttacked = true;
         }
@@ -427,7 +503,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.ResetTrigger("dash");
         thorAnimator.ResetTrigger("dashOut");
 
-        particleInstancer.DestroyParticleSystem("Dash");
+        particleInstancer.DestroyParticleSystem("Dash(Clone)");
 
         StartCoroutine(DashCD());
     }
@@ -860,8 +936,9 @@ public class CharacterBehaviour : MonoBehaviour {
         return life;
     }
 
-    public void GetAbilityCooldowns (out float qCooldown, out float wCooldown, out float eCooldown, out float rCooldown)
+    public void GetAbilityCooldowns (out float passiveCooldown, out float qCooldown, out float wCooldown, out float eCooldown, out float rCooldown)
     {
+        passiveCooldown = passiveCD;
         qCooldown = throwCD;
         wCooldown = slowAreaCD;
         eCooldown = dashCooldown;
@@ -880,12 +957,42 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #region Others
 
+    public IEnumerator HealHealOverTime (int percentage, float time)
+    {
+        float healTimer = time;
+        float healDuration = time;
+        float healPercentage = maxLife * ((float)percentage / 100);
+
+        while (healTimer >= 0)
+        {
+            life += healPercentage * Time.deltaTime / healDuration;
+            healTimer -= Time.deltaTime;
+
+            if (life >= maxLife)
+            {
+                life = maxLife;
+                //yield break;    si se quiere salir de la coroutina
+            }
+
+            playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
+
+            yield return null;
+        }
+    }
+
     void CooldownUpdate()   //Update CDs that aren't coroutines
     {
         if (throwOnCooldown)
         {
             ThrowHammerCooldownUpdate();
         }
+    }
+
+    IEnumerator PassiveCD()
+    {
+        playerHealthBar.EmptyGreyIcon(PlayerHealthBar.Icons.Passive);
+        yield return new WaitForSeconds(passiveCD);
+        passiveLoadable = true;
     }
 
     IEnumerator DashCD()

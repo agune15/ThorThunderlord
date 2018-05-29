@@ -4426,7 +4426,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452153351595302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.379999, y: 4.1, z: -8.77}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4298162932424638}
@@ -4962,13 +4962,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 320
+  passivePerChargePercentage: 30
+  passiveUnloadTime: 7
+  passiveDuration: 3
+  passiveCD: 4
+  passiveMultiplierFactor: 1.75
   attackRange: 2.3
   basicAttackDamage: 14
   isBeingAttacked: 0
   enemiesWhoAttacked: []
   dashAvailable: 1
   dashDuration: 1
-  dashCooldown: 3
+  dashCooldown: 5
   dashImpulse: 4
   dashDistance: 14
   enemySlowAreaList: []
@@ -4977,17 +4982,17 @@ MonoBehaviour:
   slowAreaRange: 5
   slowAreaDelay: 0
   slowAreaFXTime: 1.6
-  slowAreaCD: 3
+  slowAreaCD: 6
   slowAreaTimer: 0
   throwAvailable: 1
   throwHammerDamage: 15
-  throwCD: 2
+  throwCD: 3
   throwDistance: 8
   throwTurnTime: 0.15
   lRainAvailable: 1
   lightRainDamage: 35
   lightRainRange: 10.5
-  lightRainCD: 3
+  lightRainCD: 16
   lightRainLightningFallTime: 0.2
 --- !u!114 &114826120216958176
 MonoBehaviour:

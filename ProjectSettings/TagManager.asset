@@ -12,6 +12,8 @@ TagManager:
   - ParticleInstancer
   - AOEIndicator
   - GameplayUI
+  - FenrirPalmL
+  - FenrirPalmR
   layers:
   - Default
   - TransparentFX

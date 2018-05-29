@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4636534720654208}
   - component: {fileID: 198407857056200658}
   - component: {fileID: 199286164215053186}
+  - component: {fileID: 114372509914865720}
   m_Layer: 0
   m_Name: Dash
   m_TagString: Untagged
@@ -41,6 +42,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -180, y: -90, z: 89.99999}
+--- !u!114 &114372509914865720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1769318544912822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c02a4bbabbd8846b78565bf3c86f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEndAction: 0
+  particleTag: 
+  particleSystems: []
 --- !u!198 &198407857056200658
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -51,7 +66,7 @@ ParticleSystem:
   lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0

@@ -12,7 +12,8 @@ public class PlayerHealthBar : MonoBehaviour {
 
     //UI elements
     [SerializeField] Image healthBar;
-    
+
+    Image passiveIcon;
     Image qIcon;
     Image wIcon;
     Image eIcon;
@@ -21,6 +22,7 @@ public class PlayerHealthBar : MonoBehaviour {
     //Cooldowns
     float passiveFillAmount;
 
+    float passiveCd;
     float qCd;
     float wCd;
     float eCd;
@@ -47,6 +49,7 @@ public class PlayerHealthBar : MonoBehaviour {
     {
         healthBar = GameObject.Find("HealthBar").GetComponent<Image>();
 
+        passiveIcon = GameObject.Find("passiveGreyUIicon").GetComponent<Image>();
         qIcon = GameObject.Find("qGreyUIicon").GetComponent<Image>();
         wIcon = GameObject.Find("wGreyUIicon").GetComponent<Image>();
         eIcon = GameObject.Find("eGreyUIicon").GetComponent<Image>();
@@ -62,7 +65,7 @@ public class PlayerHealthBar : MonoBehaviour {
         AOEInidicator ("none");
 
         playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
-        playerBehaviour.GetAbilityCooldowns(out qCd, out wCd, out eCd, out rCd);
+        playerBehaviour.GetAbilityCooldowns(out passiveCd, out qCd, out wCd, out eCd, out rCd);
         playerBehaviour.GetAbilityRanges(out qRange, out wRange, out eRange, out rRange);
 
         SetIconsInitFillAmount();
@@ -75,6 +78,7 @@ public class PlayerHealthBar : MonoBehaviour {
 
     void SetIconsInitFillAmount ()
     {
+        passiveIcon.fillAmount = 0;
         qIcon.fillAmount = 0;
         wIcon.fillAmount = 0;
         eIcon.fillAmount = 0;
@@ -86,6 +90,7 @@ public class PlayerHealthBar : MonoBehaviour {
         switch (iconToFill)
         {
             case Icons.Passive:
+                passiveIcon.fillAmount = iconFillAmount;
                 break;
             case Icons.Q:
                 qIcon.fillAmount = iconFillAmount;
@@ -121,6 +126,7 @@ public class PlayerHealthBar : MonoBehaviour {
             switch (iconToEmpty)
             {
                 case Icons.Passive:
+                    yield return passiveIcon.fillAmount = timer / desiredCd;
                     break;
                 case Icons.Q:
                     yield return qIcon.fillAmount = timer / desiredCd;
@@ -147,7 +153,7 @@ public class PlayerHealthBar : MonoBehaviour {
         switch (cdToReturn)
         {
             case Icons.Passive:
-                return 0;
+                return passiveCd;
             case Icons.Q:
                 return qCd;
             case Icons.W:
@@ -165,6 +171,7 @@ public class PlayerHealthBar : MonoBehaviour {
     {
         if (eventSystemEnabled)
         {
+            //passiveIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
             qIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
             wIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
             eIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
@@ -174,6 +181,7 @@ public class PlayerHealthBar : MonoBehaviour {
         }
         else
         {
+            //passiveIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
             qIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
             wIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
             eIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
