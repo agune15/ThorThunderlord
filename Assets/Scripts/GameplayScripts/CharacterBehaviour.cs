@@ -862,10 +862,14 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if(enemyTargetTransform == enemyTransform && attack) return;
 
-        if(isCastingArea || isThrowing || isDashing || isCastingLightRain) return;
+        if(isThrowing || isDashing) return;   //isCastingArea || isCastingLightRain
 
         enemyTargetTransform = enemyTransform;
         enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
+
+        if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("hammer_hit", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
+        else if (isAttacking && !enemyWasHit) particleInstancer.DestroyParticleSystem("hammer_hit(Clone)");
+
         isAttacking = enemyWasHit;
 
         attack = false;

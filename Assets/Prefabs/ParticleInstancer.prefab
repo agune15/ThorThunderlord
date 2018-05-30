@@ -59,6 +59,7 @@ MonoBehaviour:
   - {fileID: 1769318544912822, guid: 0fd11dcb2e14be94db063dfd3a719f6a, type: 2}
   - {fileID: 1593488143358608, guid: e15d27bffd7bc574ba627b5a6437d09b, type: 2}
   - {fileID: 1216291932216004, guid: d37a91bb29d744f4e80e9d9cd1cadc1b, type: 2}
+  - {fileID: 1291350179082160, guid: b4f74400d2cfa074eae3582d91ded915, type: 2}
   particleSystemsToPool:
   - prefab: {fileID: 1362361637020000, guid: d9927dcc47478ee4b9d016ab51e2de68, type: 2}
     quantity: 30
