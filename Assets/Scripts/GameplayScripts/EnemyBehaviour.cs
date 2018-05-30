@@ -396,9 +396,13 @@ public class EnemyBehaviour : MonoBehaviour {
         }
         else
         {
-            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03f)
+            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.1f)
             {
-                alreadyAttacked = false;
+				if (alreadyAttacked)
+				{
+					SetPlayerAttack ();
+					alreadyAttacked = false;
+				}
             }
         }
     }
@@ -638,9 +642,13 @@ public class EnemyBehaviour : MonoBehaviour {
         }
         else
         {
-            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03f)
+            if(enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.1f)
             {
-                alreadyAttacked = false;
+				if (alreadyAttacked)
+				{
+					SetPlayerAttack ();
+					alreadyAttacked = false;
+				}
             }
         }
     }

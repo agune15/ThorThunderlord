@@ -410,9 +410,9 @@ public class CharacterBehaviour : MonoBehaviour {
             canMove = false;
             playerAgent.isStopped = true;
 
-            if(thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.03f)
+            if(thorAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.1f)
             {
-                alreadyAttacked = false;
+				if (alreadyAttacked) alreadyAttacked = false;
             }
 
             if(!alreadyAttacked)
@@ -867,8 +867,8 @@ public class CharacterBehaviour : MonoBehaviour {
         enemyTargetTransform = enemyTransform;
         enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
 
-        if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("hammer_hit", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
-        else if (isAttacking && !enemyWasHit) particleInstancer.DestroyParticleSystem("hammer_hit(Clone)");
+        if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
+		else if (isAttacking && !enemyWasHit) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
 
         isAttacking = enemyWasHit;
 
