@@ -19,12 +19,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4295593041837554}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1120835843565826
 GameObject:
@@ -34,12 +34,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4397748042220180}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1343132292691270
 GameObject:
@@ -49,12 +49,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4541380787862152}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1384622442910072
 GameObject:
@@ -64,12 +64,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4469904402834044}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1396476584445784
 GameObject:
@@ -79,12 +79,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4713669305130516}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1414669757704632
 GameObject:
@@ -94,12 +94,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4226147729062460}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1419299648719666
 GameObject:
@@ -110,12 +110,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4628912846453662}
   - component: {fileID: 95147291790518690}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1441665873196904
 GameObject:
@@ -125,12 +125,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4633348420976288}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1443416164661170
 GameObject:
@@ -142,12 +142,12 @@ GameObject:
   - component: {fileID: 4134181963696458}
   - component: {fileID: 33435403577173314}
   - component: {fileID: 23069542480352060}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:polySurface7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1485303301910888
 GameObject:
@@ -157,12 +157,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4963919858636222}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1611440168417776
 GameObject:
@@ -172,12 +172,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4870681037565692}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1660504332180778
 GameObject:
@@ -187,12 +187,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4689535042395024}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:Rock_Rune_Altar_002:transform4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1697580872896244
 GameObject:
@@ -202,12 +202,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4280840025749972}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1779232758727514
 GameObject:
@@ -217,12 +217,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4639730909380964}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1795333503931994
 GameObject:
@@ -232,12 +232,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4155934990136892}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1838829969829380
 GameObject:
@@ -247,12 +247,12 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4849127954539996}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Rock_Rune_Altar_002:polySurface4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1995292387757648
 GameObject:
@@ -263,11 +263,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4510656156137124}
   - component: {fileID: 114923856862520054}
+  - component: {fileID: 136678926036675514}
   - component: {fileID: 135590717398188020}
   m_Layer: 11
   m_Name: Healing_Altar
   m_TagString: Untagged
-  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
@@ -372,7 +373,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1995292387757648}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.34, y: 0, z: -1.54}
+  m_LocalPosition: {x: -20.85785, y: -23.22, z: -55.557747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4628912846453662}
@@ -591,3 +592,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 6.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &136678926036675514
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1995292387757648}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}

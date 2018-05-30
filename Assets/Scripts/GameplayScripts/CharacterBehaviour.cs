@@ -867,8 +867,8 @@ public class CharacterBehaviour : MonoBehaviour {
         enemyTargetTransform = enemyTransform;
         enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
 
-        if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
-		else if (isAttacking && !enemyWasHit) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
+        //if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
+        //if (isAttacking && !enemyWasHit) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
 
         isAttacking = enemyWasHit;
 

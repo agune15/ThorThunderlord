@@ -303,6 +303,26 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 259788168}
+    - target: {fileID: 114629359973393304, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114629359973393304, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114629359973393304, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114629359973393304, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80c89b9130c36364ea8ca147ad6cb6bd, type: 2}
   m_IsPrefabParent: 0
@@ -724,7 +744,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1977699925234328, guid: 80d1330ea734e3b4cab984df23c2b2f7, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80d1330ea734e3b4cab984df23c2b2f7, type: 2}

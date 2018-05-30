@@ -363,7 +363,7 @@ public class EnemyBehaviour : MonoBehaviour {
                 Vector3 directionToTarget = transform.position - targetTransform.position;
                 float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+                targetBehaviour.SetDamage(24, Quaternion.Euler(0, desiredAngle, 0));
 
                 weaponTriggerHit = false;
                 isSpinning = false;
@@ -388,7 +388,7 @@ public class EnemyBehaviour : MonoBehaviour {
                     Vector3 directionToTarget = transform.position - targetTransform.position;
                     float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                    targetBehaviour.SetDamage(4, Quaternion.Euler(0, desiredAngle, 0));
+                    targetBehaviour.SetDamage(9, Quaternion.Euler(0, desiredAngle, 0));
 
                     alreadyAttacked = true;
                 }
@@ -512,7 +512,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(30, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(70, Quaternion.Euler(0, desiredAngle, 0));
 
                         hasJumpAttacked = true;
                     }
@@ -573,7 +573,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(6, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(14, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -588,7 +588,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(14, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(22, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -603,7 +603,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(18, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -618,7 +618,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(18, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -633,7 +633,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(10, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(18, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }

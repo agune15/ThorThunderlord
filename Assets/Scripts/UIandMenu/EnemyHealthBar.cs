@@ -38,7 +38,7 @@ public class EnemyHealthBar : MonoBehaviour {
 
         currentHealthBar.rectTransform.sizeDelta = new Vector2(maxHealth * 2, currentHealthBar.rectTransform.sizeDelta.y);
         healthBarMask.rectTransform.sizeDelta = currentHealthBar.rectTransform.sizeDelta;
-        healthBarBG.rectTransform.sizeDelta = new Vector2(currentHealthBar.rectTransform.sizeDelta.x, healthBarBG.rectTransform.sizeDelta.y) + new Vector2(16, 0);
+        healthBarBG.rectTransform.sizeDelta = new Vector2(currentHealthBar.rectTransform.sizeDelta.x, healthBarBG.rectTransform.sizeDelta.y) + new Vector2(8, 0);
 
         enemyName.text = enemyType.ToUpper();
 

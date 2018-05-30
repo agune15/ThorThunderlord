@@ -26,7 +26,6 @@ public class EnemyStats : MonoBehaviour {
     public float deadTimer;
 
 
-    // Use this for initialization
     void Start () {
         particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
 
@@ -52,7 +51,6 @@ public class EnemyStats : MonoBehaviour {
         enemyBehaviour.SetLife(life);
     }
 	
-	// Update is called once per frame
 	void Update () {
 		if (life <= 0)
         {

@@ -60,6 +60,7 @@ MonoBehaviour:
   - {fileID: 1593488143358608, guid: e15d27bffd7bc574ba627b5a6437d09b, type: 2}
   - {fileID: 1216291932216004, guid: d37a91bb29d744f4e80e9d9cd1cadc1b, type: 2}
   - {fileID: 1926752189321446, guid: 1bd220f28048bc449af708de39a11fa7, type: 2}
+  - {fileID: 1142951310001896, guid: d55e311bbb43f1e49ac61868d6f8e357, type: 2}
   particleSystemsToPool:
   - prefab: {fileID: 1362361637020000, guid: d9927dcc47478ee4b9d016ab51e2de68, type: 2}
     quantity: 30
