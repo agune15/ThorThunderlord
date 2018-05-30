@@ -150,6 +150,7 @@ ModelImporter:
     2100000: lambert2
     4300000: GMT_Skull
     7400000: spinStart
+    7400002: Special_attack
     9500000: //RootNode
     13700000: GMT_Skull
   externalObjects: {}
@@ -183,7 +184,35 @@ ModelImporter:
       name: spinStart
       takeName: Special_attack
       firstFrame: 1
-      lastFrame: 42
+      lastFrame: 13
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Special_attack
+      takeName: Special_attack
+      firstFrame: 14
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -171,7 +171,7 @@ public class PlayerHealthBar : MonoBehaviour {
     {
         if (eventSystemEnabled)
         {
-            //passiveIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
+            passiveIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
             qIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
             wIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
             eIcon.gameObject.GetComponent<EventTrigger>().enabled = false;
@@ -181,7 +181,7 @@ public class PlayerHealthBar : MonoBehaviour {
         }
         else
         {
-            //passiveIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
+            passiveIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
             qIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
             wIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
             eIcon.gameObject.GetComponent<EventTrigger>().enabled = true;
