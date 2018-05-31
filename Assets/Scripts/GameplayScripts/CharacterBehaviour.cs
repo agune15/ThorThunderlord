@@ -230,6 +230,8 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isCastingRain", isCastingLightRain);
         thorAnimator.SetBool("isDashing", isDashing);
         thorAnimator.SetFloat("passiveMultiplier", 1 * passiveMultiplier);
+
+        if(Input.GetKeyDown(KeyCode.B)) SetDamage(20);  //QUITAAAAAAAR!
     }
 
     #region Movement State Updates
@@ -336,9 +338,9 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if (isUsingPassive)
         {
-            if (passiveInitDuration >= 0)
+            if (passiveDuration >= 0)
             {
-                passiveInitDuration -= Time.deltaTime;
+                passiveDuration -= Time.deltaTime;
             }
             else DisablePassive();
         }
@@ -961,7 +963,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #region Others
 
-    public IEnumerator HealHealOverTime (int percentage, float time)
+    public IEnumerator HealOverTime (int percentage, float time)
     {
         float healTimer = time;
         float healDuration = time;

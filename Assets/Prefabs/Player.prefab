@@ -4426,7 +4426,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452153351595302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -15.379999, y: 4.1, z: -8.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4298162932424638}
@@ -4962,9 +4962,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 320
-  passivePerChargePercentage: 30
+  passivePerChargePercentage: 35
   passiveUnloadTime: 7
-  passiveDuration: 3
+  passiveDuration: 2.5
   passiveCD: 4
   passiveMultiplierFactor: 1.75
   attackRange: 2.3

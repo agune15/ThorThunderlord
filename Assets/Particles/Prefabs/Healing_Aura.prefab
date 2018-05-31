@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4123251612775854}
   m_Layer: 0
-  m_Name: Aura
+  m_Name: Healing_Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
