@@ -88,9 +88,6 @@ public class HealingAltar : MonoBehaviour {
                     {
                         StartCoroutine(playerBehaviour.HealOverTime(healingPercentage, healingTime));
                         StartCoroutine(ParticleFadeOut());
-                        //particleInstancer.InstanciateParticleSystem("Thor_Healing")
-                        //instanciate particle Player
-                        //remove particle that shows altar hasn't been used
                         //change lightning?
 
                         hasHealed = true;

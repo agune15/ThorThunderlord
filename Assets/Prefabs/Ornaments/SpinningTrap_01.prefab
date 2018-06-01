@@ -776,6 +776,7 @@ GameObject:
   - component: {fileID: 136118554983251106}
   - component: {fileID: 114184316307348368}
   - component: {fileID: 208841321139502806}
+  - component: {fileID: 114343401030704138}
   m_Layer: 11
   m_Name: Rotatory_Trap
   m_TagString: Untagged
@@ -1090,8 +1091,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561935955225810}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -32.09, y: -23.28, z: -62.22}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11, y: 0, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4040624673695730}
@@ -2128,6 +2129,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slowTime: 1
   delayTime: 1
+--- !u!114 &114343401030704138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1989242612005534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e5d9711427cc44db974c86a2b92778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: 0
+  sfxClips:
+  - {fileID: 8300000, guid: 59d8273733968f54ebb16af62699635a, type: 3}
+  ambientClips: []
+  musicClips: []
 --- !u!136 &136118554983251106
 CapsuleCollider:
   m_ObjectHideFlags: 1

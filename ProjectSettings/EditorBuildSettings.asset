@@ -8,15 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameManager.unity
     guid: 1fa84fd4cb69919419e372f58d1f5fc1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LogoScene.unity
     guid: 54f1d3c959d153c48a8a8df45189cfa3
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MenuBeta.unity
     guid: c59eec286349e1b46afc64eb8519f6d8
   - enabled: 1
+    path: Assets/Scenes/IntroScene.unity
+    guid: 5de917e13d8ab9744b96c4e17e2cf2a6
+  - enabled: 1
     path: Assets/Scenes/Thor_Tunderlord_Forest.unity
     guid: 45c60f8a30adbd348bde196713ffa5bd
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Thor_Tunderlord_FenrirBoss.unity
     guid: b6a50196593a9c14ab7c5fcccfee582e

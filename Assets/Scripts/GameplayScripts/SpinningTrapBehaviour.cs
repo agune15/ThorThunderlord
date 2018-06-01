@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpinningTrapBehaviour : MonoBehaviour {
 
     Animator spinningTrapAnimator;
+    AudioPlayer spinningTrapAudioPlayer;
+
     public float slowTime;
     public float delayTime;
     float currentDelayTime;
@@ -16,6 +18,8 @@ public class SpinningTrapBehaviour : MonoBehaviour {
     private void Start()
     {
         spinningTrapAnimator = GetComponentInParent<Animator>();
+        spinningTrapAudioPlayer = GetComponent<AudioPlayer>();
+
         currentDelayTime = delayTime;
     }
 
@@ -66,8 +70,9 @@ public class SpinningTrapBehaviour : MonoBehaviour {
         {
             if (dealDamage)
             {
-                other.GetComponent<CharacterBehaviour>().SetDamage(40, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(other.transform.position)), 0)));
+                other.GetComponent<CharacterBehaviour>().SetDamage(50, true, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(other.transform.position)), 0)));
                 dealDamage = false;
+                spinningTrapAudioPlayer.PlaySFX(0, 0.5f, Random.Range(0.94f, 1.06f));
                 SlowTrap();
             }
         }

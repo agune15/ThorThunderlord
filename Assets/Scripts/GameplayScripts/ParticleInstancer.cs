@@ -47,7 +47,7 @@ public class ParticleInstancer : MonoBehaviour {
     //Overload to instanciate as a child of a certain transform
     public void InstanciateParticleSystem(string particleName, Transform parentTransform, Vector3 particleLocalPosition, Quaternion particleLocalRotation)
     {
-        GameObject particleInstance = Instantiate(particlePrefabs[particleName].gameObject, parentTransform.position, parentTransform.rotation, parentTransform);
+        GameObject particleInstance = Instantiate(particlePrefabs[particleName].gameObject, Vector3.zero, Quaternion.identity, parentTransform);
         particleInstance.transform.localPosition = particleLocalPosition;
         particleInstance.transform.localRotation = particleLocalRotation;
         

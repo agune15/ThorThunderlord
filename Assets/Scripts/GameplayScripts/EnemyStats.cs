@@ -8,8 +8,8 @@ public class EnemyStats : MonoBehaviour {
     public EnemyType enemyType;
 
     ParticleInstancer particleInstancer;
+    AudioPlayer audioPlayer;
 
-    SkullBehaviour skullBehaviour = null;
     EnemyBehaviour enemyBehaviour = null;
 
     [SerializeField] EnemyHealthBar enemyHealthBar = null;
@@ -28,6 +28,7 @@ public class EnemyStats : MonoBehaviour {
 
     void Start () {
         particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
+        audioPlayer = GetComponent<AudioPlayer>();
 
         enemyRenderer = this.GetComponentInChildren<Renderer>();
         enemyCollider = this.GetComponent<Collider>();
@@ -89,7 +90,7 @@ public class EnemyStats : MonoBehaviour {
 
     #region Sets
 
-    public void SetDamage(float damage)
+    public void SetDamage(float damage, bool playSFX)
     {
         if (life > 0)
         {
@@ -113,10 +114,33 @@ public class EnemyStats : MonoBehaviour {
         //Debug.Log(enemyType.ToString() + " received damage");
 
         if (enemyHealthBar.playerAttackingTarget != null && enemyHealthBar.playerAttackingTarget == this.gameObject) enemyHealthBar.DrawEnemyHealthBar(this.gameObject, maxLife, life, enemyType.ToString());
+
+        if (playSFX)
+        {
+            int playSound = new int();
+            if (enemyType == EnemyType.Fenrir) playSound = (Random.Range(0f, 1f) >= 0.5f) ? 1 : 0;
+            if (enemyType == EnemyType.Skull) playSound = (Random.Range(0f, 1f) >= 0.2f) ? 1 : 0;
+
+            switch (enemyType)
+            {
+                case EnemyType.Skull:
+                    if (playSound == 1)
+                    {
+                        if (life > 0) audioPlayer.PlaySFX(0, 0.5f, Random.Range(0.96f, 1.04f));
+                        else audioPlayer.PlaySFX(1, 0.5f, Random.Range(0.96f, 1.04f));
+                    }
+                    break;
+                case EnemyType.Fenrir:
+                    if (playSound == 1) audioPlayer.PlaySFX(Random.Range(5, 7), 0.5f, Random.Range(0.96f, 1.04f));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     //Particle instancing overload
-    public void SetDamage(float damage, Quaternion particleAngle)
+    public void SetDamage(float damage, bool playSFX, Quaternion particleAngle)
     {
         if (life > 0)
         {
@@ -133,7 +157,7 @@ public class EnemyStats : MonoBehaviour {
             }
         }
 
-        SetDamage(damage);
+        SetDamage(damage, playSFX);
     }
 
     public void SetSlowSpeed()

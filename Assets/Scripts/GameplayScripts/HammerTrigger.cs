@@ -7,10 +7,12 @@ public class HammerTrigger : MonoBehaviour {
     EnemyStats.EnemyType enemyType;
 
     HammerBehaviour hammerBehaviour;
+    AudioPlayer playerAudioPlayer;
 
     void Start()
     {
         hammerBehaviour = GetComponentInParent<HammerBehaviour>();
+        playerAudioPlayer = GetComponentInParent<AudioPlayer>();
     }
 
     private void Update()
@@ -26,7 +28,11 @@ public class HammerTrigger : MonoBehaviour {
             Vector3 directionToTarget = this.transform.position - other.transform.position;
             float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.ThrowHammerDamage(), Quaternion.Euler(new Vector3(0, desiredAngle, 0)));
+            if (hammerBehaviour.GetIsThrowing())
+            {
+                other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.ThrowHammerDamage(), true, Quaternion.Euler(new Vector3(0, desiredAngle, 0)));
+                playerAudioPlayer.PlaySFX(Random.Range(2, 4), 0.5f, Random.Range(0.96f, 1.04f), gameObject);   //Hammer Impact sound
+            }
         }
     }
 
@@ -34,7 +40,7 @@ public class HammerTrigger : MonoBehaviour {
     {
         if(other.tag == "Enemy")
         {
-            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.ThrowHammerDamage());
+            other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.ThrowHammerDamage(), false);
         }
     }
 }

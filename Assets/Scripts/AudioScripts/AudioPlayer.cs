@@ -23,6 +23,28 @@ public class AudioPlayer : MonoBehaviour
     {
         Play(sfxClips[clip], volume, pitch, false, false, "SFX");
     }
+    public void PlaySFX(int clip, float volume, float pitch, GameObject targetObject)
+    {
+        AudioSource source = targetObject.AddAudioSource();
+        source.Play(sfxClips[clip], volume, pitch, false, false, "SFX");
+
+        Destroy(source,  sfxClips[clip].length);
+        //if (!loop)
+        /*
+        else
+        {
+            if (groupName == "Music")
+            {
+                if (musicSource != null) StopMusic();
+                musicSource = source;
+            }
+            else
+            {
+                if (ambientSource != null) StopAmbient();
+                ambientSource = source;
+            }
+        }*/
+    }
     //2D
     public void Play2DSFX(int clip)
     {
@@ -85,5 +107,26 @@ public class AudioPlayer : MonoBehaviour
                 ambientSource = source;
             }
         }
-    } 
+    }
+
+    public void Play(GameObject targetObject, AudioClip audio, float volume, float pitch, bool loop, bool audio2D, string groupName)
+    {
+        AudioSource source = targetObject.AddAudioSource();
+        source.Play(audio, volume, pitch, loop, audio2D, groupName);
+
+        if (!loop) Destroy(source, audio.length);
+        else
+        {
+            if (groupName == "Music")
+            {
+                if (musicSource != null) StopMusic();
+                musicSource = source;
+            }
+            else
+            {
+                if (ambientSource != null) StopAmbient();
+                ambientSource = source;
+            }
+        }
+    }
 }

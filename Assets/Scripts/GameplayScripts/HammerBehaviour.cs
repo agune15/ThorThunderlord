@@ -207,6 +207,11 @@ public class HammerBehaviour : MonoBehaviour {
         else yield return null;
     }
 
+    public bool GetIsThrowing ()
+    {
+        return isThrowing;
+    }
+
     #endregion
 
     #region Deal Damage behaviour

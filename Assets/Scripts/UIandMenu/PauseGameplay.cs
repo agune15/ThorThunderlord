@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PauseGameplay : MonoBehaviour {
 
+    TimeManager timeManager;
+
     public GameObject canvas;
     public Image pauseBackground;
 
@@ -19,7 +21,11 @@ public class PauseGameplay : MonoBehaviour {
     float runningTimeScale = 1;
     
     public float pauseBackgroundFadeTime;
-    
+
+    private void Start()
+    {
+        timeManager = GameObject.FindWithTag("manager").GetComponent<TimeManager>();
+    }
 
     public void Pause()
     {
@@ -32,6 +38,7 @@ public class PauseGameplay : MonoBehaviour {
                 canvas.SetActive(true);
                 SetPauseChildCanvasesState(true);
                 StartCoroutine(PauseWaitTime());
+                timeManager.SetGameState(true);
                 Time.timeScale = pauseTimeScale;
             }
         }
@@ -41,6 +48,8 @@ public class PauseGameplay : MonoBehaviour {
             SetPauseChildCanvasesState(false);
             canvas.SetActive(false);
             Time.timeScale = runningTimeScale;
+            timeManager.SetGameState(false);
+            timeManager.SetTimeScaleAndDuration(0.1f, 0.3f, 0.5f, TimeManager.ScaleTimeTypes.FlatAndScaled);
         }
     }
 

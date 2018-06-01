@@ -22,6 +22,7 @@ public class EnemyBehaviour : MonoBehaviour {
     AttackTrigger basicAttackTrigger;
     Animator enemyAnimator;
     ParticleInstancer particleInstancer;
+    AudioPlayer enemyAudioPlayer;
 
     //UI related
     EnemyHealthBar enemyHealthBar;
@@ -84,6 +85,14 @@ public class EnemyBehaviour : MonoBehaviour {
         Vector3 jumpEndPosition;
         Vector3 jumpOrigin;
 
+        //Audio parameters
+        float audioTimer = 0;
+        float audioIteration = 8;
+
+        bool playedYouBetterPray = false;
+        bool playedLaugh = false;
+        bool playedKillOrGetKilled = false;
+        bool playedComeToPapa = false;
 
 
     void Start()
@@ -97,6 +106,7 @@ public class EnemyBehaviour : MonoBehaviour {
         basicAttackTrigger = GetComponentInChildren<AttackTrigger>();
         enemyAnimator = GetComponentInChildren<Animator>();
         particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
+        enemyAudioPlayer = GetComponent<AudioPlayer>();
 
         foreach(AnimationClip clip in enemyAnimator.runtimeAnimatorController.animationClips)
         {
@@ -130,9 +140,13 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Update()
     {
+        if (playerIsDead) return;
+
         BehaviourUpdate();
 
         AnimatorUpdate();
+
+        AudioUpdate();
     }
 
     void BehaviourUpdate()
@@ -329,6 +343,7 @@ public class EnemyBehaviour : MonoBehaviour {
         targetBehaviour.SetDestination(targetTransform.position);
 
         targetBehaviour.SetBeingAttacked(this.gameObject.name, false);
+        if (enemyType == EnemyStats.EnemyType.Fenrir) targetBehaviour.SetMainEnemyDeath();
 
         enemyState = EnemyStates.Dead;
     }
@@ -363,7 +378,7 @@ public class EnemyBehaviour : MonoBehaviour {
                 Vector3 directionToTarget = transform.position - targetTransform.position;
                 float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                targetBehaviour.SetDamage(24, Quaternion.Euler(0, desiredAngle, 0));
+                targetBehaviour.SetDamage(24, true, Quaternion.Euler(0, desiredAngle, 0));
 
                 weaponTriggerHit = false;
                 isSpinning = false;
@@ -388,7 +403,8 @@ public class EnemyBehaviour : MonoBehaviour {
                     Vector3 directionToTarget = transform.position - targetTransform.position;
                     float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                    targetBehaviour.SetDamage(9, Quaternion.Euler(0, desiredAngle, 0));
+                    bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.3f) ? true : false;
+                    targetBehaviour.SetDamage(9, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                     alreadyAttacked = true;
                 }
@@ -456,6 +472,8 @@ public class EnemyBehaviour : MonoBehaviour {
                 else jumpCurrentDistance = Vector3.Distance(jumpEndPosition, transform.position);
 
                 particleInstancer.InstanciateParticleSystem("Fenrir_mist", GameObject.FindWithTag("FenrirPalmR").transform, Vector3.zero, Quaternion.identity);
+
+                enemyAudioPlayer.PlaySFX(4, 0.5f, Random.Range(0.96f, 1.04f));
             }
         }
 
@@ -471,8 +489,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
                 if (Vector3.Distance(transform.position, targetTransform.position) <= attackRange || basicAttackTrigger.TargetIsInRange(targetBehaviour.name))
                 {
-
-
                     jumpAttacking = true;
                     enemyAgent.SetDestination(transform.position);
                 }
@@ -512,7 +528,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(70, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(70, true, Quaternion.Euler(0, desiredAngle, 0));
 
                         hasJumpAttacked = true;
                     }
@@ -573,7 +589,8 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(14, Quaternion.Euler(0, desiredAngle, 0));
+                        bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
+                        targetBehaviour.SetDamage(14, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -588,7 +605,8 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(22, Quaternion.Euler(0, desiredAngle, 0));
+                        bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
+                        targetBehaviour.SetDamage(22, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -603,7 +621,8 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(18, Quaternion.Euler(0, desiredAngle, 0));
+                        bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
+                        targetBehaviour.SetDamage(18, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -618,7 +637,8 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(18, Quaternion.Euler(0, desiredAngle, 0));
+                        bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
+                        targetBehaviour.SetDamage(18, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -633,7 +653,8 @@ public class EnemyBehaviour : MonoBehaviour {
                         Vector3 directionToTarget = transform.position - targetTransform.position;
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-                        targetBehaviour.SetDamage(18, Quaternion.Euler(0, desiredAngle, 0));
+                        bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
+                        targetBehaviour.SetDamage(18, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -729,6 +750,12 @@ public class EnemyBehaviour : MonoBehaviour {
         jumpAvailable = true;
     }
 
+    public void SetPlayerDeath()
+    {
+        playerIsDead = true;
+        enemyAnimator.enabled = false;
+    }
+
     #endregion
 
     #region Animations
@@ -789,6 +816,65 @@ public class EnemyBehaviour : MonoBehaviour {
         enemyAnimator.SetBool("isJumping", isJumping);
         enemyAnimator.SetBool("isJumpingIn", isJumpingIn);
         enemyAnimator.SetBool("isJumpAttacking", jumpAttacking);
+    }
+
+    #endregion
+
+    #region Audio
+    
+    void AudioUpdate()
+    {
+        if (enemyState != EnemyStates.Frozen && enemyState != EnemyStates.Dead)
+        {
+            switch (enemyType)
+            {
+                case EnemyStats.EnemyType.Skull:
+                    break;
+                case EnemyStats.EnemyType.Fenrir:
+                    AudioUpdateF();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    void AudioUpdateF()
+    {
+        if (audioTimer <= audioIteration * 4)
+        {
+            audioTimer += Time.deltaTime;
+
+            if (audioTimer >= audioIteration * 1 && !playedYouBetterPray)
+            {
+                enemyAudioPlayer.PlaySFX(0);
+                playedYouBetterPray = true;
+            }
+            if (audioTimer >= audioIteration * 2 && !playedLaugh)
+            {
+                enemyAudioPlayer.PlaySFX(1);
+                playedLaugh = true;
+            }
+            if (audioTimer >= audioIteration * 3 && !playedKillOrGetKilled)
+            {
+                enemyAudioPlayer.PlaySFX(2);
+                playedKillOrGetKilled = true;
+            }
+            if (audioTimer >= audioIteration * 4 && !playedComeToPapa)
+            {
+                enemyAudioPlayer.PlaySFX(3);
+                playedComeToPapa = true;
+            }
+
+        }
+        else
+        {
+            audioTimer = 0;
+            playedYouBetterPray = false;
+            playedLaugh = false;
+            playedKillOrGetKilled = false;
+            playedComeToPapa = false;
+        }
     }
 
     #endregion

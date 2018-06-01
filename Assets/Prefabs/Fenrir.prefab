@@ -2206,6 +2206,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4800225922356470}
+  - component: {fileID: 114709427080181168}
   - component: {fileID: 195637715045258622}
   - component: {fileID: 136294220718337446}
   - component: {fileID: 54551282548142052}
@@ -5100,15 +5101,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1748637269899732}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 0, z: 4}
+  m_LocalRotation: {x: -0, y: -0.9999905, z: 0, w: -0.00436318}
+  m_LocalPosition: {x: 35.15, y: 119.58, z: 122.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4111945165486190}
   - {fileID: 4041671582188344}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180.5, z: 0}
 --- !u!4 &4801004671826496
 Transform:
   m_ObjectHideFlags: 1
@@ -5681,6 +5682,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetsInRange: []
+--- !u!114 &114709427080181168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748637269899732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e5d9711427cc44db974c86a2b92778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: 0
+  sfxClips:
+  - {fileID: 8300000, guid: 8732c9567b985594582cc7bb44a77110, type: 3}
+  - {fileID: 8300000, guid: e94faf31a27230f41b5c4e8700287cd2, type: 3}
+  - {fileID: 8300000, guid: 775932b9a17967940a1f725c08d2d6de, type: 3}
+  - {fileID: 8300000, guid: 21ed5b3d9c748624fadedf8db61bd60a, type: 3}
+  - {fileID: 8300000, guid: 2f3541252412eaa4e9d428dacbf11597, type: 3}
+  - {fileID: 8300000, guid: 37c7a831d50ec8c43aa6ee96ed16a84b, type: 3}
+  - {fileID: 8300000, guid: 3ffa50b24061fbf4796cb77be21b1904, type: 3}
+  ambientClips: []
+  musicClips: []
 --- !u!114 &114917295818217402
 MonoBehaviour:
   m_ObjectHideFlags: 1

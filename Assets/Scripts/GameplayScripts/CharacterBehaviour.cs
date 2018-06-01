@@ -11,6 +11,8 @@ public class CharacterBehaviour : MonoBehaviour {
     AttackTrigger basicAttackTrigger;
     CameraBehaviour cameraBehaviour;
     Animator thorAnimator;
+    TimeManager timeManager;
+    AudioPlayer audioPlayer;
 
     //UI related
     PlayerHealthBar playerHealthBar;
@@ -27,6 +29,7 @@ public class CharacterBehaviour : MonoBehaviour {
     float agentSpeed;
 
     bool canMove = true;
+    bool mainEnemyDead = false;
 
     //Health Bar related
     public float life;
@@ -140,6 +143,9 @@ public class CharacterBehaviour : MonoBehaviour {
     float lightRainCastInitDuration;
     public float lightRainLightningFallTime;    //Time until light rain falls (anim time + x)
     float lightRainTimer;
+
+    //SFX Related
+    bool playedSlowAreaImpactSFX = false;
     
 
     private void Start()
@@ -150,6 +156,8 @@ public class CharacterBehaviour : MonoBehaviour {
         basicAttackTrigger = GetComponentInChildren<AttackTrigger>();
         cameraBehaviour = GameObject.FindWithTag("CameraController").GetComponent<CameraBehaviour>();
         thorAnimator = GetComponentInChildren<Animator>();
+        timeManager = GameObject.FindWithTag("manager").GetComponent<TimeManager>();
+        audioPlayer = GetComponent<AudioPlayer>();
 
         foreach (AnimationClip animation in thorAnimator.runtimeAnimatorController.animationClips)
         {
@@ -175,6 +183,8 @@ public class CharacterBehaviour : MonoBehaviour {
     private void Update()
     {
         if(life <= 0 && moveStates != MoveStates.Dead) SetDead();
+
+        if (mainEnemyDead) return;
 
         //Move Behaviour
         switch (moveStates)
@@ -230,8 +240,6 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator.SetBool("isCastingRain", isCastingLightRain);
         thorAnimator.SetBool("isDashing", isDashing);
         thorAnimator.SetFloat("passiveMultiplier", 1 * passiveMultiplier);
-
-        if(Input.GetKeyDown(KeyCode.B)) SetDamage(20);  //QUITAAAAAAAR!
     }
 
     #region Movement State Updates
@@ -326,8 +334,14 @@ public class CharacterBehaviour : MonoBehaviour {
         CameraBehaviour.playerCanMove = false;
 
         thorAnimator.SetTrigger("die");
-        //PlayingEndMessage.PlayDefeat();
+        PlayingEndMessage.PlayDefeat();
         moveStates = MoveStates.Dead;
+
+        foreach (string enemy in enemiesWhoAttacked)
+        {
+            EnemyBehaviour enemyBehaviour = GameObject.Find(enemy).GetComponent<EnemyBehaviour>();
+            enemyBehaviour.SetPlayerDeath();
+        }
     }
 
     #endregion
@@ -399,12 +413,15 @@ public class CharacterBehaviour : MonoBehaviour {
             if(!attack)
             {
                 thorAnimator.SetTrigger("hit");
+                particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
             }
             attack = true;
         }
         else
         {
+            if (attack) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
             attack = false;
+
         }
 
         if(attack)
@@ -442,10 +459,15 @@ public class CharacterBehaviour : MonoBehaviour {
             Vector3 directionToTarget = playerTransform.position - enemyTargetTransform.position;
             float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
-            enemyTargetStats.SetDamage(basicAttackDamage, Quaternion.Euler(0, desiredAngle, 0));
+            enemyTargetStats.SetDamage(basicAttackDamage, true, Quaternion.Euler(0, desiredAngle, 0));
             ChargePassive(passivePerChargePercentage);
             
             alreadyAttacked = true;
+
+            audioPlayer.PlaySFX(Random.Range(2, 4), 0.5f, Random.Range(0.96f, 1.04f));  //Player hammer impact sound
+
+            cameraBehaviour.CameraMoveTowards(0.25f, playerTransform.position, enemyTargetTransform.position);
+            timeManager.SetTimeScaleAndDuration(0.05f, 0.075f, TimeManager.ScaleTimeTypes.Flat);
         }
     }
 
@@ -491,6 +513,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.E, 1);
             particleInstancer.InstanciateParticleSystem("Dash", playerTransform, new Vector3(0, 1, 2f), Quaternion.Euler(0, 180, 0));
+
+            audioPlayer.PlaySFX(Random.Range(10, 12), 0.3f, Random.Range(0.96f, 1.04f));    //Sound Dash
         }
     }
 
@@ -523,6 +547,7 @@ public class CharacterBehaviour : MonoBehaviour {
             isCastingArea = true;
             slowAreaDealedDamage = false;
             slowAreaCastedCameraShake = false;
+            playedSlowAreaImpactSFX = false;
 
             thorAnimator.SetTrigger("castArea");
             thorAnimator.ResetTrigger("hit");
@@ -541,6 +566,8 @@ public class CharacterBehaviour : MonoBehaviour {
             }
 
             particleInstancer.InstanciateParticleSystem("Area_W_v2", slowAreaOrigin + new Vector3(0, 0.1f, 0), Quaternion.identity);
+
+            audioPlayer.PlaySFX(Random.Range(7, 9), 0.3f, 1);   //Slow area SFX
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.W, 1);
         }
@@ -591,8 +618,9 @@ public class CharacterBehaviour : MonoBehaviour {
                     {
                         foreach (EnemyStatsTransform enemy in enemySlowAreaList)    //Apply slowAreaDamage on enemies
                         {
-                            if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange) enemy.stats.SetDamage(slowAreaDamage);
+                            if (Vector3.Distance(enemy.transform.position, slowAreaOrigin) <= slowAreaRange) enemy.stats.SetDamage(slowAreaDamage, true);
                         }
+
                         slowAreaDealedDamage = true;
                     }
 
@@ -601,6 +629,12 @@ public class CharacterBehaviour : MonoBehaviour {
                         cameraBehaviour.CameraShake(6, 0.5f);
                         slowAreaCastedCameraShake = true;
                     }
+                }
+
+                if (!playedSlowAreaImpactSFX)
+                {
+                    audioPlayer.PlaySFX(9, 0.5f, Random.Range(0.94f, 1.04f));   //Play SlowArea impact SFX
+                    playedSlowAreaImpactSFX = true;
                 }
             }
         }
@@ -628,6 +662,7 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if (throwAvailable && !isDashing && !isCastingArea && !isCastingLightRain && moveStates != MoveStates.Dead)
         {
+            if (isAttacking && attack) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
             isAttacking = false;
             isThrowing = true;
             throwAvailable = false;
@@ -643,6 +678,9 @@ public class CharacterBehaviour : MonoBehaviour {
             throwTime = 0;
 
             thorAnimator.SetTrigger("throwHammer");
+            particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform.GetChild(0), new Vector3(0.028f, 0.033f, 0.717f), Quaternion.identity);
+
+            audioPlayer.PlaySFX(Random.Range(4, 6), 0.3f, 1);  //Play hammer throw sound
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         }
@@ -657,6 +695,8 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         thorAnimator.ResetTrigger("throwHammer");
         thorAnimator.ResetTrigger("catchHammer");
+
+        particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
 
         isThrowing = false;
         ThrowHammerCD();
@@ -713,6 +753,8 @@ public class CharacterBehaviour : MonoBehaviour {
             lightRainOrigin = playerTransform.position;
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.R, 1);
+
+            audioPlayer.PlaySFX(Random.Range(12, 15), 0.3f, Random.Range(0.96f, 1.04f));    //LightRain SFX
         }
     }
 
@@ -727,6 +769,7 @@ public class CharacterBehaviour : MonoBehaviour {
             if (lightRainCastDuration / lightRainCastInitDuration < 0.5f & !castedHammerLightBolt)
             {
                 particleInstancer.InstanciateParticleSystem("LightBolt_fromHAMMER", playerTransform, new Vector3(0.25f, 2.75f, 0), Quaternion.identity);
+                audioPlayer.PlaySFX(15, 0.7f, Random.Range(0.96f, 1.04f));
                 castedHammerLightBolt = true;
             }
 
@@ -778,7 +821,7 @@ public class CharacterBehaviour : MonoBehaviour {
                 {
                     if (Vector3.Distance(enemy.transform.position, lightRainOrigin) <= lightRainRange)
                     {
-                        enemy.GetComponent<EnemyStats>().SetDamage(lightRainDamage);
+                        enemy.GetComponent<EnemyStats>().SetDamage(lightRainDamage, false);
                     }
                 }
 
@@ -870,7 +913,7 @@ public class CharacterBehaviour : MonoBehaviour {
         enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
 
         //if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
-        //if (isAttacking && !enemyWasHit) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
+        if (!enemyWasHit && attack) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
 
         isAttacking = enemyWasHit;
 
@@ -883,24 +926,27 @@ public class CharacterBehaviour : MonoBehaviour {
         }
     }
 
-    public void SetDamage (float damage)
+    public void SetDamage (float damage, bool playSound)
     {
         life -= damage;
         playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
 
+        if (playSound) audioPlayer.PlaySFX(Random.Range(0, 2), 0.3f, Random.Range(0.96f, 1.04f));
+
         if (life <= 0 && moveStates != MoveStates.Dead)
         {
+            audioPlayer.PlaySFX(6, 0.3f, 1);    //Play death sound
             SetDead();
             PlayingEndMessage.PlayVictory();
         }
     }
 
     //Particle instancing overload
-    public void SetDamage (float damage, Quaternion particleAngle)
+    public void SetDamage (float damage, bool playSound, Quaternion particleAngle)
     {
         particleInstancer.InstanciateParticleSystem("Blood", playerTransform.position + new Vector3(0, 1, 0), particleAngle);
 
-        SetDamage(damage);
+        SetDamage(damage, playSound);
     }
 
     public void SetBeingAttacked(string enemyName, bool enemyIsAttacking)
@@ -965,6 +1011,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public IEnumerator HealOverTime (int percentage, float time)
     {
+        particleInstancer.InstanciateParticleSystem("Thor_Healing", playerTransform, Vector3.zero, Quaternion.Euler(-90, 0, 0));
+
         float healTimer = time;
         float healDuration = time;
         float healPercentage = maxLife * ((float)percentage / 100);
@@ -984,6 +1032,8 @@ public class CharacterBehaviour : MonoBehaviour {
 
             yield return null;
         }
+
+        particleInstancer.DestroyParticleSystem("Thor_Healing(Clone)");
     }
 
     void CooldownUpdate()   //Update CDs that aren't coroutines
@@ -1069,6 +1119,18 @@ public class CharacterBehaviour : MonoBehaviour {
             Gizmos.DrawCube(dashEnd, new Vector3(0.5f, 0.5f, 0.5f));
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(playerTransform.position, dashDistance * 2);
+        }
+    }
+
+    public void SetMainEnemyDeath()
+    {
+        mainEnemyDead = true;
+        thorAnimator.enabled = false;
+
+        foreach (string enemy in enemiesWhoAttacked)
+        {
+            EnemyBehaviour enemyBehaviour = GameObject.Find(enemy).GetComponent<EnemyBehaviour>();
+            enemyBehaviour.SetPlayerDeath();
         }
     }
 

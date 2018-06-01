@@ -1179,6 +1179,7 @@ GameObject:
   - component: {fileID: 54562699129855748}
   - component: {fileID: 114215355019521006}
   - component: {fileID: 114719147962188680}
+  - component: {fileID: 114296007466536732}
   m_Layer: 10
   m_Name: Skull
   m_TagString: Enemy
@@ -2510,6 +2511,23 @@ MonoBehaviour:
   life: 0
   isSlowed: 0
   deadTimer: 1
+--- !u!114 &114296007466536732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1977699925234328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e5d9711427cc44db974c86a2b92778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixerGroup: 0
+  sfxClips:
+  - {fileID: 8300000, guid: c4fefc2e08c65984fa7e3e0297ebcc12, type: 3}
+  - {fileID: 8300000, guid: 8d2fd885d793eb142a016edf29bd1757, type: 3}
+  ambientClips: []
+  musicClips: []
 --- !u!114 &114350356640584978
 MonoBehaviour:
   m_ObjectHideFlags: 1

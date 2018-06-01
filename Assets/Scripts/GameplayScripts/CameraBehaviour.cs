@@ -8,6 +8,8 @@ public class CameraBehaviour : MonoBehaviour {
     Transform cameraControllerTransform;
     Transform cameraTransform;
 
+    Camera playerCamera;
+
     Vector3 startPos;
     Vector3 relativePos;
     public Vector3 offsetPos;
@@ -45,12 +47,24 @@ public class CameraBehaviour : MonoBehaviour {
     public float shakeSmoothTime;
     public float shakeLastSmoothTime;
 
+    //Camera Move towards Enemy parameters
+    bool isCameraMovingTowards = false;
+
+    float moveTowardsIntensity;
+    Vector3 moveTowardsDirection;
+    Vector3[] moveTowardsPositions = new Vector3[2];
+
+    int moveTowardsPositionsIndex = 0;
+
+    public float moveTowardsTime;
+
 
     private void Start()
     {
         playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         cameraControllerTransform = transform;
         cameraTransform = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
+        playerCamera = cameraTransform.gameObject.GetComponent<Camera>();
 
         startPos = cameraControllerTransform.position;
         relativePos = playerTransform.position + offsetPos;
@@ -84,6 +98,11 @@ public class CameraBehaviour : MonoBehaviour {
         if (isCameraShaking)
         {
             CameraShakeUpdate();
+        }
+
+        if (isCameraMovingTowards)
+        {
+            CameraMoveTowardsUpdate();
         }
 
         //Initial Transition
@@ -154,7 +173,7 @@ public class CameraBehaviour : MonoBehaviour {
 
     public void CameraShake (int shakePositionsAmount, float shakeAmount)
     {
-        if (!isCameraShaking)
+        if (!isCameraShaking && !isCameraMovingTowards)
         {
             isCameraShaking = true;
             shakePositionIndex = 0;
@@ -183,5 +202,36 @@ public class CameraBehaviour : MonoBehaviour {
             }
         }
         else shakePositionIndex++;
+    }
+
+    public void CameraMoveTowards (float moveTowardsAmount, Vector3 playerPosition, Vector3 enemyTargetPosition)
+    {
+        if (!isCameraMovingTowards && !isCameraShaking)
+        {
+            isCameraMovingTowards = true;
+
+            moveTowardsDirection = playerCamera.WorldToScreenPoint(enemyTargetPosition) - playerCamera.WorldToScreenPoint(playerPosition);
+            moveTowardsDirection = Vector3.Normalize(moveTowardsDirection);
+
+            moveTowardsPositions[0] = cameraTransform.localPosition + (moveTowardsDirection * moveTowardsAmount);
+            moveTowardsPositions[moveTowardsPositions.Length - 1] = cameraTransform.localPosition;
+
+            moveTowardsPositionsIndex = 0;
+        }
+    }
+
+    void CameraMoveTowardsUpdate ()
+    {
+        if (cameraTransform.localPosition != moveTowardsPositions[moveTowardsPositionsIndex])
+        {
+            cameraTransform.localPosition = Vector3.SmoothDamp(cameraTransform.localPosition, moveTowardsPositions[moveTowardsPositionsIndex], ref shakeVelocity, moveTowardsTime);
+
+            if (cameraTransform.localPosition == moveTowardsPositions[moveTowardsPositions.Length - 1] && moveTowardsPositionsIndex == moveTowardsPositions.Length - 1)
+            {
+                cameraTransform.localPosition = moveTowardsPositions[moveTowardsPositions.Length - 1];
+                isCameraMovingTowards = false;
+            }
+        }
+        else moveTowardsPositionsIndex++;
     }
 }
