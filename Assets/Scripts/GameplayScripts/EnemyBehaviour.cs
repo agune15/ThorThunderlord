@@ -473,7 +473,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
                 particleInstancer.InstanciateParticleSystem("Fenrir_mist", GameObject.FindWithTag("FenrirPalmR").transform, Vector3.zero, Quaternion.identity);
 
-                enemyAudioPlayer.PlaySFX(4, 0.5f, Random.Range(0.96f, 1.04f));
+                enemyAudioPlayer.PlaySFX(4, 0.5f, Random.Range(0.96f, 1.04f));  //Fenrir "arjj" (Jump shout) sound
             }
         }
 
@@ -847,22 +847,22 @@ public class EnemyBehaviour : MonoBehaviour {
 
             if (audioTimer >= audioIteration * 1 && !playedYouBetterPray)
             {
-                enemyAudioPlayer.PlaySFX(0);
+                enemyAudioPlayer.PlaySFX(0);    //Fenrir "You Better Pray" sound
                 playedYouBetterPray = true;
             }
             if (audioTimer >= audioIteration * 2 && !playedLaugh)
             {
-                enemyAudioPlayer.PlaySFX(1);
+                enemyAudioPlayer.PlaySFX(1);    //Fenrir Laugh sound
                 playedLaugh = true;
             }
             if (audioTimer >= audioIteration * 3 && !playedKillOrGetKilled)
             {
-                enemyAudioPlayer.PlaySFX(2);
+                enemyAudioPlayer.PlaySFX(2);    //Fenrir "Kill Or Get Killed" sound
                 playedKillOrGetKilled = true;
             }
             if (audioTimer >= audioIteration * 4 && !playedComeToPapa)
             {
-                enemyAudioPlayer.PlaySFX(3);
+                enemyAudioPlayer.PlaySFX(3);    //Fenrir "Come to papa" sound
                 playedComeToPapa = true;
             }
 

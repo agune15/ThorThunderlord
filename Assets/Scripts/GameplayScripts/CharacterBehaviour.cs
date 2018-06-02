@@ -29,7 +29,7 @@ public class CharacterBehaviour : MonoBehaviour {
     float agentSpeed;
 
     bool canMove = true;
-    bool mainEnemyDead = false;
+    bool mainEnemyDied = false;
 
     //Health Bar related
     public float life;
@@ -184,7 +184,7 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if(life <= 0 && moveStates != MoveStates.Dead) SetDead();
 
-        if (mainEnemyDead) return;
+        if (mainEnemyDied) return;
 
         //Move Behaviour
         switch (moveStates)
@@ -464,7 +464,7 @@ public class CharacterBehaviour : MonoBehaviour {
             
             alreadyAttacked = true;
 
-            audioPlayer.PlaySFX(Random.Range(2, 4), 0.5f, Random.Range(0.96f, 1.04f));  //Player hammer impact sound
+            audioPlayer.PlaySFX(Random.Range(2, 4), 0.5f, Random.Range(0.96f, 1.04f));  //Thor Hammer Impact sound
 
             cameraBehaviour.CameraMoveTowards(0.25f, playerTransform.position, enemyTargetTransform.position);
             timeManager.SetTimeScaleAndDuration(0.05f, 0.075f, TimeManager.ScaleTimeTypes.Flat);
@@ -514,7 +514,7 @@ public class CharacterBehaviour : MonoBehaviour {
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.E, 1);
             particleInstancer.InstanciateParticleSystem("Dash", playerTransform, new Vector3(0, 1, 2f), Quaternion.Euler(0, 180, 0));
 
-            audioPlayer.PlaySFX(Random.Range(10, 12), 0.3f, Random.Range(0.96f, 1.04f));    //Sound Dash
+            audioPlayer.PlaySFX(Random.Range(10, 12), 0.3f, Random.Range(0.96f, 1.04f));    //Thor Dash sound
         }
     }
 
@@ -567,7 +567,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
             particleInstancer.InstanciateParticleSystem("Area_W_v2", slowAreaOrigin + new Vector3(0, 0.1f, 0), Quaternion.identity);
 
-            audioPlayer.PlaySFX(Random.Range(7, 9), 0.3f, 1);   //Slow area SFX
+            audioPlayer.PlaySFX(Random.Range(7, 9), 0.3f, 1);   //Thor SlowArea sound
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.W, 1);
         }
@@ -633,7 +633,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
                 if (!playedSlowAreaImpactSFX)
                 {
-                    audioPlayer.PlaySFX(9, 0.5f, Random.Range(0.94f, 1.04f));   //Play SlowArea impact SFX
+                    audioPlayer.PlaySFX(9, 0.5f, Random.Range(0.94f, 1.04f));   //Thor SlowArea impact sound
                     playedSlowAreaImpactSFX = true;
                 }
             }
@@ -680,7 +680,7 @@ public class CharacterBehaviour : MonoBehaviour {
             thorAnimator.SetTrigger("throwHammer");
             particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform.GetChild(0), new Vector3(0.028f, 0.033f, 0.717f), Quaternion.identity);
 
-            audioPlayer.PlaySFX(Random.Range(4, 6), 0.3f, 1);  //Play hammer throw sound
+            audioPlayer.PlaySFX(Random.Range(4, 6), 0.3f, 1);  //Thor HammerThrow sound
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.Q, 1);
         }
@@ -754,7 +754,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
             playerHealthBar.SetIconFillAmount(PlayerHealthBar.Icons.R, 1);
 
-            audioPlayer.PlaySFX(Random.Range(12, 15), 0.3f, Random.Range(0.96f, 1.04f));    //LightRain SFX
+            audioPlayer.PlaySFX(Random.Range(12, 15), 0.3f, Random.Range(0.96f, 1.04f));    //Thor LightRain cast sound
         }
     }
 
@@ -769,7 +769,7 @@ public class CharacterBehaviour : MonoBehaviour {
             if (lightRainCastDuration / lightRainCastInitDuration < 0.5f & !castedHammerLightBolt)
             {
                 particleInstancer.InstanciateParticleSystem("LightBolt_fromHAMMER", playerTransform, new Vector3(0.25f, 2.75f, 0), Quaternion.identity);
-                audioPlayer.PlaySFX(15, 0.7f, Random.Range(0.96f, 1.04f));
+                audioPlayer.PlaySFX(15, 0.7f, Random.Range(0.96f, 1.04f));  //Thor LightRain thunder sound
                 castedHammerLightBolt = true;
             }
 
@@ -789,7 +789,6 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             if (!hasLightRained)
             {
-                //instanciar particulas (deberia ser object pooling)
                 for (int i = 0; i < 30; i++)
                 {
                     float rangeFromOrigin = 0;
@@ -821,7 +820,7 @@ public class CharacterBehaviour : MonoBehaviour {
                 {
                     if (Vector3.Distance(enemy.transform.position, lightRainOrigin) <= lightRainRange)
                     {
-                        enemy.GetComponent<EnemyStats>().SetDamage(lightRainDamage, false);
+                        enemy.GetComponent<EnemyStats>().SetDamage(lightRainDamage, true);
                     }
                 }
 
@@ -931,11 +930,11 @@ public class CharacterBehaviour : MonoBehaviour {
         life -= damage;
         playerHealthBar.SetCurrentPlayerHealth(maxLife, life);
 
-        if (playSound) audioPlayer.PlaySFX(Random.Range(0, 2), 0.3f, Random.Range(0.96f, 1.04f));
+        if (playSound) audioPlayer.PlaySFX(Random.Range(0, 2), 0.3f, Random.Range(0.96f, 1.04f));   //Thor receive damage Sound
 
         if (life <= 0 && moveStates != MoveStates.Dead)
         {
-            audioPlayer.PlaySFX(6, 0.3f, 1);    //Play death sound
+            audioPlayer.PlaySFX(6, 0.3f, 1);    //Thor Death Sound
             SetDead();
             PlayingEndMessage.PlayVictory();
         }
@@ -1124,7 +1123,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     public void SetMainEnemyDeath()
     {
-        mainEnemyDead = true;
+        mainEnemyDied = true;
         thorAnimator.enabled = false;
 
         foreach (string enemy in enemiesWhoAttacked)
