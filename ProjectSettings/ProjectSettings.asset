@@ -13,8 +13,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: CrosbyGames
   productName: ThorTL
-  defaultCursor: {fileID: 0}
-  cursorHotspot: {x: 0, y: 0}
+  defaultCursor: {fileID: 2800000, guid: 0e7a3a9108f47c1429905a6d923de0f3, type: 3}
+  cursorHotspot: {x: 1, y: 1}
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1

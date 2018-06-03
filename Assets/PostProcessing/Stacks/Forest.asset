@@ -43,12 +43,12 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       intensity: 1.4
-      radius: 0.7
+      radius: 1
       sampleCount: 16
       downsampling: 0
       forceForwardCompatibility: 1
       ambientOnly: 0
-      highPrecision: 0
+      highPrecision: 1
   screenSpaceReflection:
     m_Enabled: 0
     m_Settings:
@@ -72,7 +72,7 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       focusDistance: 10
-      aperture: 9.4
+      aperture: 13.5
       focalLength: 229
       useCameraFov: 1
       kernelSize: 3
@@ -100,10 +100,10 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 0.01
+        intensity: 0.15
         threshold: 0.93
         softKnee: 0
-        radius: 2.54
+        radius: 4
         antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
@@ -114,11 +114,11 @@ MonoBehaviour:
       tonemapping:
         tonemapper: 2
         neutralBlackIn: 0.0335
-        neutralWhiteIn: 6.06
+        neutralWhiteIn: 6.1
         neutralBlackOut: 0.0026
         neutralWhiteOut: 10
         neutralWhiteLevel: 5.3
-        neutralWhiteClip: 10
+        neutralWhiteClip: 7.13
       basic:
         postExposure: 0
         temperature: 0
