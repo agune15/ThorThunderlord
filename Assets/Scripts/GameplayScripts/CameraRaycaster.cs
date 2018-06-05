@@ -113,7 +113,7 @@ public class CameraRaycaster : MonoBehaviour {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
-        if(Physics.Raycast(ray, out hit, maxDistance, moveLayerMask, QueryTriggerInteraction.Ignore))
+        if(Physics.Raycast(ray, out hit, maxDistance, dashLayerMask, QueryTriggerInteraction.Ignore))
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
@@ -147,7 +147,7 @@ public class CameraRaycaster : MonoBehaviour {
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
-        if(Physics.Raycast(ray, out hit, maxDistance, moveLayerMask, QueryTriggerInteraction.Ignore))
+        if(Physics.Raycast(ray, out hit, maxDistance, dashLayerMask, QueryTriggerInteraction.Ignore))
         {
             if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
             {
