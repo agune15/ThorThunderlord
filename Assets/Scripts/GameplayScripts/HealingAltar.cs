@@ -79,9 +79,31 @@ public class HealingAltar : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            if (!playerBehaviour.isBeingAttacked)
+            if (!hasHealed)
             {
-                if (!hasHealed)
+                if (!playerBehaviour.isBeingAttacked)
+                {
+                    if (playerBehaviour.GetLife() >= playerInitLife) return;
+                    else
+                    {
+                        StartCoroutine(playerBehaviour.HealOverTime(healingPercentage, healingTime));
+                        StartCoroutine(ParticleFadeOut());
+                        //change lightning?
+
+                        hasHealed = true;
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            if (!hasHealed)
+            {
+                if (!playerBehaviour.isBeingAttacked)
                 {
                     if (playerBehaviour.GetLife() >= playerInitLife) return;
                     else
