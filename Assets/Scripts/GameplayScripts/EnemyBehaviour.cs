@@ -37,7 +37,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     bool isSlowed = false;
 
-    bool playerIsDead;  //Necesario?
+    bool playerIsDead = false;  //Necesario?
 
     //Chase parameters
     public float unfreezeTime;

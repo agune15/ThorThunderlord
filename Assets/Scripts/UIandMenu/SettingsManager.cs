@@ -9,14 +9,14 @@ using UnityEngine.PostProcessing;
 public class SettingsManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
-    [SerializeField] PostProcessingProfile postProcessingAsset;
+    public PostProcessingProfile[] postProcessingProfiles;
     public Slider basicExposure;
     public GameSettings gameSettings;
     
 
     void Start()
     {
-        postProcessingAsset = GameObject.FindWithTag("MainCamera").GetComponent<PostProcessingBehaviour>().profile;
+        basicExposure.value = GameObject.FindWithTag("MainCamera").GetComponent<PostProcessingBehaviour>().profile.colorGrading.settings.basic.postExposure;
         OnFullScreenOn();
     }
 
@@ -90,10 +90,13 @@ public class SettingsManager : MonoBehaviour
         audioMixer.SetFloat("SFXVolume", volume);
     }
 
-    public void PostProcessing()
+    public void SetGamma()
     {
-        ColorGradingModel.Settings gradientSettings = postProcessingAsset.colorGrading.settings;
-        gradientSettings.basic.postExposure = basicExposure.value;
-        postProcessingAsset.colorGrading.settings = gradientSettings;
+        foreach(PostProcessingProfile profile in postProcessingProfiles)
+        {
+            ColorGradingModel.Settings gradingSettings = profile.colorGrading.settings;
+            gradingSettings.basic.postExposure = basicExposure.value;
+            profile.colorGrading.settings = gradingSettings;
+        }
     }
 }

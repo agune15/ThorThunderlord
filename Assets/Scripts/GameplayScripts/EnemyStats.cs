@@ -201,11 +201,13 @@ public class EnemyStats : MonoBehaviour {
     private void OnMouseOver()
     {
         enemyHealthBar.DrawEnemyHealthBar(maxLife, life, enemyType.ToString());
+        Cursor.SetCursor(CursorManager.GetCursorTexture("attack"), Vector2.zero, CursorMode.Auto);
     }
 
     private void OnMouseExit()
     {
         enemyHealthBar.DisableEnemyHealthBar();
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     #endregion

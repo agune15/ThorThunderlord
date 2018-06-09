@@ -14,6 +14,8 @@ public class LogoSceneChange : MonoBehaviour {
     private void Start()
     {
         videoCountdown = (float)videoPlayer.clip.length;
+
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -26,6 +28,7 @@ public class LogoSceneChange : MonoBehaviour {
             return;
         }
 
+        Cursor.visible = true;
         sceneChanger.SetScene(sceneToJumpTo);
     }
 }

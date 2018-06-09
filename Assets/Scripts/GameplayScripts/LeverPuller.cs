@@ -20,14 +20,25 @@ public class LeverPuller : MonoBehaviour {
 
     private void OnMouseOver()
     {
-        if (Input.GetButtonDown("Interact") && !playerBehaviour.isBeingAttacked && leverState == LeverStates.Unused)
+        if (!playerBehaviour.isBeingAttacked && leverState == LeverStates.Unused)
         {
-            if (Vector3.Distance(playerBehaviour.transform.position, transform.position) < 10)
+            Cursor.SetCursor(CursorManager.GetCursorTexture("interact"), Vector2.zero, CursorMode.Auto);
+
+            if (Input.GetButtonDown("Interact"))
             {
-                doorBehaviour.OpenDoor();
-                leverState = LeverStates.Used;
-                leverAnimator.SetInteger("leverState", (int)leverState);
+                if (Vector3.Distance(playerBehaviour.transform.position, transform.position) < 10)
+                {
+                    doorBehaviour.OpenDoor();
+                    leverState = LeverStates.Used;
+                    leverAnimator.SetInteger("leverState", (int)leverState);
+                    Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                }
             }
         }
+    }
+
+    private void OnMouseExit()
+    {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 }

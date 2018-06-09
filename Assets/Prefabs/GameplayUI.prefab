@@ -6094,8 +6094,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 355d40b86e4c7bc45a8780e3da8cd25a, type: 2}
-  postProcessingAsset: {fileID: 11400000, guid: f10066417e9a0314d85130a605d0f546,
-    type: 2}
+  postProcessingProfiles:
+  - {fileID: 11400000, guid: f10066417e9a0314d85130a605d0f546, type: 2}
+  - {fileID: 11400000, guid: 140e27a099e3f4646addb90e9df29c7c, type: 2}
   basicExposure: {fileID: 114807119897189852}
 --- !u!114 &114626983025557896
 MonoBehaviour:
@@ -7230,13 +7231,13 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: -5
   m_MaxValue: 5
-  m_WholeNumbers: 1
+  m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114619468458055810}
-        m_MethodName: PostProcessing
+        m_MethodName: SetGamma
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

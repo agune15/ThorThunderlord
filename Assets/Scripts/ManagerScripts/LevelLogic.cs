@@ -130,6 +130,8 @@ public class LevelLogic : MonoBehaviour
                     inputManager.ResetStaticVariables();
                 }
 
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+
                 loading = false;
             }
             yield return null;

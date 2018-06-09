@@ -39,6 +39,7 @@ public class PauseGameplay : MonoBehaviour {
                 SetPauseChildCanvasesState(true);
                 StartCoroutine(PauseWaitTime());
                 timeManager.SetGameState(true);
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                 Time.timeScale = pauseTimeScale;
             }
         }

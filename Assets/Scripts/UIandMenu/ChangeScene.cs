@@ -15,5 +15,4 @@ public class ChangeScene : MonoBehaviour {
     {
         levelLogic.StartLoad(scene);
     }
-
 }

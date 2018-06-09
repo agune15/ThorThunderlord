@@ -23,9 +23,10 @@ GameObject:
   - component: {fileID: 114694628684262980}
   - component: {fileID: 114540892053634040}
   - component: {fileID: 114650408041015852}
+  - component: {fileID: 114144799688615620}
   m_Layer: 0
   m_Name: Managers
-  m_TagString: Untagged
+  m_TagString: manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +37,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1955843042019532}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -61,6 +62,17 @@ MonoBehaviour:
   managerCanvas: {fileID: 0}
   percentText: {fileID: 0}
   blackScreen: {fileID: 0}
+--- !u!114 &114144799688615620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955843042019532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398e3861364fbf94f9ef9a2c12c8fdc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114540892053634040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,6 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44ee4979011e0940b8d988b4bce03ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  postProcessingProfiles:
+  - {fileID: 11400000, guid: 140e27a099e3f4646addb90e9df29c7c, type: 2}
+  - {fileID: 11400000, guid: f10066417e9a0314d85130a605d0f546, type: 2}
 --- !u!114 &114694628684262980
 MonoBehaviour:
   m_ObjectHideFlags: 1
