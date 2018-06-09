@@ -26,7 +26,7 @@ public class CameraRaycaster : MonoBehaviour {
     EnemyHealthBar enemyHealthBar;
 
     void Start () {
-        playerBehaviour = GameObject.Find("Player").GetComponent<CharacterBehaviour>();
+        playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
         playerCamera = this.GetComponent<Camera>();
 
         destination = playerBehaviour.gameObject.transform.position;

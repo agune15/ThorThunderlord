@@ -39,8 +39,13 @@ public class PauseGameplay : MonoBehaviour {
                 SetPauseChildCanvasesState(true);
                 StartCoroutine(PauseWaitTime());
                 timeManager.SetGameState(true);
-                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                CursorManager.SetAndStoreCursor("default", Vector2.zero, CursorMode.Auto);
                 Time.timeScale = pauseTimeScale;
+
+                foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                {
+                    enemy.GetComponent<EnemyStats>().SetDefaultShader();
+                }
             }
         }
         else

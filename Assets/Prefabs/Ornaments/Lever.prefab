@@ -379,7 +379,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
+  - {fileID: 2100000, guid: d250b4b5e6dde0a41bee94811fbcb194, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -413,7 +413,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 53ef55e7507942840b7aefd80ab24df8, type: 2}
+  - {fileID: 2100000, guid: d250b4b5e6dde0a41bee94811fbcb194, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -488,3 +488,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doorBehaviour: {fileID: 0}
+  leverRenderer: {fileID: 0}
+  outlineShader: {fileID: 0}
+  standardShader: {fileID: 0}

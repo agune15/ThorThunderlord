@@ -415,35 +415,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114144799688615620, guid: 724c8994e9c76fe4ca0505c3f5de0ce1,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114694628684262980, guid: 724c8994e9c76fe4ca0505c3f5de0ce1, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 724c8994e9c76fe4ca0505c3f5de0ce1, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1769076652 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1955843042019532, guid: 724c8994e9c76fe4ca0505c3f5de0ce1,
-    type: 2}
-  m_PrefabInternal: {fileID: 1769076651}
---- !u!114 &1769076653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1769076652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b202fb9ec3f6f93499f688f56f87f4b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursorTypes:
-  - name: default
-    texture: {fileID: 2800000, guid: 0e7a3a9108f47c1429905a6d923de0f3, type: 3}
-  - name: attack
-    texture: {fileID: 2800000, guid: 0590ffe193a1411429034a9183b1ff6a, type: 3}
-  - name: interact
-    texture: {fileID: 2800000, guid: cb1761d77dd25d940b9c7b0b73031ed4, type: 3}

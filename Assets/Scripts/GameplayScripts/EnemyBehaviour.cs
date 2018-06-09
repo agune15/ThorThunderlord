@@ -573,7 +573,7 @@ public class EnemyBehaviour : MonoBehaviour {
             }
         }
 
-        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > 0.9)
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 > 0.9f)
         {
             basicAttackCycleAlreadyCounted = false;
         }

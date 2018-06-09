@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4859237777486556}
   - component: {fileID: 114125162561647474}
-  - component: {fileID: 114694628684262980}
   - component: {fileID: 114540892053634040}
   - component: {fileID: 114650408041015852}
   - component: {fileID: 114144799688615620}
+  - component: {fileID: 114369771444391398}
   m_Layer: 0
   m_Name: Managers
   m_TagString: manager
@@ -73,6 +73,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398e3861364fbf94f9ef9a2c12c8fdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114369771444391398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955843042019532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b202fb9ec3f6f93499f688f56f87f4b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTypes:
+  - name: default
+    texture: {fileID: 2800000, guid: 0e7a3a9108f47c1429905a6d923de0f3, type: 3}
+  - name: attack
+    texture: {fileID: 2800000, guid: 0590ffe193a1411429034a9183b1ff6a, type: 3}
+  - name: interact
+    texture: {fileID: 2800000, guid: cb1761d77dd25d940b9c7b0b73031ed4, type: 3}
 --- !u!114 &114540892053634040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,14 +124,3 @@ MonoBehaviour:
   postProcessingProfiles:
   - {fileID: 11400000, guid: 140e27a099e3f4646addb90e9df29c7c, type: 2}
   - {fileID: 11400000, guid: f10066417e9a0314d85130a605d0f546, type: 2}
---- !u!114 &114694628684262980
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1955843042019532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 056b6002aa44b2c40be1a1bae4b96d9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

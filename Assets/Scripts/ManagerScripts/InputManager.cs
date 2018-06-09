@@ -87,7 +87,7 @@ public class InputManager : MonoBehaviour {
     {
         if(GameObject.FindGameObjectWithTag("Player") != null)
         {
-            player = GameObject.Find("Player");
+            player = GameObject.FindWithTag("Player");
             playerBehaviour = player.GetComponent<CharacterBehaviour>();
             playerCamBehaviour = GameObject.FindGameObjectWithTag("CameraController").GetComponentInChildren<CameraBehaviour>();
             playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();

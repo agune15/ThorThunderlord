@@ -13,6 +13,7 @@ public class EnemyStats : MonoBehaviour {
     EnemyBehaviour enemyBehaviour = null;
 
     [SerializeField] EnemyHealthBar enemyHealthBar = null;
+    PauseGameplay pauseGameplay = null;
 
     [SerializeField] Renderer enemyRenderer;
     [SerializeField] Collider enemyCollider;
@@ -25,6 +26,14 @@ public class EnemyStats : MonoBehaviour {
 
     public float deadTimer;
 
+    //Shader related
+    [Header("Shader related parameters")]
+    [SerializeField] Shader defaultShader;
+    [SerializeField] Shader outlineShader;
+
+    bool isOutlineFromMouseOver = false;
+    string currentShader = "default";
+
 
     void Start () {
         particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
@@ -34,9 +43,13 @@ public class EnemyStats : MonoBehaviour {
         enemyCollider = this.GetComponent<Collider>();
         enemyAnimator = this.GetComponentInChildren<Animator>();
 
-        enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
+        defaultShader = enemyRenderer.material.shader;
+        outlineShader = Shader.Find("Custom/Mobile Diffuse Outline");
 
-        switch(enemyType)
+        enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
+        pauseGameplay = enemyHealthBar.gameObject.GetComponent<PauseGameplay>();
+
+        switch (enemyType)
         {
             case EnemyType.Skull:
                 SkullInit();
@@ -200,14 +213,50 @@ public class EnemyStats : MonoBehaviour {
 
     private void OnMouseOver()
     {
+        if (pauseGameplay.isGamePaused) return;
+
         enemyHealthBar.DrawEnemyHealthBar(maxLife, life, enemyType.ToString());
-        Cursor.SetCursor(CursorManager.GetCursorTexture("attack"), Vector2.zero, CursorMode.Auto);
+        if (CursorManager.GetCurrentCursorTextureName() != "attack")
+        {
+            CursorManager.SetAndStoreCursor("attack", Vector2.zero, CursorMode.Auto);
+
+            SetShader("outline");
+
+            isOutlineFromMouseOver = true;
+        }
     }
 
     private void OnMouseExit()
     {
         enemyHealthBar.DisableEnemyHealthBar();
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        CursorManager.SetAndStoreCursor("default", Vector2.zero, CursorMode.Auto);
+        SetShader("default");
+
+        isOutlineFromMouseOver = false;
+    }
+
+    public void SetDefaultShader()
+    {
+        if (isOutlineFromMouseOver) SetShader("default");
+    }
+
+    public void SetShader (string desiredShader)
+    {
+        if (desiredShader == "default")
+        {
+            enemyRenderer.material.shader = defaultShader;
+
+            currentShader = desiredShader;
+        }
+        else if (desiredShader == "outline")
+        {
+            enemyRenderer.material.shader = outlineShader;
+            if (enemyType == EnemyType.Fenrir) enemyRenderer.material.SetFloat("_OutlineWidth", 0.0045f);
+            else if (enemyType == EnemyType.Skull) enemyRenderer.material.SetFloat("_OutlineWidth", 0.35f);
+            enemyRenderer.material.SetColor("_OutlineColor", new Color(1, 0, 0, 1));
+
+            currentShader = desiredShader;
+        }
     }
 
     #endregion

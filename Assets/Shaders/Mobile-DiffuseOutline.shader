@@ -4,7 +4,7 @@ Properties {
     _MainTex ("Base (RGB)", 2D) = "white" {}
 
 	[Header(Outline Parameters)]
-	_OutlineWidth ("Outline Width", Range(0,0.15)) = 0
+	_OutlineWidth ("Outline Width", Range(0,1)) = 0
 	_OutlineColor ("Outline Color", Color) = (1,1,1,1)
 }
 
@@ -27,7 +27,6 @@ SubShader {
 		{
 			float4 vertex : POSITION;
 			float3 normal : NORMAL;
-			float4 color : COLOR;
 		};
 
 		struct v2f
@@ -41,10 +40,16 @@ SubShader {
 
 		v2f vert(appdata v)
 		{
-			v.vertex.xyz += v.normal * _OutlineWidth;
+			//v.vertex.xyz += v.normal * _OutlineWidth;
 
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
+
+			float3 normal = mul ((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+			float2 offset = TransformViewToProjection(normal.xy);
+
+			o.pos.xy += offset * o.pos.z * _OutlineWidth;
+
 			return o;
 		}
 

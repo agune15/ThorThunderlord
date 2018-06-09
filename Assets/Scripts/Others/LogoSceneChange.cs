@@ -20,7 +20,7 @@ public class LogoSceneChange : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) videoCountdown = 0;
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) videoCountdown = 0;
 
         if (videoCountdown > 0)
         {

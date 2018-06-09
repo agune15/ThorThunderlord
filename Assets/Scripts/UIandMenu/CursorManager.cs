@@ -6,22 +6,35 @@ public class CursorManager : MonoBehaviour {
 
     public List<CursorAndName> cursorTypes;
     public static Dictionary<string, Texture2D> cursorTextures = new Dictionary<string, Texture2D>();
+    public static string currentCursorTexture = "default";
 
     private void Start()
     {
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);  //Set cursor to default
-
         foreach(CursorAndName cursor in cursorTypes)
         {
             cursorTextures.Add(cursor.name, cursor.texture);
         }
 
         cursorTypes.Clear();
+
+        SetAndStoreCursor("default", Vector2.zero, CursorMode.Auto);  //Set cursor to default
     }
 
     public static Texture2D GetCursorTexture (string cursorName)
     {
         return cursorTextures[cursorName];
+    }
+
+    //Extension method of Cursor.SetCursor
+    public static void SetAndStoreCursor (string cursorTextureName, Vector2 cursorHotSpot, CursorMode cursorMode)
+    {
+        currentCursorTexture = cursorTextureName;
+        Cursor.SetCursor(cursorTextures[cursorTextureName], cursorHotSpot, cursorMode);
+    }
+
+    public static string GetCurrentCursorTextureName ()
+    {
+        return currentCursorTexture;
     }
 }
 

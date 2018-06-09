@@ -1168,6 +1168,7 @@ GameObject:
   - component: {fileID: 114648185692173360}
   - component: {fileID: 114392331749739002}
   - component: {fileID: 222505024720211050}
+  - component: {fileID: 225842436821682758}
   m_Layer: 5
   m_Name: Pause
   m_TagString: Untagged
@@ -11607,6 +11608,17 @@ CanvasGroup:
   m_GameObject: {fileID: 1119242394362066}
   m_Enabled: 1
   m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!225 &225842436821682758
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1459361915575462}
+  m_Enabled: 1
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

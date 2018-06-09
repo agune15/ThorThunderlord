@@ -4426,7 +4426,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452153351595302}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -15.379999, y: 4.1, z: -8.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4298162932424638}
@@ -4897,7 +4897,7 @@ MonoBehaviour:
   dashDistance: 14
   enemySlowAreaList: []
   slowAreaAvailable: 1
-  slowAreaDamage: 9
+  slowAreaDamage: 11
   slowAreaRange: 5
   slowAreaDelay: 0
   slowAreaFXTime: 1.6
@@ -4909,7 +4909,7 @@ MonoBehaviour:
   throwDistance: 8
   throwTurnTime: 0.15
   lRainAvailable: 1
-  lightRainDamage: 35
+  lightRainDamage: 27
   lightRainRange: 10.5
   lightRainCD: 16
   lightRainLightningFallTime: 0.2

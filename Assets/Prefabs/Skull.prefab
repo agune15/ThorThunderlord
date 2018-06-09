@@ -1858,7 +1858,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1977699925234328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9, y: 0, z: 10}
+  m_LocalPosition: {x: -8.59, y: 0, z: 11.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4084002917546484}
@@ -2511,6 +2511,8 @@ MonoBehaviour:
   life: 0
   isSlowed: 0
   deadTimer: 1
+  defaultShader: {fileID: 0}
+  outlineShader: {fileID: 0}
 --- !u!114 &114296007466536732
 MonoBehaviour:
   m_ObjectHideFlags: 1

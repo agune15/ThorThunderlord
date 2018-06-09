@@ -26,7 +26,8 @@ public class ParticleInstancer : MonoBehaviour {
 
             for (int i = 0; i < particle.quantity; i++)
             {
-                GameObject particleInstance = Instantiate(particle.prefab);
+                GameObject particleInstance = Instantiate(particle.prefab, transform);
+                particleInstance.transform.parent = null;
                 particleInstance.GetComponent<ParticlePrefabBehaviour>().particleTag = particle.prefab.name;
                 particleInstance.SetActive(false);
                 particlePool.Enqueue(particleInstance);

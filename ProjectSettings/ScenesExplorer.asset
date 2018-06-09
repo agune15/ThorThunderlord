@@ -1,0 +1,10 @@
+ExampleScene|False|Assets/PostProcessing/Utilities/CustomMotionTexture/ExampleScene.unity
+EndingScene|False|Assets/Scenes/EndingScene.unity
+GameManager|True|Assets/Scenes/GameManager.unity
+IntroScene|True|Assets/Scenes/IntroScene.unity
+LogoScene|True|Assets/Scenes/LogoScene.unity
+MenuBeta|True|Assets/Scenes/MenuBeta.unity
+Pause|False|Assets/Scenes/Pause.unity
+Testing|False|Assets/Scenes/Testing.unity
+Thor_Tunderlord_FenrirBoss|True|Assets/Scenes/Thor_Tunderlord_FenrirBoss.unity
+Thor_Tunderlord_Forest|True|Assets/Scenes/Thor_Tunderlord_Forest.unity
