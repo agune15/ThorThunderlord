@@ -52,4 +52,9 @@ public class AttackTrigger : MonoBehaviour {
     {
         return targetsInRange.Contains(targetName);
     }
+
+    private void OnMouseOver()
+    {
+        Debug.Log("pptaaa madre");
+    }
 }

@@ -908,9 +908,16 @@ public class CharacterBehaviour : MonoBehaviour {
 
         if(isThrowing || isDashing) return;   //isCastingArea || isCastingLightRain
 
+        if (enemyTargetTransform != enemyTransform)
+        {
+            if (enemyTargetStats != null) enemyTargetStats.SetShader("default", false);
+        }
+
         enemyTargetTransform = enemyTransform;
         enemyTargetStats = (enemyTransform != null) ? enemyTargetTransform.GetComponent<EnemyStats>() : null;
 
+        if (enemyTargetStats != null) enemyTargetStats.SetShader("outline", true);
+        
         //if (!isAttacking && enemyWasHit) particleInstancer.InstanciateParticleSystem("Thor_basicAttack", GameObject.FindWithTag("hammerParent").transform, new Vector3(-0.023f, -0.024f, -0.624f), Quaternion.identity);
         if (!enemyWasHit && attack) particleInstancer.DestroyParticleSystem("Thor_basicAttack(Clone)");
 

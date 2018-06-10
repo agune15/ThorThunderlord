@@ -70,7 +70,7 @@ public class SpinningTrapBehaviour : MonoBehaviour {
         {
             if (dealDamage)
             {
-                other.GetComponent<CharacterBehaviour>().SetDamage(50, true, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(other.transform.position)), 0)));
+                other.GetComponent<CharacterBehaviour>().SetDamage(70, true, Quaternion.Euler(new Vector3(0, Vector3.Angle(transform.forward, transform.InverseTransformPoint(other.transform.position)), 0)));
                 dealDamage = false;
                 spinningTrapAudioPlayer.PlaySFX(0, 0.5f, Random.Range(0.94f, 1.06f));
                 SlowTrap();

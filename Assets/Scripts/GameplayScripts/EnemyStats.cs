@@ -32,6 +32,7 @@ public class EnemyStats : MonoBehaviour {
     [SerializeField] Shader outlineShader;
 
     bool isOutlineFromMouseOver = false;
+    bool isPlayersTarget = false;
     string currentShader = "default";
 
 
@@ -220,7 +221,7 @@ public class EnemyStats : MonoBehaviour {
         {
             CursorManager.SetAndStoreCursor("attack", Vector2.zero, CursorMode.Auto);
 
-            SetShader("outline");
+            if (currentShader != "outline" && !isPlayersTarget) SetShader("outline");
 
             isOutlineFromMouseOver = true;
         }
@@ -230,18 +231,27 @@ public class EnemyStats : MonoBehaviour {
     {
         enemyHealthBar.DisableEnemyHealthBar();
         CursorManager.SetAndStoreCursor("default", Vector2.zero, CursorMode.Auto);
-        SetShader("default");
 
-        isOutlineFromMouseOver = false;
+        if (!isPlayersTarget)
+        {
+            SetShader("default");
+            isOutlineFromMouseOver = false;
+        }
     }
 
     public void SetDefaultShader()
     {
-        if (isOutlineFromMouseOver) SetShader("default");
+        if (isOutlineFromMouseOver)
+        {
+            if (isPlayersTarget) SetShader("outline");
+            else SetShader("default");
+        }
     }
 
     public void SetShader (string desiredShader)
     {
+        Debug.Log("setshader");
+
         if (desiredShader == "default")
         {
             enemyRenderer.material.shader = defaultShader;
@@ -251,12 +261,44 @@ public class EnemyStats : MonoBehaviour {
         else if (desiredShader == "outline")
         {
             enemyRenderer.material.shader = outlineShader;
-            if (enemyType == EnemyType.Fenrir) enemyRenderer.material.SetFloat("_OutlineWidth", 0.0045f);
-            else if (enemyType == EnemyType.Skull) enemyRenderer.material.SetFloat("_OutlineWidth", 0.35f);
+            
+            if (isPlayersTarget)
+            {
+                if (enemyType == EnemyType.Fenrir) enemyRenderer.material.SetFloat("_OutlineWidth", 0.0017f);
+                else if (enemyType == EnemyType.Skull) enemyRenderer.material.SetFloat("_OutlineWidth", 0.132f);
+            }
+            else
+            {
+                if (enemyType == EnemyType.Fenrir) enemyRenderer.material.SetFloat("_OutlineWidth", 0.0045f);
+                else if (enemyType == EnemyType.Skull) enemyRenderer.material.SetFloat("_OutlineWidth", 0.35f);
+            }
+
             enemyRenderer.material.SetColor("_OutlineColor", new Color(1, 0, 0, 1));
 
             currentShader = desiredShader;
         }
+    }
+    
+    //Overload to set the Outline's Width
+    public void SetOutlineWidth(float desiredOutlineWidth)
+    {
+        Debug.Log("Set outline");
+
+        if (currentShader == "outline")
+        {
+            if (enemyType == EnemyType.Fenrir) enemyRenderer.material.SetFloat("_OutlineWidth", desiredOutlineWidth);
+            else if (enemyType == EnemyType.Skull) enemyRenderer.material.SetFloat("_OutlineWidth", desiredOutlineWidth * 77.77f);
+        }
+    }
+
+    //Overload to specify if it is player's target
+    public void SetShader (string desiredShader, bool isPlayerTarget)
+    {
+        Debug.Log("Set shader is player target");
+
+        isPlayersTarget = isPlayerTarget;
+
+        SetShader(desiredShader);
     }
 
     #endregion

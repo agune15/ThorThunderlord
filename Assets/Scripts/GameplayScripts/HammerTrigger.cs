@@ -5,14 +5,17 @@ using UnityEngine;
 public class HammerTrigger : MonoBehaviour {
 
     EnemyStats.EnemyType enemyType;
-
+    
     HammerBehaviour hammerBehaviour;
     AudioPlayer playerAudioPlayer;
+    TimeManager timeManager;
+    CameraBehaviour cameraBehaviour;
 
     void Start()
     {
         hammerBehaviour = GetComponentInParent<HammerBehaviour>();
         playerAudioPlayer = GetComponentInParent<AudioPlayer>();
+        cameraBehaviour = GameObject.FindWithTag("CameraController").GetComponent<CameraBehaviour>();
     }
 
     private void Update()
@@ -32,6 +35,8 @@ public class HammerTrigger : MonoBehaviour {
             {
                 other.gameObject.GetComponent<EnemyStats>().SetDamage(hammerBehaviour.ThrowHammerDamage(), true, Quaternion.Euler(new Vector3(0, desiredAngle, 0)));
                 playerAudioPlayer.PlaySFX(Random.Range(2, 4), 0.5f, Random.Range(0.96f, 1.04f), gameObject);   //Hammer Impact sound
+
+                cameraBehaviour.CameraMoveTowards(0.25f, transform.position, other.transform.position);
             }
         }
     }
