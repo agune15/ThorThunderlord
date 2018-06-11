@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour {
     [SerializeField] private CameraBehaviour playerCamBehaviour = null;
     [SerializeField] private CameraRaycaster playerCamRaycaster = null;
     [SerializeField] private PauseGameplay pauseGameplay = null;
+    [SerializeField] private PlayEnding endingPlayer = null;
 
     [Header("Other Scripts")]
     [SerializeField] private LevelLogic levelLogic;
@@ -53,13 +54,13 @@ public class InputManager : MonoBehaviour {
 
     void PlayerInput()
     {
-        if (Input.GetButtonDown("Pause")) pauseGameplay.Pause();
+        if (Input.GetButtonDown("Pause") && endingPlayer.IsGameEnding()) pauseGameplay.Pause();
 
         if (!pauseGameplay.isGamePaused)
         {
             playerCamBehaviour.SetMouseWheel(Input.GetAxisRaw("Mouse ScrollWheel"));
 
-            if(CameraBehaviour.playerCanMove)
+            if(playerCamBehaviour.GetPlayerCanMove())
             {
                 if(Input.GetButtonDown("Move") || Input.GetButton("Move")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Move);
                 if(Input.GetButtonDown("Dash")) playerCamRaycaster.CastRay(CameraRaycaster.RayPorpuse.Dash);
@@ -92,6 +93,7 @@ public class InputManager : MonoBehaviour {
             playerCamBehaviour = GameObject.FindGameObjectWithTag("CameraController").GetComponentInChildren<CameraBehaviour>();
             playerCamRaycaster = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<CameraRaycaster>();
             pauseGameplay = GameObject.Find("GameplayUI").GetComponent<PauseGameplay>();
+            endingPlayer = pauseGameplay.gameObject.GetComponent<PlayEnding>();
         }
         else
         {
@@ -100,6 +102,7 @@ public class InputManager : MonoBehaviour {
             playerCamBehaviour = null;
             playerCamRaycaster = null;
             pauseGameplay = null;
+            endingPlayer = null;
         }
     }
 

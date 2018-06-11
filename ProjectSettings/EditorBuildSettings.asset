@@ -23,3 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Thor_Tunderlord_FenrirBoss.unity
     guid: b6a50196593a9c14ab7c5fcccfee582e
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: fdfe04a14cc0ff34dbe39f8baf428948

@@ -17,7 +17,7 @@ public class CameraBehaviour : MonoBehaviour {
 
     public float heightOffset;
 
-    public static bool playerCanMove;
+    bool playerCanMove;
 
     float wheelAxis = 0;
     
@@ -57,6 +57,12 @@ public class CameraBehaviour : MonoBehaviour {
     int moveTowardsPositionsIndex = 0;
 
     public float moveTowardsTime;
+
+    //Camera End Transition parameters
+    bool isCameraEndTransitioning = false;
+
+    float endTransitionTimer = 0;
+    float endTransitionTime = 0;
 
 
     private void Start()
@@ -103,6 +109,12 @@ public class CameraBehaviour : MonoBehaviour {
         if (isCameraMovingTowards)
         {
             CameraMoveTowardsUpdate();
+        }
+
+        if (isCameraEndTransitioning)
+        {
+            CameraEndTransitionUpdate();
+            return;
         }
 
         //Initial Transition
@@ -155,25 +167,11 @@ public class CameraBehaviour : MonoBehaviour {
         }
     }
 
-    public void SetMouseWheel(float mouseWheel)
-    {
-        lastWheelAxisStorage = wheelAxisStorage;
-        wheelAxisStorage += Mathf.Round(mouseWheel * 10);
-        wheelAxis = Mathf.Round(mouseWheel * 10);
-
-        if (wheelAxisStorage > zoomMinLimit)
-        {
-            wheelAxisStorage = zoomMinLimit;
-        }
-        else if (wheelAxisStorage < zoomMaxLimit)
-        {
-            wheelAxisStorage = zoomMaxLimit;
-        }
-    }
+    #region Camera Shake
 
     public void CameraShake (int shakePositionsAmount, float shakeAmount)
     {
-        if (!isCameraShaking && !isCameraMovingTowards)
+        if (!isCameraShaking && !isCameraMovingTowards && !isCameraEndTransitioning)
         {
             isCameraShaking = true;
             shakePositionIndex = 0;
@@ -204,9 +202,13 @@ public class CameraBehaviour : MonoBehaviour {
         else shakePositionIndex++;
     }
 
+    #endregion
+
+    #region Camera Move Towards
+
     public void CameraMoveTowards (float moveTowardsAmount, Vector3 playerPosition, Vector3 enemyTargetPosition)
     {
-        if (!isCameraMovingTowards && !isCameraShaking)
+        if (!isCameraMovingTowards && !isCameraShaking && !isCameraEndTransitioning)
         {
             isCameraMovingTowards = true;
 
@@ -234,4 +236,64 @@ public class CameraBehaviour : MonoBehaviour {
         }
         else moveTowardsPositionsIndex++;
     }
+
+    #endregion
+
+    #region Camera End Transition
+
+    public void CameraEndTransition (float transitionTime, Vector3 endPositionOffset)
+    {
+        isCameraEndTransitioning = true;
+        
+        offsetPos = endPositionOffset;
+
+        endTransitionTime = transitionTime;
+        endTransitionTimer = 0;
+
+        relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
+    }
+
+    void CameraEndTransitionUpdate ()
+    {
+        if (endTransitionTimer <= endTransitionTime)
+        {
+            endTransitionTimer += Time.unscaledDeltaTime;
+
+            cameraControllerTransform.position = Vector3.Lerp(cameraControllerTransform.position, relativePos, Mathf.SmoothStep(0, 1, endTransitionTimer / endTransitionTime));
+
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - relativePos + new Vector3(0, heightOffset, 0));
+        }
+    }
+
+    #endregion
+
+    #region Others
+
+    public void SetMouseWheel(float mouseWheel)
+    {
+        lastWheelAxisStorage = wheelAxisStorage;
+        wheelAxisStorage += Mathf.Round(mouseWheel * 10);
+        wheelAxis = Mathf.Round(mouseWheel * 10);
+
+        if (wheelAxisStorage > zoomMinLimit)
+        {
+            wheelAxisStorage = zoomMinLimit;
+        }
+        else if (wheelAxisStorage < zoomMaxLimit)
+        {
+            wheelAxisStorage = zoomMaxLimit;
+        }
+    }
+
+    public bool GetPlayerCanMove ()
+    {
+        return playerCanMove;
+    }
+
+    public void SetPlayerCanMove (bool canPlayerMove)
+    {
+        playerCanMove = canPlayerMove;
+    }
+
+    #endregion
 }

@@ -13,6 +13,7 @@ public class CharacterBehaviour : MonoBehaviour {
     Animator thorAnimator;
     TimeManager timeManager;
     AudioPlayer audioPlayer;
+    PlayEnding endingPlayer;
 
     //UI related
     PlayerHealthBar playerHealthBar;
@@ -175,6 +176,8 @@ public class CharacterBehaviour : MonoBehaviour {
         playerHealthBar = GameObject.Find("GameplayUI").GetComponent<PlayerHealthBar>();
         StartCoroutine(SetInitLife());
 
+        endingPlayer = playerHealthBar.gameObject.GetComponent<PlayEnding>();
+
         passiveInitDuration = passiveDuration;
         
         particleInstancer = GameObject.FindWithTag("ParticleInstancer").GetComponent<ParticleInstancer>();
@@ -184,7 +187,7 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         if(life <= 0 && moveStates != MoveStates.Dead) SetDead();
 
-        if (mainEnemyDied) return;
+        //if (mainEnemyDied) return;
 
         //Move Behaviour
         switch (moveStates)
@@ -305,10 +308,8 @@ public class CharacterBehaviour : MonoBehaviour {
             if(!playerAgent.isStopped)
             {
                 playerAgent.isStopped = true;
-                playerAgent.enabled = false;
-                EnemyStats.SetFrozen();
-                GetComponent<CharacterBehaviour>().enabled = false;
             }
+            playerAgent.SetDestination(playerTransform.position);
         }
         return;
     }
@@ -331,17 +332,23 @@ public class CharacterBehaviour : MonoBehaviour {
     {
         canMove = false;
         playerAgent.isStopped = true;
-        CameraBehaviour.playerCanMove = false;
+        playerAgent.SetDestination(playerTransform.position);
+        cameraBehaviour.SetPlayerCanMove(false);
 
         thorAnimator.SetTrigger("die");
-        PlayingEndMessage.PlayDefeat();
+        endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Defeat, 2, 0.2f, new Vector3(0, 4, -4));
         moveStates = MoveStates.Dead;
 
-        foreach (string enemy in enemiesWhoAttacked)
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            enemy.GetComponent<EnemyBehaviour>().SetPlayerDeath();
+        }
+
+        /*foreach (string enemy in enemiesWhoAttacked)
         {
             EnemyBehaviour enemyBehaviour = GameObject.Find(enemy).GetComponent<EnemyBehaviour>();
             enemyBehaviour.SetPlayerDeath();
-        }
+        }*/
     }
 
     #endregion
@@ -943,7 +950,6 @@ public class CharacterBehaviour : MonoBehaviour {
         {
             audioPlayer.PlaySFX(6, 0.3f, 1);    //Thor Death Sound
             SetDead();
-            PlayingEndMessage.PlayVictory();
         }
     }
 
@@ -971,6 +977,17 @@ public class CharacterBehaviour : MonoBehaviour {
         }
 
         if (enemiesWhoAttacked.Count == 0) isBeingAttacked = false;
+    }
+
+    public void SetMainEnemyDeath()
+    {
+        cameraBehaviour.SetPlayerCanMove(false);
+        mainEnemyDied = true;
+
+        /*foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy").)
+        {
+            enemy.GetComponent<EnemyBehaviour>().SetMainEnemyDeath();
+        }*/
     }
 
     #endregion
@@ -1125,18 +1142,6 @@ public class CharacterBehaviour : MonoBehaviour {
             Gizmos.DrawCube(dashEnd, new Vector3(0.5f, 0.5f, 0.5f));
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(playerTransform.position, dashDistance * 2);
-        }
-    }
-
-    public void SetMainEnemyDeath()
-    {
-        mainEnemyDied = true;
-        thorAnimator.enabled = false;
-
-        foreach (string enemy in enemiesWhoAttacked)
-        {
-            EnemyBehaviour enemyBehaviour = GameObject.Find(enemy).GetComponent<EnemyBehaviour>();
-            enemyBehaviour.SetPlayerDeath();
         }
     }
 

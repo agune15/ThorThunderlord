@@ -6,6 +6,6 @@ public class GameParameters : MonoBehaviour {
 
     public void ResetAllStaticVariables()
     {
-        PlayingEndMessage.ResetEndMessage();
+        //PlayingEndMessage.ResetEndMessage();
     }
 }

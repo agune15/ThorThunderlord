@@ -45,7 +45,7 @@ public class EnemyStats : MonoBehaviour {
         enemyAnimator = this.GetComponentInChildren<Animator>();
 
         defaultShader = enemyRenderer.material.shader;
-        outlineShader = Shader.Find("Custom/Mobile Diffuse Outline");
+        outlineShader = Shader.Find("Custom/Mobile Diffuse Outline Soften Edge");
 
         enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
         pauseGameplay = enemyHealthBar.gameObject.GetComponent<PauseGameplay>();
@@ -92,7 +92,7 @@ public class EnemyStats : MonoBehaviour {
 
     void FenrirInit()
     {
-        life = 300;
+        life = 300;     //Change to 300
         maxLife = life;
     }
 
@@ -116,7 +116,7 @@ public class EnemyStats : MonoBehaviour {
                     enemyBehaviour.SetLife(life);
                     break;
                 case EnemyType.Fenrir:
-                    life -= damage / 0.75f;
+                    life -= damage * 1.25f; //* 0.75f
 
                     enemyBehaviour.SetLife(life);
                     break;
@@ -214,7 +214,7 @@ public class EnemyStats : MonoBehaviour {
 
     private void OnMouseOver()
     {
-        if (pauseGameplay.isGamePaused) return;
+        if (pauseGameplay.isGamePaused || enemyBehaviour.playerIsDead) return;
 
         enemyHealthBar.DrawEnemyHealthBar(maxLife, life, enemyType.ToString());
         if (CursorManager.GetCurrentCursorTextureName() != "attack")
@@ -250,8 +250,6 @@ public class EnemyStats : MonoBehaviour {
 
     public void SetShader (string desiredShader)
     {
-        Debug.Log("setshader");
-
         if (desiredShader == "default")
         {
             enemyRenderer.material.shader = defaultShader;
@@ -282,8 +280,6 @@ public class EnemyStats : MonoBehaviour {
     //Overload to set the Outline's Width
     public void SetOutlineWidth(float desiredOutlineWidth)
     {
-        Debug.Log("Set outline");
-
         if (currentShader == "outline")
         {
             if (enemyType == EnemyType.Fenrir) enemyRenderer.material.SetFloat("_OutlineWidth", desiredOutlineWidth);
@@ -294,8 +290,6 @@ public class EnemyStats : MonoBehaviour {
     //Overload to specify if it is player's target
     public void SetShader (string desiredShader, bool isPlayerTarget)
     {
-        Debug.Log("Set shader is player target");
-
         isPlayersTarget = isPlayerTarget;
 
         SetShader(desiredShader);

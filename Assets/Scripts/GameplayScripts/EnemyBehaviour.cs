@@ -23,6 +23,7 @@ public class EnemyBehaviour : MonoBehaviour {
     Animator enemyAnimator;
     ParticleInstancer particleInstancer;
     AudioPlayer enemyAudioPlayer;
+    PlayEnding endingPlayer;
 
     //UI related
     EnemyHealthBar enemyHealthBar;
@@ -37,7 +38,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
     bool isSlowed = false;
 
-    bool playerIsDead = false;  //Necesario?
+    public bool playerIsDead = false;  //Necesario?
 
     //Chase parameters
     public float unfreezeTime;
@@ -54,7 +55,11 @@ public class EnemyBehaviour : MonoBehaviour {
     bool weaponTriggerHit = false;
 
         //SKULL ONLY
+        bool isInChaseRange = false;
+        bool hasAppeared = false;
         bool isSpinning = false;
+
+        float appearDelayTime;
 
         //FENRIR ONLY
         bool basicAttackCycleAlreadyCounted;
@@ -114,6 +119,7 @@ public class EnemyBehaviour : MonoBehaviour {
             {
                 case EnemyStats.EnemyType.Skull:
                     if(clip.name == "hit") basicAttackDuration = clip.length;
+                    if(clip.name == "appear") appearDelayTime = clip.length / 1.7f;
 
                     break;
                 case EnemyStats.EnemyType.Fenrir:
@@ -135,6 +141,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if (enemyType == EnemyStats.EnemyType.Fenrir) baAnimationLength = 5;
 
         enemyHealthBar = GameObject.Find("GameplayUI").GetComponent<EnemyHealthBar>();
+        endingPlayer = enemyHealthBar.gameObject.GetComponent<PlayEnding>();
     }
 
 
@@ -180,7 +187,37 @@ public class EnemyBehaviour : MonoBehaviour {
 
         if(Vector3.Distance(transform.position, targetTransform.position) < chaseRange)
         {
-            //Un sonido de chase
+            isInChaseRange = true;
+        }
+
+        if (isInChaseRange)
+        {
+            SetRotation();
+
+            if (enemyType == EnemyStats.EnemyType.Skull)
+            {
+                if (appearDelayTime >= 0)
+                {
+                    appearDelayTime -= Time.deltaTime;
+
+                    if (!hasAppeared)
+                    {
+                        enemyAnimator.SetTrigger("appear");
+                        particleInstancer.InstanciateParticleSystem("Spawn_v2", transform.position + new Vector3(0, 0.1f, 0), Quaternion.identity);
+                        enemyAudioPlayer.PlaySFX(2, 0.4f, Random.Range(0.96f, 1.04f));
+                        hasAppeared = true;
+                    }
+
+                    return;
+                }
+            }
+
+            if (unfreezeTime > 0)
+            {
+                unfreezeTime -= Time.deltaTime;
+                return;
+            }
+
             SetChase();
             StartCoroutine(FenrirJumpCD());
         }
@@ -188,12 +225,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void ChaseUpdate()
     {
-        if(unfreezeTime > 0)
-        {
-            unfreezeTime -= Time.deltaTime;
-            return;
-        }
-
         enemyAgent.isStopped = false;
         enemyAgent.SetDestination(targetTransform.position);
 
@@ -250,9 +281,9 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void DeadUpdate()
     {
-        if(enemyAgent.enabled)
+        if (enemyAgent.enabled)
         {
-            if(!enemyAgent.isStopped)
+            if (!enemyAgent.isStopped)
             {
                 enemyAgent.isStopped = true;
             }
@@ -334,7 +365,12 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void SetDead()
     {
-        if (enemyType == EnemyStats.EnemyType.Fenrir) PlayingEndMessage.PlayVictory();
+        if (enemyType == EnemyStats.EnemyType.Fenrir)
+        {
+            endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Victory, 3.5f, 0.2f, new Vector3(0, 5, -5));
+            targetBehaviour.gameObject.GetComponent<AudioPlayer>().PlaySFX(16, 0.5f, 1f);
+            targetBehaviour.SetMainEnemyDeath();
+        }
 
         enemyAgent.isStopped = true;
         enemyAnimator.SetTrigger("die");
@@ -343,7 +379,6 @@ public class EnemyBehaviour : MonoBehaviour {
         targetBehaviour.SetDestination(targetTransform.position);
 
         targetBehaviour.SetBeingAttacked(this.gameObject.name, false);
-        if (enemyType == EnemyStats.EnemyType.Fenrir) targetBehaviour.SetMainEnemyDeath();
 
         enemyState = EnemyStates.Dead;
     }
@@ -753,7 +788,12 @@ public class EnemyBehaviour : MonoBehaviour {
     public void SetPlayerDeath()
     {
         playerIsDead = true;
-        enemyAnimator.enabled = false;
+        //enemyAnimator.enabled = false;
+    }
+
+    public void SetMainEnemyDeath()
+    {
+        if (enemyState != EnemyStates.Dead) SetDead();
     }
 
     #endregion
