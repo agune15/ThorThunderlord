@@ -769,7 +769,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -150, y: 66}
-  m_SizeDelta: {x: 280, y: 320}
+  m_SizeDelta: {x: 280, y: 390}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1337546340
 MonoBehaviour:
@@ -818,7 +818,15 @@ MonoBehaviour:
     daniel gomez salamanca
 
 
-    daniel gomez haba'
+    daniel gomez haba
+
+
+    nil santnicolas
+
+
+    james vincent marshall
+
+'
 --- !u!222 &1337546341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -879,7 +887,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0c2e31cb30a02aa46b8202d04c43b32c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e6d8410819b9ab64eb7640ad26a6f90b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1021,7 +1029,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0c2e31cb30a02aa46b8202d04c43b32c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e6d8410819b9ab64eb7640ad26a6f90b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1067,7 +1075,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -256}
+  m_AnchoredPosition: {x: 0, y: -365}
   m_SizeDelta: {x: 750, y: 70}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1549160412
@@ -1136,15 +1144,15 @@ RectTransform:
   m_GameObject: {fileID: 1689772340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.000005, y: 1.000005, z: 1.000005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 877383210}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: 66.00003}
-  m_SizeDelta: {x: 250, y: 320}
+  m_AnchoredPosition: {x: 150, y: 66}
+  m_SizeDelta: {x: 250, y: 390}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1689772342
 MonoBehaviour:
@@ -1179,7 +1187,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
   m_Text: "roger borniquel\n\ndavid moreno\n\njavier urios\n\nliam foley\n\noscar
-    iba\xF1ez\n\nivan mesa"
+    iba\xF1ez\n\nivan mesa\n\naleksander forca\n\npedro fuentes"
 --- !u!222 &1689772343
 CanvasRenderer:
   m_ObjectHideFlags: 0

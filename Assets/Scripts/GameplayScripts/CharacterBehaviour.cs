@@ -336,7 +336,7 @@ public class CharacterBehaviour : MonoBehaviour {
         cameraBehaviour.SetPlayerCanMove(false);
 
         thorAnimator.SetTrigger("die");
-        endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Defeat, 2, 0.2f, new Vector3(0, 4, -4));
+        endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Defeat, playerTransform, 2, 0.2f, new Vector3(0, 4, -4));
         moveStates = MoveStates.Dead;
 
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))

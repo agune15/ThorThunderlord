@@ -79,7 +79,7 @@ public class PlayEnding : MonoBehaviour {
         }
 	}
 
-    public void PlayGameEnding (EndingTypes ending, float cameraTransitionTime, float timeScale, Vector3 cameraEndPosition)
+    public void PlayGameEnding (EndingTypes ending, Transform targetTransitionTransform, float cameraTransitionTime, float timeScale, Vector3 cameraEndPosition)
     {
         delayTime = cameraTransitionTime;
 
@@ -87,7 +87,7 @@ public class PlayEnding : MonoBehaviour {
 
         playGameEnding = true;
 
-        cameraBehaviour.CameraEndTransition(cameraTransitionTime, cameraEndPosition);
+        cameraBehaviour.CameraEndTransition(targetTransitionTransform, cameraTransitionTime, cameraEndPosition);
         timeManager.SetTimeScaleAndDuration(timeScale, cameraTransitionTime, TimeManager.ScaleTimeTypes.Flat);
 
         //if (endingType == EndingTypes.Defeat) screen en blanco i negro (afectara al texto??)

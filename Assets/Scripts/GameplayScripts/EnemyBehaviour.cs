@@ -188,11 +188,12 @@ public class EnemyBehaviour : MonoBehaviour {
         if(Vector3.Distance(transform.position, targetTransform.position) < chaseRange)
         {
             isInChaseRange = true;
+
+            if (enemyType == EnemyStats.EnemyType.Skull) SetRotation();
         }
 
         if (isInChaseRange)
         {
-            SetRotation();
 
             if (enemyType == EnemyStats.EnemyType.Skull)
             {
@@ -367,7 +368,7 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         if (enemyType == EnemyStats.EnemyType.Fenrir)
         {
-            endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Victory, 3.5f, 0.2f, new Vector3(0, 5, -5));
+            endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Victory, transform, 3.5f, 0.2f, new Vector3(0, 5, -5));
             targetBehaviour.gameObject.GetComponent<AudioPlayer>().PlaySFX(16, 0.5f, 1f);
             targetBehaviour.SetMainEnemyDeath();
         }
@@ -625,7 +626,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
                         bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
-                        targetBehaviour.SetDamage(14, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(16, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -641,7 +642,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
                         bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
-                        targetBehaviour.SetDamage(22, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(24, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -657,7 +658,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
                         bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
-                        targetBehaviour.SetDamage(18, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(20, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -673,7 +674,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
                         bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
-                        targetBehaviour.SetDamage(18, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(20, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }
@@ -689,7 +690,7 @@ public class EnemyBehaviour : MonoBehaviour {
                         float desiredAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
 
                         bool playPlayerHurtSound = (Random.Range(0.0f, 1.0f) >= 0.7f) ? true : false;
-                        targetBehaviour.SetDamage(18, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
+                        targetBehaviour.SetDamage(20, playPlayerHurtSound, Quaternion.Euler(0, desiredAngle, 0));
 
                         alreadyAttacked = true;
                     }

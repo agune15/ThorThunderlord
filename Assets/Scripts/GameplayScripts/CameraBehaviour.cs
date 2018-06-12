@@ -64,6 +64,8 @@ public class CameraBehaviour : MonoBehaviour {
     float endTransitionTimer = 0;
     float endTransitionTime = 0;
 
+    Transform endTargetTransform;
+
 
     private void Start()
     {
@@ -241,16 +243,15 @@ public class CameraBehaviour : MonoBehaviour {
 
     #region Camera End Transition
 
-    public void CameraEndTransition (float transitionTime, Vector3 endPositionOffset)
+    public void CameraEndTransition (Transform targetTransform, float transitionTime, Vector3 endPositionOffset)
     {
         isCameraEndTransitioning = true;
+        endTargetTransform = targetTransform;
         
         offsetPos = endPositionOffset;
 
         endTransitionTime = transitionTime;
         endTransitionTimer = 0;
-
-        relativePos = playerTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
     }
 
     void CameraEndTransitionUpdate ()
@@ -258,6 +259,8 @@ public class CameraBehaviour : MonoBehaviour {
         if (endTransitionTimer <= endTransitionTime)
         {
             endTransitionTimer += Time.unscaledDeltaTime;
+
+            relativePos = endTargetTransform.position + offsetPos + new Vector3(0, heightOffset, 0);
 
             cameraControllerTransform.position = Vector3.Lerp(cameraControllerTransform.position, relativePos, Mathf.SmoothStep(0, 1, endTransitionTimer / endTransitionTime));
 

@@ -12,7 +12,6 @@ public class SettingsManager : MonoBehaviour
     public PostProcessingProfile[] postProcessingProfiles;
     public Slider basicExposure;
     public GameSettings gameSettings;
-    
 
     void Start()
     {
