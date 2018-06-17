@@ -86,7 +86,7 @@ public class EnemyStats : MonoBehaviour {
 
     void SkullInit()
     {
-        life = 30;
+        life = 32;
         maxLife = life;
     }
 

@@ -450,10 +450,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1858791870974536, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c7700ed99fa1fe44a3e630eaa65ae9c, type: 2}
   m_IsPrefabParent: 0
@@ -6868,16 +6864,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 328508606495628964, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
-        type: 2}
-      propertyPath: m_TargetCamera
-      value: 
-      objectReference: {fileID: 1952639531}
-    - target: {fileID: 328153618367790774, guid: 80c89b9130c36364ea8ca147ad6cb6bd,
-        type: 2}
-      propertyPath: m_TargetCamera
-      value: 
-      objectReference: {fileID: 1952639531}
+    - target: {fileID: 1557857380296490, guid: 80c89b9130c36364ea8ca147ad6cb6bd, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 80c89b9130c36364ea8ca147ad6cb6bd, type: 2}
   m_IsPrefabParent: 0
@@ -12351,11 +12341,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 207e96133dd2029439906ad5e3297da8, type: 3}
   m_PrefabInternal: {fileID: 1945049439}
---- !u!20 &1952639531 stripped
-Camera:
-  m_PrefabParentObject: {fileID: 20112147624461556, guid: c2ca4dd359d1ff94ebdfdafa938ee7eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1505864003}
 --- !u!1001 &1953353178
 Prefab:
   m_ObjectHideFlags: 0
@@ -12558,7 +12543,7 @@ GameObject:
   - component: {fileID: 1980385125}
   - component: {fileID: 1980385126}
   m_Layer: 0
-  m_Name: Fenrir Directional light
+  m_Name: Directional light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

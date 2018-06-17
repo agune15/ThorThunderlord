@@ -59,7 +59,7 @@ public class SettingsManager : MonoBehaviour
         QualitySettings.SetQualityLevel(2, true);
     }
 
-    public void ChangeQualityFantastic()
+    public void ChangeQualityHigh()
     {
         QualitySettings.SetQualityLevel(3, true);
     }

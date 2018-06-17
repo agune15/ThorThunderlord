@@ -27,7 +27,7 @@ public class UIPressButtons : MonoBehaviour {
     {
         cameraTransition = GameObject.FindWithTag("MainCamera").GetComponent<CameraTransition>();
 
-        ButtonHightlights();
+        SetButtonHighlights();
     }
     
     void Update () {
@@ -46,7 +46,7 @@ public class UIPressButtons : MonoBehaviour {
         }
     }
 
-    void ButtonHightlights ()
+    void SetButtonHighlights ()
     {
         //Resolution button highlighting
         if (Screen.currentResolution.width == 1280)
@@ -73,7 +73,7 @@ public class UIPressButtons : MonoBehaviour {
         }
         else if (QualitySettings.GetQualityLevel() == 3)
         {
-            GameObject.Find("Fantastic").GetComponent<Animator>().SetTrigger("Highlighted");
+            GameObject.Find("High").GetComponent<Animator>().SetTrigger("Highlighted");
         }
         else if (QualitySettings.GetQualityLevel() == 4)
         {

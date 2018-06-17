@@ -54,7 +54,7 @@ public class InputManager : MonoBehaviour {
 
     void PlayerInput()
     {
-        if (Input.GetButtonDown("Pause") && endingPlayer.IsGameEnding()) pauseGameplay.Pause();
+        if (Input.GetButtonDown("Pause") && !endingPlayer.IsGameEnding()) pauseGameplay.Pause();
 
         if (!pauseGameplay.isGamePaused)
         {

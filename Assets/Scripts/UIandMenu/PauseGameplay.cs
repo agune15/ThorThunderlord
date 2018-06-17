@@ -42,6 +42,8 @@ public class PauseGameplay : MonoBehaviour {
                 CursorManager.SetAndStoreCursor("default", Vector2.zero, CursorMode.Auto);
                 Time.timeScale = pauseTimeScale;
 
+               SetButtonHighlights();
+
                 foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
                     enemy.GetComponent<EnemyStats>().SetDefaultShader();
@@ -71,5 +73,53 @@ public class PauseGameplay : MonoBehaviour {
         sound.SetActive(areActive);
         controls.SetActive(areActive);
         languages.SetActive(areActive);
+    }
+
+    void SetButtonHighlights()
+    {
+        //Resolution button highlighting
+        if (Screen.currentResolution.width == 1280)
+        {
+            GameObject.Find("1280 x 720").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+        else if (Screen.currentResolution.width == 1600)
+        {
+            GameObject.Find("1600 x 1200").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+        else if (Screen.currentResolution.width == 1920)
+        {
+            GameObject.Find("1920 x 1080").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+
+        //Quality button highlighting
+        if (QualitySettings.GetQualityLevel() == 1)
+        {
+            GameObject.Find("Fast").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+        else if (QualitySettings.GetQualityLevel() == 2)
+        {
+            GameObject.Find("Good").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+        else if (QualitySettings.GetQualityLevel() == 3)
+        {
+            GameObject.Find("High").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+        else if (QualitySettings.GetQualityLevel() == 4)
+        {
+            GameObject.Find("Ultra").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+
+        //Full screen button highlighting
+        if (Screen.fullScreen)
+        {
+            GameObject.Find("FullScreen").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+        else
+        {
+            GameObject.Find("Windowed").GetComponent<Animator>().SetTrigger("Highlighted");
+        }
+
+        //Language button highlighting
+        GameObject.Find("English").GetComponent<Animator>().SetTrigger("Highlighted");
     }
 }
