@@ -14,6 +14,7 @@ public class CharacterBehaviour : MonoBehaviour {
     TimeManager timeManager;
     AudioPlayer audioPlayer;
     PlayEnding endingPlayer;
+    MusicAmbientController musicAmbientController;
 
     //UI related
     PlayerHealthBar playerHealthBar;
@@ -159,6 +160,7 @@ public class CharacterBehaviour : MonoBehaviour {
         thorAnimator = GetComponentInChildren<Animator>();
         timeManager = GameObject.FindWithTag("manager").GetComponent<TimeManager>();
         audioPlayer = GetComponent<AudioPlayer>();
+        musicAmbientController = GameObject.FindWithTag("MusicAmbientController").GetComponent<MusicAmbientController>();
 
         foreach (AnimationClip animation in thorAnimator.runtimeAnimatorController.animationClips)
         {
@@ -966,7 +968,11 @@ public class CharacterBehaviour : MonoBehaviour {
         if (enemyIsAttacking)
         {
             if (!enemiesWhoAttacked.Contains(enemyName)) enemiesWhoAttacked.Add(enemyName);
-            if (isBeingAttacked != enemyIsAttacking) isBeingAttacked = enemyIsAttacking;
+            if (isBeingAttacked != enemyIsAttacking)
+            {
+                isBeingAttacked = enemyIsAttacking;
+                musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Battle, 0.8f);
+            }
         }
         else
         {
@@ -976,7 +982,11 @@ public class CharacterBehaviour : MonoBehaviour {
             }
         }
 
-        if (enemiesWhoAttacked.Count == 0) isBeingAttacked = false;
+        if (enemiesWhoAttacked.Count == 0)
+        {
+            isBeingAttacked = false;
+            musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Default, 1.8f);
+        }
     }
 
     public void SetMainEnemyDeath()

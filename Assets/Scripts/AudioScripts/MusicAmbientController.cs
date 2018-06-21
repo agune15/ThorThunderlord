@@ -22,17 +22,9 @@ public class MusicAmbientController : MonoBehaviour {
     {
         int sceneAudiosIndex = scenesAudios.FindIndex(scene => scene.name == SceneManager.GetActiveScene().name);
 
-        if (SceneManager.GetActiveScene().name == "Thor_Tunderlord_Forest")
+        for (int index = 0; index < scenesAudios[sceneAudiosIndex].defaultAudios.Length; index++)
         {
-            foreach(AudioClip defaultClips in scenesAudios[sceneAudiosIndex].defaultAudios)
-            {
-                if (defaultClips.name == "ForestAmbient") Play(sceneAudiosIndex, 0, 0.8f, 1, true, true, "Ambient", MusicTypes.Default);
-                else if (defaultClips.name == "HowlingWind") Play(sceneAudiosIndex, 1, 0.35f, 1, true, true, "Ambient", MusicTypes.Default);
-            }
-        }
-        else if (SceneManager.GetActiveScene().name == "Thor_Tunderlord_FenrirBoss")
-        {
-
+            Play(sceneAudiosIndex, index, "Ambient", MusicTypes.Default, false);
         }
 	}
 	
@@ -44,67 +36,155 @@ public class MusicAmbientController : MonoBehaviour {
             {
                 transitionTimer += Time.deltaTime;
 
-                //Mathf.SmoothStep para las transiciones
+                foreach (SourcesAndVolume audioSource in currentAudioSources)
+                {
+                    if (audioSource.source.volume <= 0)
+                    {
+                        if (audioSource.source.volume != 0) audioSource.source.volume = 0;
+                        continue;
+                    }
 
+                    audioSource.source.volume = Mathf.SmoothStep(audioSource.volume, 0, transitionTimer / transitionDuration);
+                }
+
+                foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                {
+                    if (audioSource.source.volume >= audioSource.volume)
+                    {
+                        if (audioSource.source.volume != audioSource.volume) audioSource.source.volume = audioSource.volume;
+                        continue;
+                    }
+
+                    audioSource.source.volume = Mathf.SmoothStep(0, audioSource.volume, transitionTimer / transitionDuration);
+                }
+            }
+            else
+            {
+                isTransitioning = false;
+
+                foreach (SourcesAndVolume audioSource in currentAudioSources)
+                {
+                    Destroy(audioSource.source);
+                }
+
+                foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                {
+                    if (audioSource.source.volume != audioSource.volume) audioSource.source.volume = audioSource.volume;
+                }
             }
         }
-
 	}
-    
-    void Play(int sceneAudiosIndex, int clipIndex, float volume, float pitch, bool loop, bool audio2D, string groupName, MusicTypes clipType) //Metodo para playear audio
+
+    void Play(int sceneAudiosIndex, int clipIndex, string groupName, MusicTypes clipType, bool addToUpcomingSources)
     {
         AudioSource source = this.gameObject.AddAudioSource();
 
         switch (clipType)
         {
             case MusicTypes.Default:
-                source.Play(scenesAudios[sceneAudiosIndex].defaultAudios[clipIndex], volume, pitch, loop, audio2D, groupName);
+                source.Play(scenesAudios[sceneAudiosIndex].defaultAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].defaultAudios[clipIndex].volume, 1f, true, true, groupName);
                 break;
             case MusicTypes.Battle:
-                source.Play(scenesAudios[sceneAudiosIndex].battleAudios[clipIndex], volume, pitch, loop, audio2D, groupName);
+                source.Play(scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].volume, 1f, true, true, groupName);
                 break;
             default:
                 break;
         }
-        
-        if (!loop) Destroy(source, source.clip.length);
-    }
 
-    public void SetMusicType(MusicTypes musicType, float transitionTime) //Metodo para hacer blending de audios
-    {
-        transitionDuration = transitionTime;
+        //if (!loop) Destroy(source, source.clip.length);
 
-        if (currentAudioSources.Capacity > 0) currentAudioSources.Clear();
-        if (upcomingAudioSources.Capacity > 0) upcomingAudioSources.Clear();
-
-        foreach (AudioSource source in gameObject.GetComponents<AudioSource>())
+        if (addToUpcomingSources)
         {
-            SourcesAndVolume sourceAndVolume = new SourcesAndVolume(source, source.volume);
-            currentAudioSources.Add(sourceAndVolume);
+            SourcesAndVolume newSource = new SourcesAndVolume(source, source.volume);
+            upcomingAudioSources.Add(newSource);
         }
-
-        //playear audios
-        //guardar audioplayers
-
-        //isTransitioning = true;
     }
 
+    public void SetMusicType(MusicTypes desiredMusicType, float transitionTime) //Metodo para hacer blending de audios
+    {
+        if (desiredMusicType == musicType) return;
 
-    
+        musicType = desiredMusicType;
+
+        if (isTransitioning)
+        {
+            transitionTimer = (transitionTimer / transitionDuration) * transitionTime;
+            transitionDuration = transitionTime;
+
+            List<SourcesAndVolume> tempCurrentAudioSources = currentAudioSources;
+
+            currentAudioSources = upcomingAudioSources;
+            upcomingAudioSources = tempCurrentAudioSources;
+        }
+        else
+        {
+            transitionTimer = 0;
+            transitionDuration = transitionTime;
+
+            if (currentAudioSources.Capacity > 0) currentAudioSources.Clear();
+            if (upcomingAudioSources.Capacity > 0) upcomingAudioSources.Clear();
+
+            foreach (AudioSource source in gameObject.GetComponents<AudioSource>())
+            {
+                SourcesAndVolume sourceAndVolume = new SourcesAndVolume(source, source.volume);
+                currentAudioSources.Add(sourceAndVolume);
+            }
+
+            int sceneAudiosIndex = scenesAudios.FindIndex(scene => scene.name == SceneManager.GetActiveScene().name);
+
+            switch (musicType)
+            {
+                case MusicTypes.Default:
+                    for (int index = 0; index < scenesAudios[sceneAudiosIndex].defaultAudios.Length; index++)
+                    {
+                        string clipGroupName = (index == 0 || index == 1) ? "Ambient" : "Music";
+                        Play(sceneAudiosIndex, index, clipGroupName, musicType, true);
+                        upcomingAudioSources[index].source.volume = 0;
+                    }
+                    break;
+                case MusicTypes.Battle:
+                    for (int index = 0; index < scenesAudios[sceneAudiosIndex].battleAudios.Length; index++)
+                    {
+                        string clipGroupName = (index == 0) ? "Music" : "Ambient";
+                        Play(sceneAudiosIndex, index, clipGroupName, musicType, true);
+                        upcomingAudioSources[index].source.volume = 0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+            isTransitioning = true;
+        }
+    }
 }
 
 [System.Serializable]
 public class SceneAudios {
 
     public string name;
-    public AudioClip[] defaultAudios;
-    public AudioClip[] battleAudios;
+    public AudioClipAndVolume[] defaultAudios;
+    public AudioClipAndVolume[] battleAudios;
 
-    public SceneAudios (string sceneName, AudioClip[] defaultClips, AudioClip[] battleClips)
+    public SceneAudios (string sceneName, AudioClipAndVolume[] defaultClips, AudioClipAndVolume[] battleClips)
     {
         name = sceneName;
         defaultAudios = defaultClips;
         battleAudios = battleClips;
+    }
+}
+
+[System.Serializable]
+public class AudioClipAndVolume
+{
+    public AudioClip clip;
+    public float volume;
+
+    public AudioClipAndVolume (AudioClip audioClip, float clipVolume)
+    {
+        clip = audioClip;
+        volume = clipVolume;
     }
 }
 
