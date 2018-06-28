@@ -971,7 +971,7 @@ public class CharacterBehaviour : MonoBehaviour {
             if (isBeingAttacked != enemyIsAttacking)
             {
                 isBeingAttacked = enemyIsAttacking;
-                musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Battle, 0.8f);
+                musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Battle, 0.8f, 0f);
             }
         }
         else
@@ -985,7 +985,7 @@ public class CharacterBehaviour : MonoBehaviour {
         if (enemiesWhoAttacked.Count == 0)
         {
             isBeingAttacked = false;
-            musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Default, 1.8f);
+            musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Default, 1.8f, 0f);
         }
     }
 

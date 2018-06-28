@@ -107,6 +107,7 @@ MonoBehaviour:
   playerCamBehaviour: {fileID: 0}
   playerCamRaycaster: {fileID: 0}
   pauseGameplay: {fileID: 0}
+  endingPlayer: {fileID: 0}
   levelLogic: {fileID: 0}
   controllerAvailable: 0
   useController: 0
