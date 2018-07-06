@@ -9,6 +9,7 @@ public class MusicAmbientController : MonoBehaviour {
     MusicTypes musicType = MusicTypes.Default;
 
     public List<SceneAudios> scenesAudios = new List<SceneAudios>();
+    public EndingAudios endingAudios;
 
     List<SourcesAndVolume> currentAudioSources = new List<SourcesAndVolume>();
     List<SourcesAndVolume> upcomingAudioSources = new List<SourcesAndVolume>();
@@ -156,10 +157,10 @@ public class MusicAmbientController : MonoBehaviour {
                 source.Play(scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].volume, 1f, true, true, groupName);
                 break;
             case MusicTypes.Victory:
-                source.Play(scenesAudios[sceneAudiosIndex].victoryAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].volume, 1f, true, true, groupName);
+                source.Play(endingAudios.victoryAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].volume, 1f, true, true, groupName);
                 break;
             case MusicTypes.Defeat:
-                source.Play(scenesAudios[sceneAudiosIndex].defeatAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].volume, 1f, true, true, groupName);
+                source.Play(endingAudios.defeatAudios[clipIndex].clip, scenesAudios[sceneAudiosIndex].battleAudios[clipIndex].volume, 1f, true, true, groupName);
                 break;
             default:
                 break;
@@ -268,14 +269,23 @@ public class SceneAudios {
     public string name;
     public AudioClipAndVolume[] defaultAudios;
     public AudioClipAndVolume[] battleAudios;
-    public AudioClipAndVolume[] victoryAudios;
-    public AudioClipAndVolume[] defeatAudios;
 
-    public SceneAudios (string sceneName, AudioClipAndVolume[] defaultClips, AudioClipAndVolume[] battleClips, AudioClipAndVolume[] victoryClips, AudioClipAndVolume[] defeatClips)
+    public SceneAudios (string sceneName, AudioClipAndVolume[] defaultClips, AudioClipAndVolume[] battleClips)
     {
         name = sceneName;
         defaultAudios = defaultClips;
         battleAudios = battleClips;
+    }
+}
+
+[System.Serializable]
+public class EndingAudios
+{
+    public AudioClipAndVolume[] victoryAudios;
+    public AudioClipAndVolume[] defeatAudios;
+
+    public EndingAudios (AudioClipAndVolume[] victoryClips, AudioClipAndVolume[] defeatClips)
+    {
         victoryAudios = victoryClips;
         defeatAudios = defeatClips;
     }

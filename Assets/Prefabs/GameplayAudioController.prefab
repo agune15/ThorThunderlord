@@ -62,7 +62,14 @@ MonoBehaviour:
     - clip: {fileID: 8300000, guid: e88a89a352544c5439202c8ac450f6ba, type: 3}
       volume: 0.4
   - name: Thor_Tunderlord_FenrirBoss
-    defaultAudios: []
+    defaultAudios:
+    - clip: {fileID: 0}
+      volume: 0
     battleAudios:
     - clip: {fileID: 0}
       volume: 0
+  endingAudios:
+    victoryAudios: []
+    defeatAudios:
+    - clip: {fileID: 8300000, guid: f3c893e094a3ba44bab7f3ad6a0397de, type: 3}
+      volume: 0.5
