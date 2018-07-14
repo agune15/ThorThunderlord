@@ -175,6 +175,12 @@ public class MusicAmbientController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// transitionDelayTime has to be bigger than transitionTime to make a delayed transition, or 0 to make a transition with no delay.
+    /// </summary>
+    /// <param name="desiredMusicType"></param>
+    /// <param name="transitionTime"></param>
+    /// <param name="transitionDelayTime"></param>
     public void SetMusicType(MusicTypes desiredMusicType, float transitionTime, float transitionDelayTime) //Metodo para hacer blending de audios
     {
         if (desiredMusicType == musicType) return;

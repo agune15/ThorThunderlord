@@ -13,6 +13,7 @@ public class PlayEnding : MonoBehaviour {
     TimeManager timeManager;
     ChangeScene sceneChanger;
     public AudioPlayer endingAudioPlayer;
+    MusicAmbientController musicAmbientController;
 
     public GameObject endingCanvas;
     public Text endMessage;
@@ -36,6 +37,7 @@ public class PlayEnding : MonoBehaviour {
         cameraBehaviour = GameObject.FindWithTag("CameraController").GetComponent<CameraBehaviour>();
         timeManager = GameObject.FindWithTag("manager").GetComponent<TimeManager>();
         sceneChanger = GameObject.FindWithTag("GameplayUI").GetComponent<ChangeScene>();
+        musicAmbientController = GameObject.FindWithTag("MusicAmbientController").GetComponent<MusicAmbientController>();
 
         //Seteadas des del editor
         /*endingCanvas = GameObject.Find("Ending");
@@ -89,6 +91,18 @@ public class PlayEnding : MonoBehaviour {
 
         cameraBehaviour.CameraEndTransition(targetTransitionTransform, cameraTransitionTime, cameraEndPosition);
         timeManager.SetTimeScaleAndDuration(timeScale, cameraTransitionTime, TimeManager.ScaleTimeTypes.Flat);
+
+        switch (endingType)
+        {
+            case EndingTypes.Victory:
+                //musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Victory, 0, 0);
+                break;
+            case EndingTypes.Defeat:
+                //musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Defeat, 0, 0);
+                break;
+            default:
+                break;
+        }
 
         //if (endingType == EndingTypes.Defeat) screen en blanco i negro (afectara al texto??)
     }
