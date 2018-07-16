@@ -92,13 +92,15 @@ public class PlayEnding : MonoBehaviour {
         cameraBehaviour.CameraEndTransition(targetTransitionTransform, cameraTransitionTime, cameraEndPosition);
         timeManager.SetTimeScaleAndDuration(timeScale, cameraTransitionTime, TimeManager.ScaleTimeTypes.Flat);
 
+        float audioTransitionTime = (cameraTransitionTime > 0.5f) ? 0.5f : cameraTransitionTime;
+
         switch (endingType)
         {
             case EndingTypes.Victory:
-                //musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Victory, 0, 0);
+                musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Victory, audioTransitionTime, cameraTransitionTime);
                 break;
             case EndingTypes.Defeat:
-                //musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Defeat, 0, 0);
+                musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Defeat, audioTransitionTime, cameraTransitionTime);
                 break;
             default:
                 break;

@@ -963,7 +963,7 @@ public class CharacterBehaviour : MonoBehaviour {
         SetDamage(damage, playSound);
     }
 
-    public void SetBeingAttacked(string enemyName, bool enemyIsAttacking)
+    public void SetBeingAttacked(string enemyName, bool enemyIsAttacking, bool setMusicType)
     {
         if (enemyIsAttacking)
         {
@@ -971,7 +971,7 @@ public class CharacterBehaviour : MonoBehaviour {
             if (isBeingAttacked != enemyIsAttacking)
             {
                 isBeingAttacked = enemyIsAttacking;
-                musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Battle, 0.8f, 0f);
+                if (setMusicType) musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Battle, 0.8f, 0f);
             }
         }
         else
@@ -985,7 +985,7 @@ public class CharacterBehaviour : MonoBehaviour {
         if (enemiesWhoAttacked.Count == 0)
         {
             isBeingAttacked = false;
-            musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Default, 1.8f, 0f);
+            if (setMusicType) musicAmbientController.SetMusicType(MusicAmbientController.MusicTypes.Default, 1.8f, 0f);
         }
     }
 
@@ -994,7 +994,7 @@ public class CharacterBehaviour : MonoBehaviour {
         cameraBehaviour.SetPlayerCanMove(false);
         mainEnemyDied = true;
 
-        /*foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy").)
+        /*foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             enemy.GetComponent<EnemyBehaviour>().SetMainEnemyDeath();
         }*/

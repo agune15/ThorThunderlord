@@ -40,6 +40,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public bool playerIsDead = false;  //Necesario?
 
+    bool mainEnemyDied = false;
+
     //Chase parameters
     public float unfreezeTime;
     public float chaseRange;
@@ -315,7 +317,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
         enemyState = EnemyStates.Chase;
 
-        targetBehaviour.SetBeingAttacked(this.gameObject.name, true);
+        targetBehaviour.SetBeingAttacked(this.gameObject.name, true, true);
     }
 
     void SetAttack()
@@ -371,6 +373,11 @@ public class EnemyBehaviour : MonoBehaviour {
             endingPlayer.PlayGameEnding(PlayEnding.EndingTypes.Victory, transform, 3.5f, 0.2f, new Vector3(0, 5, -5));
             targetBehaviour.gameObject.GetComponent<AudioPlayer>().PlaySFX(16, 0.5f, 1f);
             targetBehaviour.SetMainEnemyDeath();
+
+            foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+            {
+                enemy.GetComponent<EnemyBehaviour>().SetMainEnemyDeath();
+            }
         }
 
         enemyAgent.isStopped = true;
@@ -379,7 +386,8 @@ public class EnemyBehaviour : MonoBehaviour {
         targetBehaviour.SetBasicAttackTransform(null, false);
         targetBehaviour.SetDestination(targetTransform.position);
 
-        targetBehaviour.SetBeingAttacked(this.gameObject.name, false);
+        if (mainEnemyDied) targetBehaviour.SetBeingAttacked(this.gameObject.name, false, false);
+        else targetBehaviour.SetBeingAttacked(this.gameObject.name, false, true);
 
         enemyState = EnemyStates.Dead;
     }
@@ -794,7 +802,11 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public void SetMainEnemyDeath()
     {
-        if (enemyState != EnemyStates.Dead) SetDead();
+        if (enemyState != EnemyStates.Dead)
+        {
+            mainEnemyDied = true;
+            //SetDead();
+        }
     }
 
     #endregion

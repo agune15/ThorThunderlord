@@ -92,7 +92,7 @@ public class EnemyStats : MonoBehaviour {
 
     void FenrirInit()
     {
-        life = 300;     //Change to 300
+        life = 300;
         maxLife = life;
     }
 
