@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MusicAmbientController : MonoBehaviour {
 
-    public enum MusicTypes { Default, Battle, Victory, Defeat }
-    MusicTypes musicType = MusicTypes.Default;
+    public enum MusicTypes { Default, Battle, Victory, Defeat } //Add new state "None" and call SetMusicType add Start()
+    MusicTypes musicType = MusicTypes.Default;  //Actual
+    MusicTypes previousMusicType = MusicTypes.Default;  //Previa a la actual
 
     public List<SceneAudios> scenesAudios = new List<SceneAudios>();
     public EndingAudios endingAudios;
@@ -34,9 +35,9 @@ public class MusicAmbientController : MonoBehaviour {
         }
 	}
 	
-	void Update () {
-		
-        if (isTransitioning)
+	void Update ()
+    {
+	    if (isTransitioning)
         {
             if (transitionWithDelay)
             {
@@ -55,13 +56,6 @@ public class MusicAmbientController : MonoBehaviour {
                         }
 
                         audioSource.source.volume = Mathf.SmoothStep(audioSource.volume, 0, transitionTimer / transitionDuration);
-                    }
-                }
-                else
-                {
-                    foreach (SourcesAndVolume audioSource in currentAudioSources)
-                    {
-                        Destroy(audioSource.source);
                     }
                 }
 
@@ -90,12 +84,17 @@ public class MusicAmbientController : MonoBehaviour {
                             continue;
                         }
 
-                        audioSource.source.volume = Mathf.SmoothStep(0, audioSource.volume, transitionTimer / transitionDuration);
+                        audioSource.source.volume = Mathf.SmoothStep(0, audioSource.volume, transitionTimer - transitionDelayDuration / transitionDuration);
                     }
                 }
                 else
                 {
                     isTransitioning = false;
+
+                    foreach (SourcesAndVolume audioSource in currentAudioSources)
+                    {
+                        Destroy(audioSource.source);
+                    }
 
                     foreach (SourcesAndVolume audioSource in upcomingAudioSources)
                     {
@@ -192,31 +191,91 @@ public class MusicAmbientController : MonoBehaviour {
     {
         if (desiredMusicType == musicType) return;
 
-        Debug.Log("yeee");
-
-        musicType = desiredMusicType;
-
         transitionWithDelay = (transitionDelayTime > 0) ? true : false;
 
         if (isTransitioning)
         {
-            //CORREGIR ESTO PENSANDO EN QUE HAY 4 TIPOS DE AUDIOS, NO 2!
-            transitionTimer = (transitionTimer / transitionDuration) * transitionTime;
-            transitionDuration = transitionTime;
-            transitionDelayTimer = (1 - (transitionDelayTimer / transitionDelayDuration)) * transitionDelayTime;
-            transitionDelayDuration = transitionDelayTime;
+            if (previousMusicType == desiredMusicType)  //Musica previa a la actual == Musica por venir
+            {
+                transitionTimer = (transitionTimer / transitionDuration) * transitionTime;
+                transitionDuration = transitionTime;
+                transitionDelayTimer = (1 - (transitionDelayTimer / transitionDelayDuration)) * transitionDelayTime;
+                transitionDelayDuration = transitionDelayTime;
 
-            List<SourcesAndVolume> tempCurrentAudioSources = currentAudioSources;
+                List<SourcesAndVolume> tempCurrentAudioSources = currentAudioSources;
 
-            currentAudioSources = upcomingAudioSources;
-            upcomingAudioSources = tempCurrentAudioSources;
-            //(hasta aquí)
+                currentAudioSources = upcomingAudioSources;
+                upcomingAudioSources = tempCurrentAudioSources;
+            }
+            else
+            {
+                transitionTimer = 0;
+                transitionDuration = transitionTime;
+                if (transitionWithDelay) transitionDelayTimer = transitionDelayDuration = transitionDelayTime;
+
+                currentAudioSources.AddRange(upcomingAudioSources);
+
+                foreach (SourcesAndVolume audioSource in currentAudioSources)
+                {
+                    audioSource.volume = audioSource.source.volume;
+                }
+
+                upcomingAudioSources.Clear();
+
+                int sceneAudiosIndex = scenesAudios.FindIndex(scene => scene.name == SceneManager.GetActiveScene().name);
+
+                switch (desiredMusicType)
+                {
+                    case MusicTypes.Default:
+                        for (int index = 0; index < scenesAudios[sceneAudiosIndex].defaultAudios.Length; index++)
+                        {
+                            string clipGroupName = " ";
+
+                            if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_Forest") clipGroupName = (index == 0 || index == 1) ? "Ambient" : "Music";
+                            else if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_FenrirBoss") clipGroupName = (index == 0) ? "Music" : "Ambient";
+
+                            Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
+                            upcomingAudioSources[index].source.volume = 0;
+                        }
+                        break;
+                    case MusicTypes.Battle:
+                        for (int index = 0; index < scenesAudios[sceneAudiosIndex].battleAudios.Length; index++)
+                        {
+                            string clipGroupName = " ";
+
+                            if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_Forest") clipGroupName = (index == 0) ? "Music" : "Ambient";
+                            else if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_FenrirBoss") clipGroupName = (index == 0) ? "Music" : "Ambient";
+
+                            Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
+                            upcomingAudioSources[index].source.volume = 0;
+                        }
+                        break;
+                    case MusicTypes.Victory:
+                        for (int index = 0; index < endingAudios.victoryAudios.Length; index++)
+                        {
+                            string clipGroupName = (index == 0) ? "Music" : "Ambient";
+                            Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
+                            upcomingAudioSources[index].source.volume = 0;
+                        }
+                        break;
+                    case MusicTypes.Defeat:
+                        for (int index = 0; index < endingAudios.defeatAudios.Length; index++)
+                        {
+                            string clipGroupName = (index == 0) ? "Music" : "Ambient";
+                            Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
+                            upcomingAudioSources[index].source.volume = 0;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         else
         {
             transitionTimer = 0;
             transitionDuration = transitionTime;
-            transitionDelayTimer = transitionDelayDuration = transitionDelayTime;
+            if (transitionWithDelay) transitionDelayTimer = transitionDelayDuration = transitionDelayTime;
 
             if (currentAudioSources.Capacity > 0) currentAudioSources.Clear();
             if (upcomingAudioSources.Capacity > 0) upcomingAudioSources.Clear();
@@ -229,7 +288,7 @@ public class MusicAmbientController : MonoBehaviour {
 
             int sceneAudiosIndex = scenesAudios.FindIndex(scene => scene.name == SceneManager.GetActiveScene().name);
 
-            switch (musicType)
+            switch (desiredMusicType)
             {
                 case MusicTypes.Default:
                     for (int index = 0; index < scenesAudios[sceneAudiosIndex].defaultAudios.Length; index++)
@@ -239,7 +298,7 @@ public class MusicAmbientController : MonoBehaviour {
                         if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_Forest") clipGroupName = (index == 0 || index == 1) ? "Ambient" : "Music";
                         else if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_FenrirBoss") clipGroupName = (index == 0) ? "Music" : "Ambient";
                         
-                        Play(sceneAudiosIndex, index, clipGroupName, musicType, true, transitionWithDelay);
+                        Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
                         upcomingAudioSources[index].source.volume = 0;
                     }
                     break;
@@ -251,7 +310,7 @@ public class MusicAmbientController : MonoBehaviour {
                         if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_Forest") clipGroupName = (index == 0) ? "Music" : "Ambient";
                         else if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_FenrirBoss") clipGroupName = (index == 0) ? "Music" : "Ambient";
 
-                        Play(sceneAudiosIndex, index, clipGroupName, musicType, true, transitionWithDelay);
+                        Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
                         upcomingAudioSources[index].source.volume = 0;
                     }
                     break;
@@ -259,7 +318,7 @@ public class MusicAmbientController : MonoBehaviour {
                     for (int index = 0; index < endingAudios.victoryAudios.Length; index++)
                     {
                         string clipGroupName = (index == 0) ? "Music" : "Ambient";
-                        Play(sceneAudiosIndex, index, clipGroupName, musicType, true, transitionWithDelay);
+                        Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
                         upcomingAudioSources[index].source.volume = 0;
                     }
                     break;
@@ -267,7 +326,7 @@ public class MusicAmbientController : MonoBehaviour {
                     for (int index = 0; index < endingAudios.defeatAudios.Length; index++)
                     {
                         string clipGroupName = (index == 0) ? "Music" : "Ambient";
-                        Play(sceneAudiosIndex, index, clipGroupName, musicType, true, transitionWithDelay);
+                        Play(sceneAudiosIndex, index, clipGroupName, desiredMusicType, true, transitionWithDelay);
                         upcomingAudioSources[index].source.volume = 0;
                     }
                     break;
@@ -275,9 +334,11 @@ public class MusicAmbientController : MonoBehaviour {
                     break;
             }
 
-
             isTransitioning = true;
         }
+
+        previousMusicType = musicType;
+        musicType = desiredMusicType;
     }
 }
 
