@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MusicAmbientController : MonoBehaviour {
 
-    public enum MusicTypes { Default, Battle, Victory, Defeat } //Add new state "None" and call SetMusicType add Start()
-    MusicTypes musicType = MusicTypes.Default;  //Actual
-    MusicTypes previousMusicType = MusicTypes.Default;  //Previa a la actual
+    public enum MusicTypes { None, Default, Battle, Victory, Defeat } //Add new state "None" and call SetMusicType add Start()
+    MusicTypes musicType = MusicTypes.None;  //Actual
+    MusicTypes previousMusicType = MusicTypes.None;  //Previa a la actual
 
     public List<SceneAudios> scenesAudios = new List<SceneAudios>();
     public EndingAudios endingAudios;
@@ -15,6 +15,7 @@ public class MusicAmbientController : MonoBehaviour {
     List<SourcesAndVolume> currentAudioSources = new List<SourcesAndVolume>();
     List<SourcesAndVolume> upcomingAudioSources = new List<SourcesAndVolume>();
 
+    bool initTransitionDone = false;
     bool isTransitioning = false;
     bool transitionWithDelay = false;
 
@@ -23,20 +24,18 @@ public class MusicAmbientController : MonoBehaviour {
     float transitionDelayDuration = 0;
     float transitionDelayTimer = 0;
 
-
-    void Start ()
-    {
-        int sceneAudiosIndex = scenesAudios.FindIndex(scene => scene.name == SceneManager.GetActiveScene().name);
-
-        for (int index = 0; index < scenesAudios[sceneAudiosIndex].defaultAudios.Length; index++)
-        {
-            if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_Forest") Play(sceneAudiosIndex, index, "Ambient", MusicTypes.Default, false, false);
-            else if (scenesAudios[sceneAudiosIndex].name == "Thor_Tunderlord_FenrirBoss") Play(sceneAudiosIndex, index, "Ambient", MusicTypes.Default, false, false);
-        }
-	}
 	
 	void Update ()
     {
+        if (!initTransitionDone)
+        {
+            if (scenesAudios.Exists(scene => scene.name == SceneManager.GetActiveScene().name))
+            {
+                SetMusicType(MusicTypes.Default, 1f, 0.7f);
+                initTransitionDone = true;
+            }
+        }
+
 	    if (isTransitioning)
         {
             if (transitionWithDelay)
