@@ -47,7 +47,7 @@ Correo / _e-mail_: alex.nebot.sds@gmail.com
 
 Portfolio: [Github - Alex Nebot](https://github.com/agune15)
 
-###### Our greetings, Crosby Games. 
+###### *Our greetings, Crosby Games.*
 
 
 ## Licencia / _License_
