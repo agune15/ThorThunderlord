@@ -1,5 +1,5 @@
 [![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Titulo_final.jpg)](https://www.youtube.com/watch?v=n5zUn9TvCWs)
-###### Click on the image to see the game's trailer. 
+###### Click on this image to see the game's trailer. 
 
 # **THOR THUNDERLORD and The Frozen Thieves** 
 
@@ -41,7 +41,7 @@ Portfolio: [Artstation Jon Cervellera](https://www.artstation.com/joncervellera)
 
 #### Alex Nebot:
 
-LinkedIn: [LinkedIn - Alex Nebot](linkedin.com/in/alex-nebot-oller)
+LinkedIn: [LinkedIn - Alex Nebot](https://www.linkedin.com/in/alex-nebot-oller)
 
 Correo / _e-mail_: alex.nebot.sds@gmail.com
 
@@ -52,7 +52,7 @@ Portfolio: [Github - Alex Nebot](https://github.com/agune15)
 
 ## Licencia / _License_
 
-[Puedes revisar la licencia del contenido del proyecto aquí. / You can check the licence of the project's contents here.](https://github.com/JonCervellera/Crosby/blob/master/LICENSE.md)
+[Puedes revisar la licencia del contenido del proyecto aquí. / You can check the licence of the project's content here.](https://github.com/JonCervellera/Crosby/blob/master/LICENSE.md)
 
 
 
