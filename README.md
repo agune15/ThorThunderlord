@@ -1,4 +1,5 @@
-[![Click on this image to see the game's trailer](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Titulo_final.jpg)](https://www.youtube.com/watch?v=n5zUn9TvCWs)
+[![](https://github.com/JonCervellera/Crosby/blob/master/WikiResources/Titulo_final.jpg)](https://www.youtube.com/watch?v=n5zUn9TvCWs)
+###### Click on the image to see the game's trailer. 
 
 # **THOR THUNDERLORD and The Frozen Thieves** 
 
@@ -21,7 +22,7 @@ Hola a todos, somos Victor Castejon, Alex Nebot y Jon Cervellera, un grupo de es
 
 _Hi everybody, we are Victor Castejon, Alex Nebot and Jon Cervellera, a group of students from a Game Design and Development Degree. This is our final degree project, and we hope you enjoy it as much as we did while developing it._
 
-Para más información, visitad la wiki del proyecto. _If you want more information, you can visit the project's wiki._ 
+Para más información, os invitamos a visitar la wiki del proyecto. _If you want more information, we recommend you to visit the project's wiki._ 
 
 [Ir al Game Design Document / _Go to the Game Design Document_](https://github.com/JonCervellera/Crosby/wiki)
 
@@ -51,9 +52,7 @@ Portfolio: [Github - Alex Nebot](https://github.com/agune15)
 
 ## Licencia / _License_
 
-[Puedes revisar la licencia del contenido del proyecto aquí. / You can check the licence of the project's contents here.](https://github.com/JonCervellera/Crosby/blob/master/LICENSE)
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Este obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">licencia de Creative Commons Reconocimiento-NoComercial 4.0 Internacional</a>.
+[Puedes revisar la licencia del contenido del proyecto aquí. / You can check the licence of the project's contents here.](https://github.com/JonCervellera/Crosby/blob/master/LICENSE.md)
 
 
 
