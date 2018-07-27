@@ -3,9 +3,9 @@
 
 # **THOR THUNDERLORD and The Frozen Thieves** 
 
-Sumérgete en la piel de Thor, recorre los páramos de Jötunheim y enfrentate a cantidad de enemigos!
+Sumérgete en la piel de Thor, recorre los páramos de Jötunheim y derrota a tu peor enemigo, Fenrir!
 
-_Immerse yourself into Thor's skin, go all over the Jötunheim's wastelands and fight against lots of enemies!_
+_Get under Thor's skin, go all over the Jötunheim's wastelands and defeat your one true enemy, Fenrir!_
 
 ## Características / _Features_
 
@@ -29,7 +29,7 @@ Para más información, os invitamos a visitar la wiki del proyecto. _If you wan
 
 #### Victor Castejon:
 
-Correo / _e-mail_: Caste.castejon@gmail.com
+Correo / _e-mail_: caste.castejon@gmail.com
 
 Portfolio: [Artstation Victor Castejon](https://www.artstation.com/caste)
 
