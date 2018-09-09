@@ -31,7 +31,7 @@ public class UIPressButtons : MonoBehaviour {
     }
     
     void Update () {
-        if(Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        if(Input.anyKeyDown)
         {
             if (startButton.isActiveAndEnabled && !cameraTransition.IsEasing() && startButton.interactable) startButton.onClick.Invoke();
         }
