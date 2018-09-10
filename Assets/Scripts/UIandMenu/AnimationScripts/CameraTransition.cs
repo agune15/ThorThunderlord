@@ -159,7 +159,7 @@ public class CameraTransition : MonoBehaviour
         }
     }
 
-    void SetButtonsInteractionState ()   //Sets whether the Press "Key" To Start button is interactable or not
+    void SetButtonsInteractionState ()   //Sets whether the "Press Any Key" button is interactable or not
     {
         if (startButton.activeSelf)
         {

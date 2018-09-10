@@ -33,7 +33,8 @@ public class UIPressButtons : MonoBehaviour {
     void Update () {
         if(Input.anyKeyDown)
         {
-            if (startButton.isActiveAndEnabled && !cameraTransition.IsEasing() && startButton.interactable) startButton.onClick.Invoke();
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) return;
+            else if (startButton.gameObject.activeSelf && !cameraTransition.IsEasing() && startButton.interactable) startButton.onClick.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
