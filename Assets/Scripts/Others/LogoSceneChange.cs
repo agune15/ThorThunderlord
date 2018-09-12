@@ -9,6 +9,8 @@ public class LogoSceneChange : MonoBehaviour {
     public ChangeScene sceneChanger;
     public int sceneToJumpTo;
 
+    public bool changeWithAnyKey;
+
     float videoCountdown;
 
     private void Start()
@@ -20,7 +22,11 @@ public class LogoSceneChange : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) videoCountdown = 0;
+        if (changeWithAnyKey)
+        {
+            if (Input.anyKey) videoCountdown = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape)) videoCountdown = 0;
 
         if (videoCountdown > 0)
         {

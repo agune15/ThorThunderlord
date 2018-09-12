@@ -23,7 +23,7 @@ public class CreditsBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)) creditsTime = 0;
+        if (Input.anyKey && creditsTime >= creditsAnimation.length / 10) creditsTime = 0;
 
         if (creditsTime >= 0)
         {

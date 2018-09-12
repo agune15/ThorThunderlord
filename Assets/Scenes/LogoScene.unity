@@ -283,6 +283,7 @@ MonoBehaviour:
   videoPlayer: {fileID: 168216932}
   sceneChanger: {fileID: 168216934}
   sceneToJumpTo: 2
+  changeWithAnyKey: 1
 --- !u!1 &2029607863
 GameObject:
   m_ObjectHideFlags: 0
