@@ -188,6 +188,8 @@ public class MusicAmbientController : MonoBehaviour {
     /// <param name="transitionDelayTime"></param> Delay of the audio transition
     public void SetMusicType(MusicTypes desiredMusicType, float transitionTime, float transitionDelayTime) //Metodo para hacer blending de audios
     {
+        if (!scenesAudios.Exists(scene => scene.name == SceneManager.GetActiveScene().name)) return;
+
         if (desiredMusicType == musicType) return;
 
         transitionWithDelay = (transitionDelayTime > 0) ? true : false;
