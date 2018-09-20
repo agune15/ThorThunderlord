@@ -28,6 +28,10 @@ public class HealingAltar : MonoBehaviour {
 
     bool isGoingUp = true;
     
+    [Header("SFX Parameters")] //SFX parameters
+    public List<ClipAndVolume> healingAudios = new List<ClipAndVolume>();
+    Dictionary<string, SourceAndVolume> audioSources = new Dictionary<string, SourceAndVolume>();
+
 
 	void Start () {
         playerBehaviour = GameObject.FindWithTag("Player").GetComponent<CharacterBehaviour>();
@@ -38,7 +42,9 @@ public class HealingAltar : MonoBehaviour {
 
         initY = initPosition.y;
         deltaY = endY - initY;
-	}
+
+        PlayAudio(0, healingAudios[0].volume, this.gameObject, true, true);
+    }
 
     private void Update()
     {
@@ -73,6 +79,16 @@ public class HealingAltar : MonoBehaviour {
                 auraTransform.localPosition = initPosition + new Vector3(0, currentY, 0);
             }
         }
+
+        if (hasHealed)
+        {
+            //Fade-out mystic audio
+            //Fade-in thor heal
+        }
+        else
+        {
+            //calcular volumen de MysticChimes en relación al Player
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,6 +107,7 @@ public class HealingAltar : MonoBehaviour {
                         //change lightning?
 
                         hasHealed = true;
+                        //Play healing audio on Thor
                     }
                 }
             }
@@ -113,10 +130,21 @@ public class HealingAltar : MonoBehaviour {
                         //change lightning?
 
                         hasHealed = true;
+                        //Play healing audio on Thor
                     }
                 }
             }
         }
+    }
+
+    void PlayAudio (int clipIndex, float audioVolume, GameObject audioTarget, bool loopAudio, bool audio2D)
+    {
+        AudioSource source = audioTarget.AddComponent<AudioSource>();
+
+        source.Play(healingAudios[clipIndex].clip, audioVolume, 1.0f, loopAudio, audio2D, "SFX");
+
+        SourceAndVolume newSource = new SourceAndVolume(source, healingAudios[clipIndex].volume);
+        if (!audioSources.ContainsKey(healingAudios[clipIndex].clip.name)) audioSources.Add(healingAudios[clipIndex].clip.name, newSource);
     }
 
     IEnumerator ParticleFadeOut ()
@@ -140,5 +168,30 @@ public class HealingAltar : MonoBehaviour {
 
             yield return null;
         }
+    }
+}
+
+[System.Serializable]
+public class ClipAndVolume
+{
+    public AudioClip clip;
+    public float volume;
+
+    public ClipAndVolume (AudioClip audioClip, float audioVolume)
+    {
+        clip = audioClip;
+        volume = audioVolume;
+    }
+}
+
+public class SourceAndVolume
+{
+    public AudioSource source;
+    public float volume;
+
+    public SourceAndVolume (AudioSource audioSource, float sourceVolume)
+    {
+        source = audioSource;
+        volume = sourceVolume;
     }
 }
