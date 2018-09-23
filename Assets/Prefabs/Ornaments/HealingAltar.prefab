@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 136678926036675514}
   - component: {fileID: 135590717398188020}
   m_Layer: 11
-  m_Name: Healing_Altar
+  m_Name: HealingAltar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,8 +647,8 @@ MonoBehaviour:
   healingAudios:
   - clip: {fileID: 8300000, guid: a1beb7e8ba56b9144bd189060e46cda6, type: 3}
     volume: 0.1
-  - clip: {fileID: 0}
-    volume: 0
+  - clip: {fileID: 8300000, guid: e83783ee4cd64244ca0a9320bad2ca15, type: 3}
+    volume: 0.2
 --- !u!135 &135590717398188020
 SphereCollider:
   m_ObjectHideFlags: 1

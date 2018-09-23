@@ -283,7 +283,7 @@ public class CharacterBehaviour : MonoBehaviour {
                 float remainingDistanceFactor = Vector3.Distance(dashOrigin, playerTransform.position) - dashCurrentDistance * 0.6f;
                 float maxDistanceFactor = dashCurrentDistance * 0.4f;
                 playerAgent.speed = Mathf.SmoothStep(agentSpeed * dashImpulse, 0, remainingDistanceFactor / maxDistanceFactor);
-
+                
                 if (!hasDashedOut)
                 {
                     thorAnimator.SetTrigger("dashOut");
@@ -318,7 +318,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     #endregion
 
-    #region Move State Sets
+    #region Movement State Sets
 
     void SetIdle()
     {

@@ -12,9 +12,11 @@ public class HealingAltar : MonoBehaviour {
 
     //Healing parameters
     public int healingPercentage;
+    float healingTimer;
     public float healingTime;
     float playerInitLife;
     bool hasHealed = false;
+    bool hasFinishedHealing = false;
 
     //Translation parameters
     Vector3 initPosition;
@@ -80,14 +82,42 @@ public class HealingAltar : MonoBehaviour {
             }
         }
 
-        if (hasHealed)
+        if (!hasFinishedHealing)
         {
-            //Fade-out mystic audio
-            //Fade-in thor heal
-        }
-        else
-        {
-            //calcular volumen de MysticChimes en relación al Player
+            if (hasHealed)
+            {
+                audioSources["MysticChimes"].source.volume = audioSources["MysticChimes"].volume * (healingTimer / healingTime);
+
+                if (healingTimer >= healingTime * 0.75f)
+                {
+                    float healingTimerFactor = 1 - ((healingTimer - (healingTime * 0.75f)) / (healingTime * 0.25f));
+
+                    audioSources["Thor_healing"].source.volume = audioSources["Thor_healing"].volume * healingTimerFactor;
+                }
+                else if (healingTimer <= healingTime * 0.25f)
+                {
+                    float healingTimerFactor = healingTimer / (healingTime * 0.25f);
+
+                    audioSources["Thor_healing"].source.volume = audioSources["Thor_healing"].volume * healingTimerFactor;
+                }
+
+                if (healingTimer <= 0)
+                {
+                    foreach (SourceAndVolume sourceAndVolume in audioSources.Values)
+                    {
+                        Destroy(sourceAndVolume.source);
+                    }
+
+                    hasFinishedHealing = true;
+                }
+            }
+            else
+            {
+                float distanceFromPlayer = (Vector3.Distance(transform.position, playerBehaviour.transform.position) > 20) ? 20 : Vector3.Distance(transform.position, playerBehaviour.transform.position);
+                distanceFromPlayer = (20 - distanceFromPlayer) / 20;
+
+                audioSources["MysticChimes"].source.volume = 0.1f * distanceFromPlayer;
+            }
         }
     }
 
@@ -104,10 +134,10 @@ public class HealingAltar : MonoBehaviour {
                     {
                         StartCoroutine(playerBehaviour.HealOverTime(healingPercentage, healingTime));
                         StartCoroutine(ParticleFadeOut());
-                        //change lightning?
+                        PlayAudio(1, 0, playerBehaviour.gameObject, false, true);
+                        //change lighting?
 
                         hasHealed = true;
-                        //Play healing audio on Thor
                     }
                 }
             }
@@ -127,10 +157,10 @@ public class HealingAltar : MonoBehaviour {
                     {
                         StartCoroutine(playerBehaviour.HealOverTime(healingPercentage, healingTime));
                         StartCoroutine(ParticleFadeOut());
-                        //change lightning?
+                        PlayAudio(1, 0, playerBehaviour.gameObject, false, true);
+                        //change lighting?
 
                         hasHealed = true;
-                        //Play healing audio on Thor
                     }
                 }
             }
@@ -149,18 +179,18 @@ public class HealingAltar : MonoBehaviour {
 
     IEnumerator ParticleFadeOut ()
     {
-        float time = healingTime;
+        healingTimer = healingTime;
         Color currentColor = auraRenderer.material.GetColor("_TintColor");
         float amountToRemove = currentColor.a;
 
-        while (time >= 0)
+        while (healingTimer >= 0)
         {
-            time -= Time.deltaTime;
+            healingTimer -= Time.deltaTime;
 
-            currentColor.a = Easing.SineEaseInOut(time, 0, amountToRemove, healingTime);
+            currentColor.a = Easing.SineEaseInOut(healingTimer, 0, amountToRemove, healingTime);
             auraRenderer.material.SetColor("_TintColor", currentColor);
 
-            if(time <= 0)
+            if(healingTimer <= 0)
             {
                 auraTransform.gameObject.SetActive(false);
                 yield break;
