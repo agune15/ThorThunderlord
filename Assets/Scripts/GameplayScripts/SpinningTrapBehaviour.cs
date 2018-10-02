@@ -14,6 +14,10 @@ public class SpinningTrapBehaviour : MonoBehaviour {
     bool slowOn = false;
     bool isSlowing = false;
 
+    //[Header("Sound Parameters")]
+
+    //Lista de sonidos
+    //Diccionario de audiosources
 
     private void Start()
     {

@@ -9,11 +9,11 @@ public class MusicAmbientController : MonoBehaviour {
     MusicTypes musicType = MusicTypes.None;  //Actual
     MusicTypes previousMusicType = MusicTypes.None;  //Previa a la actual
 
-    public List<SceneAudios> scenesAudios = new List<SceneAudios>();
-    public EndingAudios endingAudios;
+    public List<GameplaySceneAudios> scenesAudios = new List<GameplaySceneAudios>();
+    public EndingSceneAudios endingAudios;
 
-    List<SourcesAndVolume> currentAudioSources = new List<SourcesAndVolume>();
-    List<SourcesAndVolume> upcomingAudioSources = new List<SourcesAndVolume>();
+    List<SourceAndVolume> currentAudioSources = new List<SourceAndVolume>();
+    List<SourceAndVolume> upcomingAudioSources = new List<SourceAndVolume>();
 
     bool initTransitionDone = false;
     bool isTransitioning = false;
@@ -46,7 +46,7 @@ public class MusicAmbientController : MonoBehaviour {
                 {
                     transitionTimer += Time.deltaTime;
 
-                    foreach (SourcesAndVolume audioSource in currentAudioSources)
+                    foreach (SourceAndVolume audioSource in currentAudioSources)
                     {
                         if (audioSource.source.volume <= 0)
                         {
@@ -66,7 +66,7 @@ public class MusicAmbientController : MonoBehaviour {
 
                         if (transitionDelayTimer <= 0)
                         {
-                            foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                            foreach (SourceAndVolume audioSource in upcomingAudioSources)
                             {
                                 audioSource.source.UnPause();
                             }
@@ -75,7 +75,7 @@ public class MusicAmbientController : MonoBehaviour {
                         return;
                     }
 
-                    foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                    foreach (SourceAndVolume audioSource in upcomingAudioSources)
                     {
                         if (audioSource.source.volume >= audioSource.volume)
                         {
@@ -90,12 +90,12 @@ public class MusicAmbientController : MonoBehaviour {
                 {
                     isTransitioning = false;
 
-                    foreach (SourcesAndVolume audioSource in currentAudioSources)
+                    foreach (SourceAndVolume audioSource in currentAudioSources)
                     {
                         Destroy(audioSource.source);
                     }
 
-                    foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                    foreach (SourceAndVolume audioSource in upcomingAudioSources)
                     {
                         if (audioSource.source.volume != audioSource.volume) audioSource.source.volume = audioSource.volume;
                     }
@@ -107,7 +107,7 @@ public class MusicAmbientController : MonoBehaviour {
                 {
                     transitionTimer += Time.deltaTime;
 
-                    foreach (SourcesAndVolume audioSource in currentAudioSources)
+                    foreach (SourceAndVolume audioSource in currentAudioSources)
                     {
                         if (audioSource.source.volume <= 0)
                         {
@@ -118,7 +118,7 @@ public class MusicAmbientController : MonoBehaviour {
                         audioSource.source.volume = Mathf.SmoothStep(audioSource.volume, 0, transitionTimer / transitionDuration);
                     }
 
-                    foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                    foreach (SourceAndVolume audioSource in upcomingAudioSources)
                     {
                         if (audioSource.source.volume >= audioSource.volume)
                         {
@@ -133,12 +133,12 @@ public class MusicAmbientController : MonoBehaviour {
                 {
                     isTransitioning = false;
 
-                    foreach (SourcesAndVolume audioSource in currentAudioSources)
+                    foreach (SourceAndVolume audioSource in currentAudioSources)
                     {
                         Destroy(audioSource.source);
                     }
 
-                    foreach (SourcesAndVolume audioSource in upcomingAudioSources)
+                    foreach (SourceAndVolume audioSource in upcomingAudioSources)
                     {
                         if (audioSource.source.volume != audioSource.volume) audioSource.source.volume = audioSource.volume;
                     }
@@ -173,7 +173,7 @@ public class MusicAmbientController : MonoBehaviour {
 
         if (addToUpcomingSources)
         {
-            SourcesAndVolume newSource = new SourcesAndVolume(source, source.volume);
+            SourceAndVolume newSource = new SourceAndVolume(source, source.volume);
             upcomingAudioSources.Add(newSource);
 
             if (playedWithDelay) source.Pause();
@@ -203,7 +203,7 @@ public class MusicAmbientController : MonoBehaviour {
                 transitionDelayTimer = (1 - (transitionDelayTimer / transitionDelayDuration)) * transitionDelayTime;
                 transitionDelayDuration = transitionDelayTime;
 
-                List<SourcesAndVolume> tempCurrentAudioSources = currentAudioSources;
+                List<SourceAndVolume> tempCurrentAudioSources = currentAudioSources;
 
                 currentAudioSources = upcomingAudioSources;
                 upcomingAudioSources = tempCurrentAudioSources;
@@ -216,7 +216,7 @@ public class MusicAmbientController : MonoBehaviour {
 
                 currentAudioSources.AddRange(upcomingAudioSources);
 
-                foreach (SourcesAndVolume audioSource in currentAudioSources)
+                foreach (SourceAndVolume audioSource in currentAudioSources)
                 {
                     audioSource.volume = audioSource.source.volume;
                 }
@@ -283,7 +283,7 @@ public class MusicAmbientController : MonoBehaviour {
 
             foreach (AudioSource source in gameObject.GetComponents<AudioSource>())
             {
-                SourcesAndVolume sourceAndVolume = new SourcesAndVolume(source, source.volume);
+                SourceAndVolume sourceAndVolume = new SourceAndVolume(source, source.volume);
                 currentAudioSources.Add(sourceAndVolume);
             }
 
@@ -340,58 +340,5 @@ public class MusicAmbientController : MonoBehaviour {
 
         previousMusicType = musicType;
         musicType = desiredMusicType;
-    }
-}
-
-[System.Serializable]
-public class SceneAudios {
-
-    public string name;
-    public AudioClipAndVolume[] defaultAudios;
-    public AudioClipAndVolume[] battleAudios;
-
-    public SceneAudios (string sceneName, AudioClipAndVolume[] defaultClips, AudioClipAndVolume[] battleClips)
-    {
-        name = sceneName;
-        defaultAudios = defaultClips;
-        battleAudios = battleClips;
-    }
-}
-
-[System.Serializable]
-public class EndingAudios
-{
-    public AudioClipAndVolume[] victoryAudios;
-    public AudioClipAndVolume[] defeatAudios;
-
-    public EndingAudios (AudioClipAndVolume[] victoryClips, AudioClipAndVolume[] defeatClips)
-    {
-        victoryAudios = victoryClips;
-        defeatAudios = defeatClips;
-    }
-}
-
-[System.Serializable]
-public class AudioClipAndVolume
-{
-    public AudioClip clip;
-    public float volume;
-
-    public AudioClipAndVolume (AudioClip audioClip, float clipVolume)
-    {
-        clip = audioClip;
-        volume = clipVolume;
-    }
-}
-
-public class SourcesAndVolume
-{
-    public AudioSource source;
-    public float volume;
-
-    public SourcesAndVolume (AudioSource audioSource, float audioVolume)
-    {
-        source = audioSource;
-        volume = audioVolume;
     }
 }

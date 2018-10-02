@@ -200,28 +200,3 @@ public class HealingAltar : MonoBehaviour {
         }
     }
 }
-
-[System.Serializable]
-public class ClipAndVolume
-{
-    public AudioClip clip;
-    public float volume;
-
-    public ClipAndVolume (AudioClip audioClip, float audioVolume)
-    {
-        clip = audioClip;
-        volume = audioVolume;
-    }
-}
-
-public class SourceAndVolume
-{
-    public AudioSource source;
-    public float volume;
-
-    public SourceAndVolume (AudioSource audioSource, float sourceVolume)
-    {
-        source = audioSource;
-        volume = sourceVolume;
-    }
-}

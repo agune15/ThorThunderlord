@@ -1159,29 +1159,3 @@ public class CharacterBehaviour : MonoBehaviour {
 
     //HACER GODMODE CON playerAgent.Warp()!!!
 }
-
-[System.Serializable]
-public class AnimationClipName      //Store AnimationName (string) + AnimationClip
-{
-    public string animationName;
-    public AnimationClip animationClip;
-
-    public AnimationClipName(string name, AnimationClip clip)
-    {
-        animationName = name;
-        animationClip = clip;
-    }
-}
-
-[System.Serializable]
-public class EnemyStatsTransform    //Store Transform + EnemyStats
-{
-    public Transform transform;
-    public EnemyStats stats;
-
-    public EnemyStatsTransform(Transform enemyTransform, EnemyStats enemyStats)
-    {
-        transform = enemyTransform;
-        stats = enemyStats;
-    }
-}
