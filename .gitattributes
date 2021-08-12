@@ -1,1 +1,2 @@
 *.jsx linguist-vendored
+*.meta linguist-vendored
